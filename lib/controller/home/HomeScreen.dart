@@ -469,7 +469,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: CustomBottomNavigation(
         onHomeTap: () {
           // Handle Home tap
-          print('Home tapped');
+          print('Home tapped and');
         },
         onFabTap: () {
           // Handle FAB tap
