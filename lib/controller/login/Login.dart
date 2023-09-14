@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/login/dataclass/LoginDataCLass.dart';
+import 'package:kaar/controller/login/dataclass/User.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/CustomTextField.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
@@ -17,7 +20,58 @@ class _loginScreenState extends State<Login> {
   TextEditingController _countryCodeController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  bool _rememberMe = false; // Moved _rememberMe to the State class
+  bool _rememberMe = false;
+  bool _isLoading = false; // Track loading state
+
+
+  final dio = Dio();
+  void request(String number,String password) async {
+    try{
+      Response response;
+      response = await dio.post('https://codecoyapps.com/karr/api/login?number=$number&password=$password');
+      print("this is response ${response.data.toString()}");
+
+      print(response.data.toString());
+    }catch(e){
+      print(e);
+    }
+
+  }
+
+
+
+  Future<User?> login(String number, String password) async {
+    final dio = Dio();
+
+    try {
+      final response = await dio.post(
+        'https://codecoyapps.com/karr/api/login',
+        queryParameters: {
+          'number': number,
+          'password': password,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = response.data as Map<String, dynamic>;
+        final userJson = responseData['user'] as Map<String, dynamic>;
+
+        // Parse the response data into a User object
+        final user = User.fromJson(userJson);
+
+        return user;
+      } else {
+        // Handle error status codes (e.g., show an error message)
+        print('API request failed with status code ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      // Handle network errors or exceptions
+      print('API request error: $e');
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +92,7 @@ class _loginScreenState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: TextView(
@@ -46,7 +100,7 @@ class _loginScreenState extends State<Login> {
                   onPressed: () {},
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
 
@@ -64,7 +118,7 @@ class _loginScreenState extends State<Login> {
                 // Add spacing between fields
                 // Add more CustomTextField widgets with validators
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: TextView(
@@ -72,7 +126,7 @@ class _loginScreenState extends State<Login> {
                   onPressed: () {},
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: CustomTextField(
@@ -87,7 +141,7 @@ class _loginScreenState extends State<Login> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: TextView(
@@ -135,9 +189,9 @@ class _loginScreenState extends State<Login> {
                         });
                       },
                     ),
-                    Text('Remember me'),
+                    const Text('Remember me'),
 
-                    Spacer(),
+                    const Spacer(),
                     // This will create space between the checkbox and the text
                     GestureDetector(
                       onTap: () {
@@ -154,36 +208,63 @@ class _loginScreenState extends State<Login> {
               Center(
                 child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: PrimaryButton(
+                    child: _isLoading // Show progress indicator if loading
+                    ? CircularProgressIndicator()
+                  : PrimaryButton(
                       text: 'Login',
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            _isLoading = true; // Start loading
+                          });
                           // Validation successful, navigate to the next screen
                           String username = _usernameController.text;
                           String countryCode = _countryCodeController.text;
                           String password = _passwordController.text;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  'Username: $username\nCountry Code: $countryCode\nPassword: $password'),
-                            ),
-                          );
+                          // request(countryCode,password);
+                          final user = await login(countryCode, password);
+                          setState(() {
+                            _isLoading = false; // Stop loading
+                          });
+                          if (user != null) {
+                            // Login successful, you can use the user data here
+                            print('Logged in as ${user.name}');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Login Successful'),
+                              ),
+                            );
+                          } else {
+                            // Handle login failure
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Incorrect User name or Password'),
+                                ));
+                            print('Login failed');
+                          }
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => HomeScreen()),
+                          // );
+
+
+
                         }
 
                         // Perform sign-up logic
                       },
                     )),
               ),
+
               Center(
                   child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child:  RichText(
-                        text: TextSpan(
+                        text: const TextSpan(
                           style: TextStyle(color: Colors.black, fontSize: 16),
                           children: <TextSpan>[
                             TextSpan(text: 'By continuing, you agree to accept our '),
