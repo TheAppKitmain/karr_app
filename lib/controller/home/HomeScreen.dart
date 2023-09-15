@@ -7,11 +7,23 @@ import 'package:kaar/widgets/TextView.dart';
 import 'package:kaar/controller/parkingTickets/ParkingTickets.dart';
 
 class HomeScreen extends StatefulWidget {
+  final String username;
+  final String number;
+  final String car_number;
+  HomeScreen(this.username,this.number,this.car_number, {super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState(username,number,car_number);
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final String _username;
+  final String _number;
+  final String _car_number;
+
+  _HomeScreenState( this._username, this._number, this._car_number);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextView(
-                  text: "Welcome, Kyle Mico!",
+                  text: "Welcome, $_username!",
                   onPressed: () {},
                 ),
               ),
@@ -48,9 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children:  [
                         Text(
-                          'NM08 WOD',
+                          _car_number,
                           style: TextStyle(
                               fontSize: 16, color: AppColors.primaryColor),
                         ),

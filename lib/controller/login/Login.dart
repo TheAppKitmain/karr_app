@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+﻿import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/login/dataclass/LoginDataCLass.dart';
@@ -8,6 +8,8 @@ import 'package:kaar/widgets/CustomTextField.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/TextView.dart';
 import 'package:kaar/controller/home/HomeScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Login extends StatefulWidget {
   @override
@@ -40,7 +42,7 @@ class _loginScreenState extends State<Login> {
 
 
 
-  Future<User?> login(String number, String password) async {
+  Future<Map<String, dynamic>?> login(String number, String password) async {
     final dio = Dio();
 
     try {
@@ -52,14 +54,29 @@ class _loginScreenState extends State<Login> {
         },
       );
 
+      final responseData = response.data as Map<String, dynamic>;
+
       if (response.statusCode == 200) {
-        final responseData = response.data as Map<String, dynamic>;
-        final userJson = responseData['user'] as Map<String, dynamic>;
+        final status = responseData['status'] as bool;
+        final message = responseData['message'] as String;
 
-        // Parse the response data into a User object
-        final user = User.fromJson(userJson);
-
-        return user;
+        if (status) {
+          final userJson = responseData['user'] as Map<String, dynamic>;
+          final user = User.fromJson(userJson);
+          print('Login successful: $message');
+          return {
+            'status': status,
+            'message': message,
+            'user': user,
+          };
+        } else {
+          // Handle the case where login failed
+          print('Login failed: $message');
+          return {
+            'status': status,
+            'message': message,
+          };
+        }
       } else {
         // Handle error status codes (e.g., show an error message)
         print('API request failed with status code ${response.statusCode}');
@@ -71,6 +88,8 @@ class _loginScreenState extends State<Login> {
       return null;
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -222,34 +241,56 @@ class _loginScreenState extends State<Login> {
                           String countryCode = _countryCodeController.text;
                           String password = _passwordController.text;
                           // request(countryCode,password);
-                          final user = await login(countryCode, password);
+                          // final user = await login(countryCode, password);
                           setState(() {
                             _isLoading = false; // Stop loading
                           });
-                          if (user != null) {
-                            // Login successful, you can use the user data here
-                            print('Logged in as ${user.name}');
+                          final response = await login(countryCode, password);
+                          if (response != null) {
+                            final status = response['status'] as bool;
+                            final message = response['message'] as String;
+
+
+                            if (status) {
+                              final user = response['user'] as User;
+                              // Login was successful, handle accordingly
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(' $message'),
+                                ),
+
+                              );
+
+                             await SharedStorage().saveStringToLocalStorage('username', user.name!);
+                             await SharedStorage().saveStringToLocalStorage('usernumber', user.number!);
+                             await SharedStorage().saveStringToLocalStorage('userid', "${user.number!}");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen(user.name!,
+                                       " ${user.number!}",
+                                        "${user.car?.number}")),
+                              );
+                              // You can also use the 'user' object here if needed
+                            } else {
+                              // Handle unsuccessful login with the 'message' if needed
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(' $message'),
+                                ),
+                              );
+                            }
+                          } else {
+                            // Handle API request failure here
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                    'Login Successful'),
+                              SnackBar(
+                                content: Text('API request failed'),
                               ),
                             );
-                          } else {
-                            // Handle login failure
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'Incorrect User name or Password'),
-                                ));
-                            print('Login failed');
                           }
 
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => HomeScreen()),
-                          // );
+
+
 
 
 
