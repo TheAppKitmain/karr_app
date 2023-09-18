@@ -100,26 +100,28 @@ class _loginScreenState extends State<Login> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 100),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
+
                   child: Image.asset(
                     'assets/png/kaar_logo.png',
                     // Replace with your image asset path
                     width: 200,
-                    height: 300,
+                    height: 80,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
                   text: "User Name",
                   onPressed: () {},
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
 
@@ -139,13 +141,13 @@ class _loginScreenState extends State<Login> {
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
                   text: "Company Code",
                   onPressed: () {},
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: CustomTextField(
@@ -162,13 +164,13 @@ class _loginScreenState extends State<Login> {
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
                   text: "Password",
                   onPressed: () {},
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Card(
@@ -194,7 +196,7 @@ class _loginScreenState extends State<Login> {
                       obscureText: true,
                     ),
                   )),
-              const SizedBox(height: 10),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -242,9 +244,7 @@ class _loginScreenState extends State<Login> {
                           String password = _passwordController.text;
                           // request(countryCode,password);
                           // final user = await login(countryCode, password);
-                          setState(() {
-                            _isLoading = false; // Stop loading
-                          });
+
                           final response = await login(countryCode, password);
                           if (response != null) {
                             final status = response['status'] as bool;
@@ -271,6 +271,9 @@ class _loginScreenState extends State<Login> {
                                        " ${user.number!}",
                                         "${user.car?.number}")),
                               );
+                              setState(() {
+                                _isLoading = false; // Stop loading
+                              });
                               // You can also use the 'user' object here if needed
                             } else {
                               // Handle unsuccessful login with the 'message' if needed
@@ -278,7 +281,11 @@ class _loginScreenState extends State<Login> {
                                 SnackBar(
                                   content: Text(' $message'),
                                 ),
+
                               );
+                              setState(() {
+                                _isLoading = false; // Stop loading
+                              });
                             }
                           } else {
                             // Handle API request failure here
@@ -287,13 +294,10 @@ class _loginScreenState extends State<Login> {
                                 content: Text('API request failed'),
                               ),
                             );
+                            setState(() {
+                              _isLoading = false; // Stop loading
+                            });
                           }
-
-
-
-
-
-
                         }
 
                         // Perform sign-up logic
@@ -302,22 +306,23 @@ class _loginScreenState extends State<Login> {
               ),
 
               Center(
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child:  RichText(
-                        text: const TextSpan(
-                          style: TextStyle(color: Colors.black, fontSize: 16),
-                          children: <TextSpan>[
-                            TextSpan(text: 'By continuing, you agree to accept our '),
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child:  RichText(
+                          text: const TextSpan(
+                            style: TextStyle(color: Colors.black, fontSize: 16),
+                            children: <TextSpan>[
+                              TextSpan(text: 'By continuing, you agree to accept our '),
 
-                            TextSpan(text: ' Privacy Policy', style: TextStyle(color: AppColors.primaryColor)),
-                            TextSpan(text: '\n&'),
-                            TextSpan(text: ' Terms of Service.', style: TextStyle(color: AppColors.primaryColor)),
-                          ],
-                        ),
-                      )
-                  )
-              )
+                              TextSpan(text: ' Privacy Policy', style: TextStyle(color: AppColors.primaryColor)),
+                              TextSpan(text: '&'),
+                              TextSpan(text: ' Terms of Service.', style: TextStyle(color: AppColors.primaryColor)),
+                            ],
+                          ),
+                        )
+                    )
+                ),
+
             ],
           ),
         ),
