@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/carDetails/CarDetails.dart';
+import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
 import 'package:kaar/controller/cityCharges/AllCityCharges.dart';
+import 'package:kaar/controller/tolls/AllTolls.dart';
+import 'package:kaar/controller/tolls/AddTolls.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/CustomBottomNavigation.dart';
 import 'package:kaar/widgets/TextView.dart';
@@ -8,21 +11,21 @@ import 'package:kaar/controller/parkingTickets/ParkingTickets.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
-  final String number;
+
   final String car_number;
-  HomeScreen(this.username,this.number,this.car_number, {super.key});
+  HomeScreen(this.username,this.car_number, {super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState(username,number,car_number);
+  _HomeScreenState createState() => _HomeScreenState(username,car_number);
 }
 
 class _HomeScreenState extends State<HomeScreen> {
 
   final String _username;
-  final String _number;
+
   final String _car_number;
 
-  _HomeScreenState( this._username, this._number, this._car_number);
+  _HomeScreenState( this._username,  this._car_number);
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 40),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                   children: [
                     // Card 1
                     Expanded(
@@ -92,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -127,7 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               const SizedBox(height: 20),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                                 children: [
                                   Expanded(
                                     flex: 1,
@@ -136,25 +140,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ParkingTickets()),
+                                            builder: (context) => ParkingTickets(),
+                                          ),
                                         );
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        primary:
-                                        Colors.white, // Button background color
+                                        primary: Colors.white,
                                       ),
-                                      child: const Text(
+                                      child: Text(
                                         'Add New',
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: AppColors
-                                              .primaryColor, // Button text color
+                                          fontSize: 13,
+                                          color: AppColors.primaryColor, // Button text color
+                                           // Add this line
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 30),
+                                  const SizedBox(width: 10),
                                   Expanded(
                                     flex: 1,
                                     child: GestureDetector(
@@ -162,24 +165,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                         // Add your onPressed logic here
                                         // This function will be executed when the text is tapped.
                                       },
-                                      child: const Text(
-                                        'View All', // Adjust text as needed
+                                      child: Text(
+                                        'View All',
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.white,
                                           decoration: TextDecoration.underline,
+                                          overflow: TextOverflow.ellipsis, // Add this line
                                         ),
                                       ),
                                     ),
                                   ),
                                 ],
-                              ),
+                              )
+
                             ],
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 15),
+                    const SizedBox(width: 8),
                     // Card 2
                     Expanded(
                       flex: 1,
@@ -190,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -232,6 +237,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         // Handle button tap
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddTolls()),
+                                        );
                                       },
                                       style: ElevatedButton.styleFrom(
                                         primary:
@@ -240,18 +250,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: const Text(
                                         'Add New',
                                         style: TextStyle(
-                                          fontSize: 16,
+
                                           color: AppColors
                                               .blue, // Button text color
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 30),
+                                  const SizedBox(width: 10),
                                   Expanded(
                                     flex: 1,
                                     child: GestureDetector(
                                       onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AllTolls()),
+                                        );
                                         // Add your onPressed logic here
                                         // This function will be executed when the text is tapped.
                                       },
@@ -277,9 +293,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                   children: [
                     // Card 3
                     Expanded(
@@ -291,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -333,12 +349,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         // Handle button tap
+
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CityCharges()),
+                                              builder: (context) => AddCityCharges()),
                                         );
+
                                       },
                                       style: ElevatedButton.styleFrom(
                                         primary:
@@ -347,18 +364,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: const Text(
                                         'Add New',
                                         style: TextStyle(
-                                          fontSize: 16,
+
                                           color: AppColors
                                               .yellow, // Button text color
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 30),
+                                  const SizedBox(width: 10),
                                   Expanded(
                                     flex: 1,
                                     child: GestureDetector(
                                       onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CityCharges()),
+                                        );
                                         // Add your onPressed logic here
                                         // This function will be executed when the text is tapped.
                                       },
@@ -379,7 +402,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 15),
+                    const SizedBox(width: 8),
                     // Card 4
                     Expanded(
                       flex: 1,
@@ -390,7 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -440,14 +463,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: const Text(
                                         'Add New',
                                         style: TextStyle(
-                                          fontSize: 16,
+
                                           color: AppColors
                                               .pink, // Button text color
                                         ),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 30),
+                                  const SizedBox(width: 10),
                                   Expanded(
                                     flex: 1,
                                     child: GestureDetector(

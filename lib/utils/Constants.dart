@@ -13,7 +13,9 @@ class AppColors {
   static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color white = Color(0xFFFFFFFF);
 }
-class SharedStorage{
+
+
+class SharedStorage {
   Future<void> saveStringToLocalStorage(String key, String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
@@ -24,6 +26,25 @@ class SharedStorage{
     return prefs.getString(key);
   }
 
+  Future<void> saveBoolToLocalStorage(String key, bool value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(key, value);
+  }
 
+  Future<bool?> getBoolFromLocalStorage(String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(key);
+  }
+
+  Future<void> saveIntToLocalStorage(String key, int value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(key, value);
+  }
+
+  Future<int?> getIntFromLocalStorage(String key) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(key);
+  }
 }
+
 // Add more custom color constants as needed

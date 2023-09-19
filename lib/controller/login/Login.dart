@@ -27,18 +27,11 @@ class _loginScreenState extends State<Login> {
 
 
   final dio = Dio();
-  void request(String number,String password) async {
-    try{
-      Response response;
-      response = await dio.post('https://codecoyapps.com/karr/api/login?number=$number&password=$password');
-      print("this is response ${response.data.toString()}");
 
-      print(response.data.toString());
-    }catch(e){
-      print(e);
-    }
 
-  }
+
+
+
 
 
 
@@ -93,6 +86,25 @@ class _loginScreenState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    SharedPreferences.getInstance().then((prefs) {
+      final bool rememberMe = prefs.getBool('remember_me') ?? false;
+      if (rememberMe) {
+        final String username = prefs.getString('username') ?? '';
+        final String number = prefs.getString('usernumber') ?? '';
+        final String password = prefs.getString('userpassword') ?? '';
+
+        // Set the values in the text fields
+        _usernameController.text = username;
+        _countryCodeController.text = number;
+
+
+        // Update the _rememberMe state
+        setState(() {
+          _rememberMe = true;
+        });
+      }
+    });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
@@ -121,6 +133,7 @@ class _loginScreenState extends State<Login> {
                   onPressed: () {},
                 ),
               ),
+
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -144,7 +157,9 @@ class _loginScreenState extends State<Login> {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
                   text: "Company Code",
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                 ),
               ),
               const SizedBox(height: 10),
@@ -217,6 +232,7 @@ class _loginScreenState extends State<Login> {
                     GestureDetector(
                       onTap: () {
                         // Add your Forgot Password logic here
+
                       },
                       child: const Text(
                         'Forgot Password ?',
@@ -235,6 +251,7 @@ class _loginScreenState extends State<Login> {
                       text: 'Login',
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+
                           setState(() {
                             _isLoading = true; // Start loading
                           });
@@ -263,12 +280,16 @@ class _loginScreenState extends State<Login> {
 
                              await SharedStorage().saveStringToLocalStorage('username', user.name!);
                              await SharedStorage().saveStringToLocalStorage('usernumber', user.number!);
-                             await SharedStorage().saveStringToLocalStorage('userid', "${user.number!}");
+                             await SharedStorage().saveStringToLocalStorage('userid', "${user.id!}");
+                             await SharedStorage().saveBoolToLocalStorage('remember_me', _rememberMe);
+                             await SharedStorage().saveStringToLocalStorage('carnumber', '${user.car?.number}');
+
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => HomeScreen(user.name!,
-                                       " ${user.number!}",
+
                                         "${user.car?.number}")),
                               );
                               setState(() {

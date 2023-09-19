@@ -77,7 +77,7 @@ class _CityChargesState extends State<CityCharges> {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         // Set to true if you want the default back arrow
-        toolbarHeight: 80,
+        toolbarHeight: 60,
         title: Text(
           "All City Charges",
           style: TextStyle(
@@ -101,7 +101,7 @@ class _CityChargesState extends State<CityCharges> {
 
           child: Column(children: [
             Padding(
-              padding: EdgeInsets.all(30.0),
+              padding: EdgeInsets.all(20.0),
               child:
           Row(children: [
            Text("All Charges", style: TextStyle(
@@ -114,7 +114,7 @@ class _CityChargesState extends State<CityCharges> {
                 borderRadius: BorderRadius.circular(10),
                 // Set border radius if needed
               ),
-              padding: EdgeInsets.symmetric(horizontal: 35), // Add horizontal padding
+              padding: EdgeInsets.symmetric(horizontal:25), // Add horizontal padding
               child: DropdownButton<String>(
                 value: selectedValue,
                 underline: null,
@@ -137,12 +137,12 @@ class _CityChargesState extends State<CityCharges> {
 
           ],),
     ),
-    SizedBox(height: 90,),
+
 
  cityCharges.isNotEmpty?
 
  Padding(
-     padding: EdgeInsets.all(15.0),child: ListView.builder(
+     padding: EdgeInsets.all(10.0),child: ListView.builder(
    itemCount: cityCharges.length,
    scrollDirection: Axis.vertical,
    shrinkWrap: true,
@@ -167,20 +167,26 @@ class _CityChargesState extends State<CityCharges> {
         SizedBox(height: 20,),
         Center( child: Text("Click “Add City Charge” and provide us with the ",style: TextStyle(fontSize: 18,fontFamily: "fonts/Lato-BoldItalic",color: AppColors.black),)),
         Center( child: Text("details to add new charge for you. ",style: TextStyle(fontSize: 18,fontFamily: "fonts/Lato-BoldItalic",color: AppColors.black),)),
+
+        Center(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: PrimaryButton(
+                text: 'Add City Charge',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddCityCharges()),
+                  );
+
+                },
+              )),
+        ),
       ],
     ),
 
-    Center(
-    child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
-    child: PrimaryButton(
-    text: 'Add City Charge',
-    onPressed: () {
 
-
-    },
-    )),
-    ),
 
     ]
     ),
