@@ -78,7 +78,82 @@ class _AddTollsState extends State<AddTolls> {
                       fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
                 ],
               ),
-              
+              SizedBox(height: 10,),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child:
+                  Card(
+                    elevation: 4, // Adjust the elevation value as needed
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          // Image icon for one-way trip
+                          Image.asset(
+                            'assets/png/one_way.png', // Replace with your image asset path
+                            width: 24, // Adjust the width as needed
+                            height: 24, // Adjust the height as needed
+                          ),
+                          SizedBox(width: 10), // Add spacing between icon and text
+                          // Text "1 Trip (One Way)"
+                          Text(
+                            '1 Trip (One Way)',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black, // Adjust the text color as needed
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child:
+                  Card(
+                    elevation: 4, // Adjust the elevation value as needed
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          // Image icon for one-way trip
+                          Image.asset(
+                            'assets/png/one_way.png', // Replace with your image asset path
+                            width: 24, // Adjust the width as needed
+                            height: 24, // Adjust the height as needed
+                          ),
+                          SizedBox(width: 10), // Add spacing between icon and text
+                          // Text "1 Trip (One Way)"
+                          Text(
+                            '1 Trip (One Way)',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black, // Adjust the text color as needed
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text("Select Charge", style: TextStyle(
+                      fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                ],
+              ),
+
             ],
           ),
         )
