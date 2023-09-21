@@ -20,7 +20,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
           elevation: 0,
         automaticallyImplyLeading: true,
         // Set to true if you want the default back arrow
-        toolbarHeight: 80,
+        toolbarHeight: 60,
         title: const Text(
         "Add City Chargess",
         style: TextStyle(

@@ -20,7 +20,7 @@ class _AddTollsState extends State<AddTolls> {
           elevation: 0,
           automaticallyImplyLeading: true,
           // Set to true if you want the default back arrow
-          toolbarHeight: 80,
+          toolbarHeight: 60,
           title: const Text(
             "Add Tolls",
             style: TextStyle(
@@ -42,7 +42,7 @@ class _AddTollsState extends State<AddTolls> {
 
         ),
         body: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(20.0),
 
           child:Column(
 
@@ -51,7 +51,7 @@ class _AddTollsState extends State<AddTolls> {
               Row(
                 children: [
                   Text("Select Day", style: TextStyle(
-                      fontSize: 18, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                      fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
                 ],
               ),
               const SizedBox(height: 20,),
@@ -62,13 +62,23 @@ class _AddTollsState extends State<AddTolls> {
 
                 selectionColor: AppColors.primaryColor,
                 selectedTextColor: Colors.white,
+
                 onDateChange: (date) {
+
                   // New date selected
                   setState(() {
                     // _selectedValue = date;
                   });
                 },
               ),
+              SizedBox(height: 10,),
+              Row(
+                children: [
+                  Text("Select Number of Trips", style: TextStyle(
+                      fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                ],
+              ),
+              
             ],
           ),
         )
