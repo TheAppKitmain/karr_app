@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/carDetails/CarDetails.dart';
 import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
+import 'package:kaar/controller/home/MyTicketScreen.dart';
 import 'package:kaar/controller/cityCharges/AllCityCharges.dart';
+import 'package:kaar/controller/parkingTickets/addParkingTicket/AddParkingTickets.dart';
 import 'package:kaar/controller/tolls/AllTolls.dart';
 import 'package:kaar/controller/tolls/AddTolls.dart';
 import 'package:kaar/utils/Constants.dart';
@@ -140,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => ParkingTickets(),
+                                            builder: (context) => MyTicketScreen(),
                                           ),
                                         );
                                       },
@@ -162,8 +164,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     flex: 1,
                                     child: GestureDetector(
                                       onTap: () {
-                                        // Add your onPressed logic here
-                                        // This function will be executed when the text is tapped.
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ParkingTickets(),
+                                          ),
+                                        );
                                       },
                                       child: Text(
                                         'View All',

@@ -1,7 +1,10 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/tolls/dataClass/TollsDataClass.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/AddTollItemView.dart';
 
 
 
@@ -12,6 +15,58 @@ class AddTolls extends StatefulWidget {
   _AddTollsState createState() => _AddTollsState();
 }
 class _AddTollsState extends State<AddTolls> {
+  List<Toll> allTolls = [];
+
+
+  Future<void> fetchallTolls() async {
+    final dio = Dio();
+
+    try {
+      final response = await dio.get(
+        'https://codecoyapps.com/karr/api/toll',
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+
+      if (response.statusCode == 200) {
+        final status = responseData['status'] as bool;
+        final message = responseData['message'] as String;
+
+        if (status) {
+          final chargeJson = responseData['tolls'];
+          if (chargeJson != null) {
+            chargeJson.forEach((v) {
+              allTolls.add( Toll.fromJson(v));
+            });
+          }
+          print('Data fetched successfully: $message');
+
+
+          setState(() {
+          });
+          // Clear the existing list
+
+
+        } else {
+          // Handle the case where fetching data failed
+          print('Data fetch failed: $message');
+        }
+      } else {
+        // Handle error status codes (e.g., show an error message)
+        print('API request failed with status code ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle network errors or exceptions
+      print('API request error: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchallTolls();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,12 +202,25 @@ class _AddTollsState extends State<AddTolls> {
                   )
                 ],
               ),
+              SizedBox(height: 10,),
               Row(
                 children: [
                   Text("Select Charge", style: TextStyle(
                       fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
                 ],
               ),
+              SizedBox(height: 10,),
+              allTolls.isNotEmpty?
+
+
+                  ListView.builder(
+                itemCount: allTolls.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return AddTollsItemView(tolls: allTolls[index]);
+                },)
+              :Text("data"),
 
             ],
           ),

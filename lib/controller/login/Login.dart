@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
 
 class _loginScreenState extends State<Login> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _countryCodeController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -89,12 +89,12 @@ class _loginScreenState extends State<Login> {
     SharedPreferences.getInstance().then((prefs) {
       final bool rememberMe = prefs.getBool('remember_me') ?? false;
       if (rememberMe) {
-        final String username = prefs.getString('username') ?? '';
+        final String email = prefs.getString('email') ?? '';
         final String number = prefs.getString('usernumber') ?? '';
         final String password = prefs.getString('userpassword') ?? '';
 
         // Set the values in the text fields
-        _usernameController.text = username;
+        _emailController.text = email;
         _countryCodeController.text = number;
 
 
@@ -129,7 +129,7 @@ class _loginScreenState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
-                  text: "User Name",
+                  text: "Email",
                   onPressed: () {},
                 ),
               ),
@@ -139,8 +139,8 @@ class _loginScreenState extends State<Login> {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
 
                 child: CustomTextField(
-                  controller: _usernameController,
-                  hintText: "User Name",
+                  controller: _emailController,
+                  hintText: "Email",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field is required';
@@ -167,7 +167,7 @@ class _loginScreenState extends State<Login> {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: CustomTextField(
                   controller: _countryCodeController,
-                  hintText: "Country Code",
+                  hintText: "Company Code",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field is required';
@@ -256,7 +256,7 @@ class _loginScreenState extends State<Login> {
                             _isLoading = true; // Start loading
                           });
                           // Validation successful, navigate to the next screen
-                          String username = _usernameController.text;
+                          String email = _emailController.text;
                           String countryCode = _countryCodeController.text;
                           String password = _passwordController.text;
                           // request(countryCode,password);
@@ -278,11 +278,11 @@ class _loginScreenState extends State<Login> {
 
                               );
 
-                             await SharedStorage().saveStringToLocalStorage('username', user.name!);
+                             await SharedStorage().saveStringToLocalStorage('email', user.email!);
                              await SharedStorage().saveStringToLocalStorage('usernumber', user.number!);
                              await SharedStorage().saveStringToLocalStorage('userid', "${user.id!}");
                              await SharedStorage().saveBoolToLocalStorage('remember_me', _rememberMe);
-                             await SharedStorage().saveStringToLocalStorage('carnumber', '${user.car?.number}');
+                             // await SharedStorage().saveStringToLocalStorage('carnumber', '${user.car?.number}');
 
 
                               Navigator.push(
@@ -290,7 +290,7 @@ class _loginScreenState extends State<Login> {
                                 MaterialPageRoute(
                                     builder: (context) => HomeScreen(user.name!,
 
-                                        "${user.car?.number}")),
+                                        "${user.license}")),
                               );
                               setState(() {
                                 _isLoading = false; // Stop loading

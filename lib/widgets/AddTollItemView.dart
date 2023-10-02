@@ -7,16 +7,19 @@ import 'package:kaar/controller/tolls/dataClass/TollsDataClass.dart';
 import 'package:kaar/utils/Constants.dart';
 
 
-class AddTollsItemView extends StatelessWidget {
+class AddTollsItemView extends StatefulWidget {
   final Toll tolls;
-
-
-
 
   const AddTollsItemView({super.key,
     required this.tolls,
   });
 
+  @override
+  State<AddTollsItemView> createState() => _AddTollsItemViewState();
+}
+
+class _AddTollsItemViewState extends State<AddTollsItemView> {
+  bool _rememberMe = false;
   @override
   Widget build(BuildContext context) {
     return
@@ -27,26 +30,27 @@ class AddTollsItemView extends StatelessWidget {
         ),
         child:
         Padding(
-          padding: EdgeInsets.all(20.0),
-          child: SizedBox(
+          padding: EdgeInsets.all(10.0),
+          child: Container(
             // Set margin of 20 from right and left
-            width: double.infinity,
+
 
             child: Row(
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
                     Row(
                       children: [
-                        Text('${tolls.name}',style: TextStyle(color: AppColors.black,fontSize: 18,fontFamily: "Lato"),textAlign: TextAlign.left,),
+                        Text('${widget.tolls.name}',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato")),
                       ],
                     ),
                     SizedBox(height: 20,),
                     Row(
                       children: [
-                        Text('${tolls.days}am',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato_regular")),
+                        Text('${widget.tolls.days}',style: TextStyle(color: AppColors.black,fontSize: 14,fontFamily: "Lato-regular")),
                       ],
                     ),
                     SizedBox(height: 10,),
@@ -56,7 +60,7 @@ class AddTollsItemView extends StatelessWidget {
                         Text(
                           'Add Note',
                           style: TextStyle(
-                              fontSize: 16, color: AppColors.primaryColor),
+                              fontSize: 14, color: AppColors.primaryColor),
                         ),
                         Icon(
                           Icons.arrow_forward_ios,
@@ -66,6 +70,16 @@ class AddTollsItemView extends StatelessWidget {
                     ),
 
                   ],
+                ),
+                Spacer(),
+                Checkbox(
+                  value: _rememberMe,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _rememberMe =
+                          value ?? false; // Update the _rememberMe variable
+                    });
+                  },
                 ),
               ],
             ),
