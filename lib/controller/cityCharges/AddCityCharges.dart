@@ -18,8 +18,6 @@ class _AddCityChargesState extends State<AddCityCharges> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-        automaticallyImplyLeading: true,
-        // Set to true if you want the default back arrow
         toolbarHeight: 60,
         title: const Text(
         "Add City Chargess",
@@ -30,15 +28,9 @@ class _AddCityChargesState extends State<AddCityCharges> {
 
     ),
     centerTitle: true,
+    iconTheme: const IconThemeData(color: Colors.black),
     // Center the title horizontally,
     backgroundColor: AppColors.white,
-    leading: IconButton(
-    icon: const Icon(Icons.arrow_back),
-    color: AppColors.black, // Use your custom icon here
-    onPressed: () {
-    // Add your navigation logic here
-  },
-    ),
 
     ),
       body: Padding(

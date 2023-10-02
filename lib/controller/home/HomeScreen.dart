@@ -31,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
         body: SingleChildScrollView(
             child:
@@ -57,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                     width: 170,
-                    height: 60,
+                    height: MediaQuery.of(context).size.height*0.050,
                     decoration: BoxDecoration(
                       border: Border.all(color: AppColors.primaryColor),
                       borderRadius: BorderRadius.circular(8),

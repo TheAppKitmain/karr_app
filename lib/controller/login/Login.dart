@@ -28,13 +28,6 @@ class _loginScreenState extends State<Login> {
 
   final dio = Dio();
 
-
-
-
-
-
-
-
   Future<Map<String, dynamic>?> login(String number, String password) async {
     final dio = Dio();
 
@@ -44,6 +37,7 @@ class _loginScreenState extends State<Login> {
         queryParameters: {
           'number': number,
           'password': password,
+          'email': _emailController.text,
         },
       );
 
