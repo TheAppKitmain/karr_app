@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -90,38 +91,80 @@ class Step1Screen extends StatelessWidget {
   }
 }
 
-class Step2Screen extends StatelessWidget {
+
+
+class Step2Screen extends StatefulWidget {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
 
   Step2Screen({required this.onPrevious, required this.onNext});
 
   @override
+  _Step2ScreenState createState() => _Step2ScreenState();
+}
+
+class _Step2ScreenState extends State<Step2Screen> {
+  late CameraController _cameraController;
+  late List<CameraDescription> cameras;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeCamera();
+  }
+
+  Future<void> initializeCamera() async {
+    cameras = await availableCameras();
+    _cameraController = CameraController(cameras[0], ResolutionPreset.medium);
+    await _cameraController.initialize();
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Step 2: Enter Data Manually'),
-          ElevatedButton(
+    if (!_cameraController.value.isInitialized) {
+      return Center(child: CircularProgressIndicator());
+    }
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        AspectRatio(
+          aspectRatio: _cameraController.value.aspectRatio,
+          child: CameraPreview(_cameraController),
+        ),
+        Positioned(
+          bottom: 16,
+          child: ElevatedButton(
             onPressed: () {
-              // Add form logic here
-              // If data entered, move to the next step
-              onNext();
+              // Capture the image or perform OCR logic here
             },
-            child: Text('Enter Data'),
+            child: Text('Capture Image'),
           ),
-          ElevatedButton(
+        ),
+        Positioned(
+          top: 16,
+          left: 16,
+          child: ElevatedButton(
             onPressed: () {
-              onPrevious();
+              widget.onPrevious();
             },
             child: Text('Back to Step 1'),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
+
 
 class Step3Screen extends StatelessWidget {
   final VoidCallback onPrevious;

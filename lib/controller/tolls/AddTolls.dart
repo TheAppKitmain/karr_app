@@ -69,17 +69,20 @@ class _AddTollsState extends State<AddTolls> {
   }
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: true,
           // Set to true if you want the default back arrow
-          toolbarHeight: 60,
-          title: const Text(
+          toolbarHeight: height*0.08,
+          title:  Text(
             "Add Tolls",
             style: TextStyle(
-                fontSize: 20,
+                fontSize: width*0.05,
                 color: AppColors.black // Adjust the title text size as needed
             ),
 
@@ -87,13 +90,7 @@ class _AddTollsState extends State<AddTolls> {
           centerTitle: true,
           // Center the title horizontally,
           backgroundColor: AppColors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            color: AppColors.black, // Use your custom icon here
-            onPressed: () {
-              // Add your navigation logic here
-            },
-          ),
+          iconTheme: const IconThemeData(color: Colors.black),
 
         ),
         body: Padding(
@@ -106,7 +103,7 @@ class _AddTollsState extends State<AddTolls> {
               Row(
                 children: [
                   Text("Select Day", style: TextStyle(
-                      fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                      fontSize: width*0.04, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
                 ],
               ),
               const SizedBox(height: 20,),
@@ -117,7 +114,7 @@ class _AddTollsState extends State<AddTolls> {
 
                 selectionColor: AppColors.primaryColor,
                 selectedTextColor: Colors.white,
-
+                height: height*0.1 ,
                 onDateChange: (date) {
 
                   // New date selected
@@ -130,7 +127,7 @@ class _AddTollsState extends State<AddTolls> {
               Row(
                 children: [
                   Text("Select Number of Trips", style: TextStyle(
-                      fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                      fontSize: width*0.04, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
                 ],
               ),
               SizedBox(height: 10,),

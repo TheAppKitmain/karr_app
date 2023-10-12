@@ -30,7 +30,7 @@ class Toll {
   final String name;
   final List<String> days; // Change the type to List<String>
   final String price;
-  final int status;
+
   final String createdAt;
   final String updatedAt;
 
@@ -39,7 +39,7 @@ class Toll {
     required this.name,
     required this.days,
     required this.price,
-    required this.status,
+
     required this.createdAt,
     required this.updatedAt,
   });
@@ -53,7 +53,7 @@ class Toll {
       name: json['name'] as String,
       days: parsedDays,
       price: json['price'] as String,
-      status: json['status'] as int,
+
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
     );

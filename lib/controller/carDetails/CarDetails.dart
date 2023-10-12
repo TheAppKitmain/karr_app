@@ -13,23 +13,25 @@ class _CarDetailsState extends State<CarDetails> {
   String? param_value;
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
           automaticallyImplyLeading: true,
           // Set to true if you want the default back arrow
-          toolbarHeight: 80,
-          title: const Text(
+          toolbarHeight: height*0.09,
+          title: Text(
             "Vehicle Details",
             style: TextStyle(
-                fontSize: 22, color: AppColors.black, fontFamily: "Lato"),
+                fontSize: 18, color: AppColors.black, fontFamily: "Lato"),
           ),
           centerTitle: true,
           // Center the title horizontally,
           backgroundColor: AppColors.white,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back),
             color: AppColors.black, // Use your custom icon here
             onPressed: () {
               // Add your navigation logic here
@@ -38,10 +40,10 @@ class _CarDetailsState extends State<CarDetails> {
         ),
         body: SingleChildScrollView(
             child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: Column(children: [
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
               Card(
                 color: AppColors.primaryColor,
                 elevation: 4,
@@ -59,40 +61,40 @@ class _CarDetailsState extends State<CarDetails> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              const Text(
+              SizedBox(height: 30),
+              Text(
                 "NM08 WUD",
                 style: TextStyle(
                     color: AppColors.primaryColor,
-                    fontSize: 40,
+                    fontSize: height*0.03,
                     fontFamily: "Lato",
                 fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 50),
+              SizedBox(height: 50),
     Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
+    padding: EdgeInsets.symmetric(horizontal: 20),
     child: Center(
     child: Column(children: [
             CustomVehicleDetailWidget(param_name: "Vehicle Make", param_value: "BMW"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Date of Registration", param_value: "November 2013"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Year of Manufacture", param_value: "2013"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Cylinder Capacity", param_value: "1598 Cc"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "CO2 Emissions", param_value: "131 G/Km"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Fuel Type", param_value: "Petrol"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Euro Status", param_value: "Not Applicable"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Real Driving Emissions", param_value: "Not Applicable"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Export Maker", param_value: "No"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
             CustomVehicleDetailWidget(param_name: "Vehicle Status", param_value: "Taxed"),
-      const SizedBox(height: 30),
+      SizedBox(height: 30),
     ]
     )
     )
@@ -107,7 +109,7 @@ class _CarDetailsState extends State<CarDetails> {
 }
 
 class CustomVehicleDetailWidget extends StatelessWidget {
-  const CustomVehicleDetailWidget({
+  CustomVehicleDetailWidget({
     super.key,
     required this.param_name,
     required this.param_value,
@@ -118,13 +120,15 @@ class CustomVehicleDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     return Row(children: [
       Text(param_name, style: TextStyle(
-          fontSize: 20, fontFamily: "Lato-Regular", color: AppColors.black),),
+          fontSize: width*0.04 , fontFamily: "Lato-Regular", color: AppColors.black),),
 
       Spacer(),
       Text(param_value, style: TextStyle(
-          fontSize: 22, fontFamily: "Lato", color: AppColors.black),),
+          fontSize: width*0.04, fontFamily: "Lato", color: AppColors.black),),
       ]
     );
   }

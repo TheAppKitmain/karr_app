@@ -6,6 +6,7 @@ import 'package:kaar/controller/cityCharges/AllCityCharges.dart';
 import 'package:kaar/controller/parkingTickets/addParkingTicket/AddParkingTickets.dart';
 import 'package:kaar/controller/tolls/AllTolls.dart';
 import 'package:kaar/controller/tolls/AddTolls.dart';
+import 'package:kaar/controller/profile/ProfileScreen.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/CustomBottomNavigation.dart';
 import 'package:kaar/widgets/TextView.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SingleChildScrollView(
             child:
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(height: 60),
+              SizedBox(height: height*0.040),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextView(
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                     width: 170,
-                    height: MediaQuery.of(context).size.height*0.050,
+                    height: height*0.060,
                     decoration: BoxDecoration(
                       border: Border.all(color: AppColors.primaryColor),
                       borderRadius: BorderRadius.circular(8),
@@ -71,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           _car_number,
                           style: TextStyle(
-                              fontSize: 16, color: AppColors.primaryColor),
+                              fontSize: width*0.04, color: AppColors.primaryColor),
                         ),
                         Icon(
                           Icons.arrow_forward_ios,
@@ -83,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              const SizedBox(height: 40),
+              SizedBox(height: height*0.040),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
@@ -114,25 +115,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: AppColors.primaryColor,
                                 ),
                               ),
-                              const SizedBox(height: 40),
-                              const Text(
+                              SizedBox(height: height*0.020),
+                               Text(
                                 'Parking Ticket',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                   fontSize: width*0.04,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 20),
-                              const Text(
+                              SizedBox(height: height*0.020),
+                             Text(
                                 'Create new tickets and check status of all tickets',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: width*0.03,
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.start,
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: height*0.020),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
@@ -154,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Text(
                                         'Add New',
                                         style: TextStyle(
-                                          fontSize: 13,
+                                          fontSize: width*0.025,
                                           color: AppColors.primaryColor, // Button text color
                                            // Add this line
                                         ),
@@ -173,13 +174,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         );
                                       },
-                                      child: Text(
-                                        'View All',
+                                      child:  Text(
+                                        'View All', // Adjust text as needed
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: width*0.035,
                                           color: Colors.white,
                                           decoration: TextDecoration.underline,
-                                          overflow: TextOverflow.ellipsis, // Add this line
                                         ),
                                       ),
                                     ),
@@ -218,25 +218,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: AppColors.blue,
                                 ),
                               ),
-                              const SizedBox(height: 40),
-                              const Text(
+                              SizedBox(height: height*0.020),
+                               Text(
                                 'Toll',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: width*0.04,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 30),
-                              const Text(
+                               SizedBox(height: height*0.020),
+                              Text(
                                 'Create new tolls and check all tolls.',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: width*0.03,
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.start,
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: height*0.020),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -255,12 +255,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         primary:
                                         Colors.white, // Button background color
                                       ),
-                                      child: const Text(
+                                      child: Text(
                                         'Add New',
                                         style: TextStyle(
-
-                                          color: AppColors
-                                              .blue, // Button text color
+                                          fontSize: width*0.025,
+                                          color: AppColors.blue, // Button text color
+                                          // Add this line
                                         ),
                                       ),
                                     ),
@@ -279,10 +279,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         // Add your onPressed logic here
                                         // This function will be executed when the text is tapped.
                                       },
-                                      child: const Text(
+                                      child:  Text(
                                         'View All', // Adjust text as needed
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: width*0.035,
                                           color: Colors.white,
                                           decoration: TextDecoration.underline,
                                         ),
@@ -299,7 +299,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: height*0.020),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
@@ -330,25 +330,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: AppColors.yellow,
                                 ),
                               ),
-                              const SizedBox(height: 40),
-                              const Text(
+                              SizedBox(height: height*0.020),
+                             Text(
                                 'City Charges',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: width*0.04,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 20),
-                              const Text(
+                              SizedBox(height: height*0.020),
+                                Text(
                                 'Create new Charges and check status of all chargess',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: width*0.03,
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.start,
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: height*0.020),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -369,12 +369,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         primary:
                                         Colors.white, // Button background color
                                       ),
-                                      child: const Text(
+                                      child: Text(
                                         'Add New',
                                         style: TextStyle(
-
-                                          color: AppColors
-                                              .yellow, // Button text color
+                                          fontSize: width*0.025,
+                                          color: AppColors.yellow, // Button text color
+                                          // Add this line
                                         ),
                                       ),
                                     ),
@@ -393,10 +393,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         // Add your onPressed logic here
                                         // This function will be executed when the text is tapped.
                                       },
-                                      child: const Text(
+                                      child:  Text(
                                         'View All', // Adjust text as needed
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: width*0.035,
                                           color: Colors.white,
                                           decoration: TextDecoration.underline,
                                         ),
@@ -436,25 +436,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: AppColors.pink,
                                 ),
                               ),
-                              const SizedBox(height: 40),
-                              const Text(
+                              SizedBox(height: height*0.020),
+                               Text(
                                 'Notes',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: width*0.04,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 20),
-                              const Text(
+                              SizedBox(height: height*0.020),
+                                Text(
                                 'Create new notes and check all notes your created.',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: width*0.03,
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.start,
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: height*0.020),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -468,12 +468,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         primary:
                                         Colors.white, // Button background color
                                       ),
-                                      child: const Text(
+                                      child: Text(
                                         'Add New',
                                         style: TextStyle(
-
-                                          color: AppColors
-                                              .pink, // Button text color
+                                          fontSize: width*0.025,
+                                          color: AppColors.pink, // Button text color
+                                          // Add this line
                                         ),
                                       ),
                                     ),
@@ -486,10 +486,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                         // Add your onPressed logic here
                                         // This function will be executed when the text is tapped.
                                       },
-                                      child: const Text(
+                                      child:  Text(
                                         'View All', // Adjust text as needed
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: width*0.035,
                                           color: Colors.white,
                                           decoration: TextDecoration.underline,
                                         ),
@@ -520,7 +520,13 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         onProfileTap: () {
           // Handle Profile tap
-          print('Profile tapped');
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProfileScreen()),
+          );
+          print('Profile tappeda');
         },
       ),
     );

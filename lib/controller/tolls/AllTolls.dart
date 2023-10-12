@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.dart';
+import 'package:kaar/controller/tolls/AddTolls.dart';
 import 'package:kaar/controller/tolls/dataClass/TollsDataClass.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/AllTollsItemView.dart';
@@ -33,6 +34,7 @@ class _AllTollsState extends State<AllTolls> {
       final responseData = response.data as Map<String, dynamic>;
 
       if (response.statusCode == 200) {
+
         final status = responseData['status'] as bool;
         final message = responseData['message'] as String;
 
@@ -43,7 +45,7 @@ class _AllTollsState extends State<AllTolls> {
               allTolls.add( Toll.fromJson(v));
             });
           }
-          print('Data fetched successfully: $message');
+          print(' tolls screen :Data fetched successfully: $message');
 
 
           setState(() {
@@ -53,15 +55,15 @@ class _AllTollsState extends State<AllTolls> {
 
         } else {
           // Handle the case where fetching data failed
-          print('Data fetch failed: $message');
+          print('tolls screen :Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
-        print('API request failed with status code ${response.statusCode}');
+        print('tolls screen :API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
-      print('API request error: $e');
+      print('tolls screen :API request error: $e');
     }
   }
 
@@ -73,30 +75,28 @@ class _AllTollsState extends State<AllTolls> {
   }
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         // Set to true if you want the default back arrow
-        toolbarHeight: 60,
+        toolbarHeight: height*0.08,
+        elevation: 0,
         title: Text(
           "All Tolls",
           style: TextStyle(
-              fontSize: 20,
-              color: AppColors.black // Adjust the title text size as needed
+              fontSize: width*0.05,
+              color: AppColors.black,
+            fontFamily: "Lato"
           ),
 
         ),
         centerTitle: true,
         // Center the title horizontally,
         backgroundColor: AppColors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: AppColors.black, // Use your custom icon here
-          onPressed: () {
-            // Add your navigation logic here
-          },
-        ),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
 
@@ -106,7 +106,7 @@ class _AllTollsState extends State<AllTolls> {
             child:
             Row(children: [
               Text("All Tolls", style: TextStyle(
-                  fontSize: 18, fontFamily: "Lato", color: AppColors.black),),
+                  fontSize: width*0.045, fontFamily: "Lato", color: AppColors.black),),
 
               Spacer(),
               Container(
@@ -151,7 +151,7 @@ class _AllTollsState extends State<AllTolls> {
               return AllTollsItemView(tolls: allTolls[index]);
             },)
           )
-              :Column(
+              :Column(mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
                 child: Padding(
@@ -159,15 +159,15 @@ class _AllTollsState extends State<AllTolls> {
                   child: Image.asset(
                     'assets/png/notolls.png',
                     // Replace with your image asset path
-                    width: 200,
-                    height: 300,
+                    width: width*0.3,
+                    height: height*0.2,
                   ),
                 ),
               ),
-              Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: 23,fontFamily: "Lato",color: AppColors.black),)),
+              Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.07,fontFamily: "Lato",color: AppColors.black),)),
               SizedBox(height: 20,),
-              Center( child: Text("Click “Add Toll” and provide us with the details to ",style: TextStyle(fontSize: 18,fontFamily: "fonts/Lato-BoldItalic",color: AppColors.black),)),
-              Center( child: Text("add toll for you.",style: TextStyle(fontSize: 18,fontFamily: "fonts/Lato-BoldItalic",color: AppColors.black),)),
+              Center( child: Text("Click “Add Toll” and provide us with the details to ",style: TextStyle(fontSize: width*0.04,fontFamily: "Lato-Regular",color: AppColors.black),)),
+              Center( child: Text("add toll for you.",style: TextStyle(fontSize: width*0.04,fontFamily: "Lato-Regular",color: AppColors.black),)),
 
               Center(
                 child: Padding(
@@ -175,7 +175,11 @@ class _AllTollsState extends State<AllTolls> {
                     child: PrimaryButton(
                       text: 'Add New Toll',
                       onPressed: () {
-
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddTolls()),
+                        );
 
                       },
                     )),
@@ -193,11 +197,11 @@ class _AllTollsState extends State<AllTolls> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //       builder: (context) => AddTolls()),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddTolls()),
+          );
         },
         backgroundColor: AppColors.primaryColor,
         child: const Icon(Icons.add),

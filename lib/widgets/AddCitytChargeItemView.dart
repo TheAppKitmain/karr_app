@@ -2,23 +2,24 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.dart';
 
-import 'package:kaar/controller/tolls/dataClass/TollsDataClass.dart';
+
 import 'package:kaar/utils/Constants.dart';
 
 
-class AddTollsItemView extends StatefulWidget {
-  final Toll tolls;
+class AddItemView extends StatefulWidget {
+  final Charges tolls;
 
-  const AddTollsItemView({super.key,
+  const AddItemView({super.key,
     required this.tolls,
   });
 
   @override
-  State<AddTollsItemView> createState() => _AddTollsItemViewState();
+  State<AddItemView> createState() => _AddCityChargeItemViewState();
 }
 
-class _AddTollsItemViewState extends State<AddTollsItemView> {
+class _AddCityChargeItemViewState extends State<AddItemView> {
   bool _rememberMe = false;
   @override
   Widget build(BuildContext context) {
@@ -47,11 +48,11 @@ class _AddTollsItemViewState extends State<AddTollsItemView> {
                     children: [
 
 
-                          Text('${widget.tolls.name}',style: TextStyle(color: AppColors.black,fontSize: width*0.04,fontFamily: "Lato")),
+                      Text('${widget.tolls.city}',style: TextStyle(color: AppColors.black,fontSize: width*0.04,fontFamily: "Lato")),
 
                       SizedBox(height: 20,),
 
-                          Text('${widget.tolls.days}',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
+                      Text('EveryDay',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
 
                       SizedBox(height: 10,),
                       Row(

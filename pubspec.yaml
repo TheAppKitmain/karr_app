@@ -40,6 +40,12 @@ dependencies:
   date_picker_timeline: ^1.2.5
   dio: ^5.3.2
   shared_preferences: ^2.2.1
+  camera: ^0.9.4
+  flutter_camera_overlay: ^0.1.1
+  google_ml_kit: ^0.16.2
+  clipboard: ^0.1.2+8
+  google_mlkit_text_recognition: ^0.10.0
+
 #  flutter_ocr_sdk: ^1.1.3
 
 

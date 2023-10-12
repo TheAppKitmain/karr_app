@@ -22,6 +22,9 @@ class AllTollsItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+
     return
       Card(
         elevation: 8, // Adjust the elevation value as needed
@@ -37,32 +40,31 @@ class AllTollsItemView extends StatelessWidget {
 
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                Row(
-                  children: [
-                    Text('${tolls.name}',style: TextStyle(color: AppColors.black,fontSize: 18,fontFamily: "Lato"),textAlign: TextAlign.left,),
-                  ],
-                ),
+
+                    Text('${tolls.name}',style: TextStyle(color: AppColors.black,fontSize: width*0.04,fontFamily: "Lato"),textAlign: TextAlign.left,),
+
                 SizedBox(height: 20,),
-                Row(
-                  children: [
-                    Text('${tolls.days}am',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato_regular")),
-                  ],
-                ),
+
+                    Text('${tolls.days}',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
+
                 SizedBox(height: 10,),
                 Row(
 
-                  children: const [
+                  children: [
                     Text(
                       'See Note',
                       style: TextStyle(
-                          fontSize: 16, color: AppColors.primaryColor),
+                          fontSize: width*0.035, color: AppColors.primaryColor),
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
                       color: AppColors.primaryColor,
+
                     ),
+
                   ],
                 ),
 

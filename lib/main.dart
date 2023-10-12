@@ -11,7 +11,7 @@ void main() async {
   final String username = prefs.getString('username') ?? '';
   final String id = prefs.getString('userid') ?? '';
   final String carnumber = prefs.getString('carnumber') ?? '';
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp(
     initialRoute: id.isNotEmpty ? '/home' : '/login',
     username: username,

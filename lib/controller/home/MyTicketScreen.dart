@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/utils/ExampleCameraOverlay.dart';
 
 
 class MyTicketScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
           Row(children: [Spacer(),Text("Step ${currentStep+1}",style: TextStyle(color: AppColors.black,fontFamily: "Lato",fontSize: 18),),SizedBox(width: 20,)],),
           SizedBox(height: 30,),
           CustomStepper(
-            steps: 3,
+            steps: 6,
             currentStep: currentStep,
           ),
           Expanded(
@@ -33,7 +34,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
               },
             )
                 : currentStep == 1
-                ? Step2Screen(
+                ? ExampleCameraOverlay(
               onPrevious: () {
                 setState(() {
                   currentStep = 0;
@@ -100,48 +101,63 @@ class Step1Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
           children: [
-            Row(children: [Text("How Would You Like To Submit \nYour Ticket?",style: TextStyle(color: AppColors.black,fontFamily: "Lato",fontSize: 30),)],),
-            SizedBox(height: 15,),
-            Row(children: [Text("The below options are available to submit your ticket. \nPlease choose your preferred method.",style: TextStyle(color: AppColors.black,fontFamily: "Lato-Regular",fontSize: 18),)],),
-            SizedBox(height: 30,),
+            Text(
+              "How Would You Like To Submit Your Tickets?",
+              style: TextStyle(
+                color: AppColors.black,
+                fontFamily: "Lato",
+                fontSize: width * 0.07,
+              ),
+            ),
+            SizedBox(height: height*0.02),
+            Text(
+              "The below options are available to submit your ticket. Please choose your preferred method.",
+              style: TextStyle(
+                color: AppColors.black,
+                fontFamily: "Lato-Regular",
+                fontSize: width * 0.04,
+              ),
+            ),
+            SizedBox(height: height*0.04),
             Card(
-                color: AppColors.white,
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-
-                        child: CircleAvatar(
-                          radius: 60,
-
-                          backgroundColor: Colors.white,
-
-                          child: Image.asset(
-                            'assets/png/parking_tickets.png',
-                            // Replace with your image asset path
-                            width: 40,
-                            height: 40,
-                            color: AppColors.primaryColor,
-                          ),
+              color: AppColors.white,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible( // Wrap the text with Flexible
+                      flex: 2,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundColor: Colors.white,
+                        child: Image.asset(
+                          'assets/png/parking_tickets.png',
+                          width: 40,
+                          height: 40,
+                          color: AppColors.primaryColor,
                         ),
                       ),
-                      const SizedBox(width: 15),
+                    ),
+                    Flexible( // Wrap the text with Flexible
+                      flex: 4,
+                      child:
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           SizedBox(height: 20),
                           Text(
                             'Submit Ticket',
@@ -154,29 +170,95 @@ class Step1Screen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            'Take a picture of your ticket or select a\n photo of your ticket from camera roll.',
+                            'Take a picture of your ticket or select a photo of your ticket from the camera roll.',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: width * 0.03,
                               color: Colors.black,
                             ),
                             textAlign: TextAlign.start,
                           ),
                         ],
                       ),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.primaryColor,
-                      ),
-
-
-
-
-                    ],
-                  ),
+                    ),
+                    Spacer(),
+                Flexible( // Wrap the text with Flexible
+                  flex: 1,
+                  child:
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColors.primaryColor,
+                    ),
+                )
+                  ],
                 ),
-              ),
 
+            ),
+            SizedBox(height: height*0.02),
+            Card(
+              color: AppColors.white,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible( // Wrap the text with Flexible
+                      flex: 2,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundColor: Colors.white,
+                        child: Image.asset(
+                          'assets/png/parking_tickets.png',
+                          width: 40,
+                          height: 40,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ),
+                    Flexible( // Wrap the text with Flexible
+                      flex: 4,
+                      child:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 20),
+                          Text(
+                            'Submit Ticket',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "Lato",
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Take a picture of your ticket or select a photo of your ticket from the camera roll.',
+                            style: TextStyle(
+                              fontSize: width * 0.03,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Spacer(),
+                Flexible( // Wrap the text with Flexible
+                  flex: 1,
+                  child:
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColors.primaryColor,
+                    ),
+                )
+                  ],
+                ),
+
+            ),
             ElevatedButton(
               onPressed: () {
                 // Add OCR logic here
@@ -190,6 +272,7 @@ class Step1Screen extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class Step2Screen extends StatelessWidget {

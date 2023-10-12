@@ -89,13 +89,7 @@ class _CityChargesState extends State<CityCharges> {
         centerTitle: true,
         // Center the title horizontally,
         backgroundColor: AppColors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: AppColors.black, // Use your custom icon here
-          onPressed: () {
-            // Add your navigation logic here
-          },
-        ),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
 

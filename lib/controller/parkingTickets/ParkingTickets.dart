@@ -6,6 +6,8 @@ import 'package:kaar/controller/parkingTickets/TicketsHistory.dart';
 class ParkingTickets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
@@ -17,7 +19,7 @@ class ParkingTickets extends StatelessWidget {
 
           appBar: AppBar(
             automaticallyImplyLeading: true, // Set to true if you want the default back arrow
-            toolbarHeight: 80,
+            toolbarHeight: height*0.09,
             title: Text(
               "All Tickets",
               style: TextStyle(
@@ -26,23 +28,15 @@ class ParkingTickets extends StatelessWidget {
               ),
 
             ),
+            iconTheme: const IconThemeData(color: Colors.black),
             centerTitle: true, // Center the title horizontally,
             backgroundColor: AppColors.white,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              color: AppColors.black,// Use your custom icon here
-              onPressed: () {
-                // Add your navigation logic here
-              },
-            ),
+
 
             bottom: TabBar(
               tabs: [
                 Tab(
-                  text: ("Tickets History"),
-
-
-
+                  text: ("Tickets History"),height: height*0.05,
                 ),
                 Tab(
                   text: ("Tickets"),
@@ -53,10 +47,10 @@ class ParkingTickets extends StatelessWidget {
               unselectedLabelColor: Colors.black,
 
               labelStyle: TextStyle(
-                fontSize: 18, // Increase the font size for the selected tab's label
+                fontSize: width*0.04, // Increase the font size for the selected tab's label
               ),
               unselectedLabelStyle: TextStyle(
-                fontSize: 16, // Increase the font size for unselected tabs' labels
+                fontSize: width*0.03, // Increase the font size for unselected tabs' labels
               ),
             ),
           ),
