@@ -221,18 +221,7 @@ class _loginScreenState extends State<Login> {
                     ),
                     const Text('Remember me'),
 
-                    const Spacer(),
-                    // This will create space between the checkbox and the text
-                    GestureDetector(
-                      onTap: () {
-                        // Add your Forgot Password logic here
 
-                      },
-                      child: const Text(
-                        'Forgot Password ?',
-                        style: TextStyle(color: AppColors.primaryColor),
-                      ),
-                    ),
                   ],
                 ),
               ),
