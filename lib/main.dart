@@ -8,9 +8,9 @@ import 'package:kaar/controller/home/HomeScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required for using SharedPreferences
   final prefs = await SharedPreferences.getInstance();
-  final String username = prefs.getString('username') ?? '';
+  final String username = prefs.getString('name') ?? '';
   final String id = prefs.getString('userid') ?? '';
-  final String carnumber = prefs.getString('carnumber') ?? '';
+  final String carnumber = prefs.getString('license_number') ?? '';
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp(
     initialRoute: id.isNotEmpty ? '/home' : '/login',
@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login Screen',
+      debugShowCheckedModeBanner: false,
       initialRoute: initialRoute,
       routes: {
         '/login': (context) => Login(),

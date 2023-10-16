@@ -102,7 +102,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
             selectionColor: AppColors.primaryColor,
             selectedTextColor: Colors.white,
 
-            height: height*0.1 ,
+            height: height*0.12 ,
             onDateChange: (date) {
               // New date selected
               setState(() {

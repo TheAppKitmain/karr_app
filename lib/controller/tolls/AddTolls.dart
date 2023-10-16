@@ -114,7 +114,7 @@ class _AddTollsState extends State<AddTolls> {
 
                 selectionColor: AppColors.primaryColor,
                 selectedTextColor: Colors.white,
-                height: height*0.1 ,
+                height: height*0.12 ,
                 onDateChange: (date) {
 
                   // New date selected
@@ -156,7 +156,7 @@ class _AddTollsState extends State<AddTolls> {
                           Text(
                             '1 Trip (One Way)',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: width*0.03,
                               color: Colors.black, // Adjust the text color as needed
                             ),
                           ),
@@ -185,11 +185,13 @@ class _AddTollsState extends State<AddTolls> {
                           ),
                           SizedBox(width: 10), // Add spacing between icon and text
                           // Text "1 Trip (One Way)"
-                          Text(
-                            '1 Trip (One Way)',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black, // Adjust the text color as needed
+                          Flexible(
+                            child: Text(
+                              '2 Trip (In and Out)',
+                              style: TextStyle(
+                                fontSize: width*0.03,
+                                color: Colors.black, // Adjust the text color as needed
+                              ),
                             ),
                           ),
                         ],

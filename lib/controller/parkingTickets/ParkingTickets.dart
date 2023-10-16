@@ -56,7 +56,7 @@ class ParkingTickets extends StatelessWidget {
           ),
           body: TabBarView(children: [
             TicketHistory(),
-            Center( child: Text("Two",style: TextStyle(fontSize: 50),)),
+            Center( child: Text("All Tickets",style: TextStyle(fontSize: 50),)),
 
           ]),
         ),

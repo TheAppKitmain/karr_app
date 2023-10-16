@@ -134,6 +134,7 @@ class _loginScreenState extends State<Login> {
 
                 child: CustomTextField(
                   controller: _emailController,
+                  keyboardType:TextInputType.emailAddress,
                   hintText: "Email",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -141,7 +142,6 @@ class _loginScreenState extends State<Login> {
                     }
                     return null;
                   },
-                  keyboardType: TextInputType.name,
                 ),
                 // Add spacing between fields
                 // Add more CustomTextField widgets with validators
