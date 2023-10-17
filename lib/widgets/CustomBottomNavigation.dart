@@ -22,25 +22,15 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80, // Adjust the height as needed
+      height: 80,
+      padding: const EdgeInsets.only(bottom:20 ),// Adjust the height as needed
       // Set the background color
       color: Colors.white, // Set the background color
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           buildNavItem(0, Icons.home, 'Home', widget.onHomeTap),
-          FloatingActionButton(
 
-            onPressed: () {
-
-              widget.onFabTap();
-            },
-
-            child: Icon(Icons.add),
-            backgroundColor:
-                 AppColors.primaryColor // Set FAB background color
-                // Set a different color when not selected
-          ),
           buildNavItem(2, Icons.person, 'Profile', widget.onProfileTap),
         ],
       ),

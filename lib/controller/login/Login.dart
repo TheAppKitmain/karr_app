@@ -19,11 +19,13 @@ class Login extends StatefulWidget {
 class _loginScreenState extends State<Login> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _countryCodeController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   bool _rememberMe = false;
-  bool _isLoading = false; // Track loading state
+  bool _isObscure = false;
+  bool _isLoading = false;
+  // Track loading state
 
 
   final dio = Dio();
@@ -89,7 +91,7 @@ class _loginScreenState extends State<Login> {
 
         // Set the values in the text fields
         _emailController.text = email;
-        _countryCodeController.text = number;
+        _phoneController.text = number;
 
 
         // Update the _rememberMe state
@@ -135,7 +137,6 @@ class _loginScreenState extends State<Login> {
                 child: CustomTextField(
                   controller: _emailController,
                   keyboardType:TextInputType.emailAddress,
-                  hintText: "Email",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field is required';
@@ -150,7 +151,7 @@ class _loginScreenState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
-                  text: "Company Code",
+                  text: "Mobile Number",
                   onPressed: () {
 
                   },
@@ -160,15 +161,14 @@ class _loginScreenState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: CustomTextField(
-                  controller: _countryCodeController,
-                  hintText: "Company Code",
+                  controller: _phoneController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field is required';
                     }
                     return null;
                   },
-                  keyboardType: TextInputType.name,
+                  keyboardType: TextInputType.phone,
                 ),
               ),
               const SizedBox(height: 20),
@@ -181,30 +181,24 @@ class _loginScreenState extends State<Login> {
               ),
               const SizedBox(height: 10),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Card(
-                    elevation: 4, // Adjust the elevation value as needed
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          10), // Adjust the radius as needed
-                    ),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'This field is required';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        hintText: "Password",
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                      controller: _passwordController,
-                      obscureText: true,
-                    ),
-                  )),
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: CustomTextField(
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  obscureText: _isObscure,
+                  onTogglePasswordStatus: (){
+                    _isObscure=!_isObscure;
+                    setState(() {
+                    });
+                  },
+                ),
+              ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -240,7 +234,7 @@ class _loginScreenState extends State<Login> {
                           });
                           // Validation successful, navigate to the next screen
                           String email = _emailController.text;
-                          String countryCode = _countryCodeController.text;
+                          String countryCode = _phoneController.text;
                           String password = _passwordController.text;
                           // request(countryCode,password);
                           // final user = await login(countryCode, password);

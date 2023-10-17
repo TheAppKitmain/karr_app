@@ -14,10 +14,14 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: AppColors.white,
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: AppColors.white,
+      ),
       body: Column(
         children: [
-          SizedBox(height: 80,),
           Row(children: [Spacer(),Text("Step ${currentStep+1}",style: TextStyle(color: AppColors.black,fontFamily: "Lato",fontSize: 18),),SizedBox(width: 20,)],),
           SizedBox(height: 30,),
           CustomStepper(

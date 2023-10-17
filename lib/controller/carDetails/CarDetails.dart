@@ -1,5 +1,4 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaar/utils/Constants.dart';
 
@@ -18,10 +17,11 @@ class _CarDetailsState extends State<CarDetails> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           elevation: 0,
-          automaticallyImplyLeading: true,
           // Set to true if you want the default back arrow
           toolbarHeight: height*0.09,
+
           title: Text(
             "Vehicle Details",
             style: TextStyle(
@@ -30,13 +30,6 @@ class _CarDetailsState extends State<CarDetails> {
           centerTitle: true,
           // Center the title horizontally,
           backgroundColor: AppColors.white,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: AppColors.black, // Use your custom icon here
-            onPressed: () {
-              // Add your navigation logic here
-            },
-          ),
         ),
         body: SingleChildScrollView(
             child: Padding(

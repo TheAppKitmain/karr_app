@@ -8,58 +8,51 @@ class ParkingTickets extends StatelessWidget {
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: AppColors.white,
 
-        length: 2,
+        appBar: AppBar(
+          toolbarHeight: height*0.09,
 
-        child: Scaffold(
-          backgroundColor: AppColors.white,
-
-          appBar: AppBar(
-            automaticallyImplyLeading: true, // Set to true if you want the default back arrow
-            toolbarHeight: height*0.09,
-            title: Text(
-              "All Tickets",
-              style: TextStyle(
+          title: const Text(
+            "All Tickets",
+            style: TextStyle(
                 fontSize: 18,
                 color: AppColors.black// Adjust the title text size as needed
-              ),
-
             ),
-            iconTheme: const IconThemeData(color: Colors.black),
-            centerTitle: true, // Center the title horizontally,
-            backgroundColor: AppColors.white,
 
-
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  text: ("Tickets History"),height: height*0.05,
-                ),
-                Tab(
-                  text: ("Tickets"),
-                ),
-
-              ],
-              labelColor: AppColors.primaryColor,         // Color of the selected tab's text
-              unselectedLabelColor: Colors.black,
-
-              labelStyle: TextStyle(
-                fontSize: width*0.04, // Increase the font size for the selected tab's label
+          ),
+          iconTheme: const IconThemeData(color: Colors.black),
+          centerTitle: true, // Center the title horizontally,
+          backgroundColor: AppColors.white,
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: ("Tickets History"),height: height*0.05,
               ),
-              unselectedLabelStyle: TextStyle(
-                fontSize: width*0.03, // Increase the font size for unselected tabs' labels
+              const Tab(
+                text: ("Tickets"),
               ),
+
+            ],
+            labelColor: AppColors.primaryColor,         // Color of the selected tab's text
+            unselectedLabelColor: Colors.black,
+
+            labelStyle: TextStyle(
+              fontSize: width*0.04, // Increase the font size for the selected tab's label
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: width*0.03, // Increase the font size for unselected tabs' labels
             ),
           ),
-          body: TabBarView(children: [
-            TicketHistory(),
-            Center( child: Text("All Tickets",style: TextStyle(fontSize: 50),)),
-
-          ]),
         ),
+        body: TabBarView(children: [
+          TicketHistory(),
+          const Center( child: Text("All Tickets",style: TextStyle(fontSize: 50),)),
+
+        ]),
       ),
     );
   }
