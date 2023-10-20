@@ -23,7 +23,7 @@ class _loginScreenState extends State<Login> {
   TextEditingController _passwordController = TextEditingController();
 
   bool _rememberMe = false;
-  bool _isObscure = false;
+  bool _isObscure = true;
   bool _isLoading = false;
   // Track loading state
 

@@ -59,20 +59,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 40),
-              Text(
-                'User Profile Details',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+
+                  child: Image.asset(
+                    'assets/png/kaar_logo.png',
+                    // Replace with your image asset path
+                    width: 200,
+                    height: 80,
+                  ),
                 ),
               ),
               SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  buildProfileDetail('User Name', userName),
-                ],
-              ),
+
+              buildProfileDetail('User Name', userName),
               buildProfileDetail('Email', userEmail),
               buildProfileDetail('Phone Number', phoneNumber),
               buildProfileDetail('License Plate', licensePlate),
@@ -85,18 +86,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildProfileDetail(String label, String? value) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+        Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        Text(
-          value ?? 'N/A', // Display 'N/A' if the value is not available
-          style: TextStyle(fontSize: 16),
+        Container(
+          width: double.infinity, // Make the container full width
+          padding: EdgeInsets.all(12.0), // Add 12 units of padding inside the card
+          child: Card(
+            elevation: 4, // Adjust the elevation value as needed
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Text(
+                value ?? 'N/A', // Display 'N/A' if the value is not available
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
         ),
+
         SizedBox(height: 20),
       ],
     );

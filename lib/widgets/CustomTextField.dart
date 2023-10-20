@@ -29,11 +29,14 @@ class CustomTextField extends StatelessWidget {
      child: TextFormField(
       controller: controller,
       validator: validator,
+       autofocus: false,
       keyboardType: keyboardType,
       obscureText:obscureText??false,
 
+
       decoration: InputDecoration(
         hintText: hintText,
+
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
         ),

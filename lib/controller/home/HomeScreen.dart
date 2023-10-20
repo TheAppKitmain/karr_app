@@ -229,7 +229,10 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.only(top: 50),
       child: FloatingActionButton(
           onPressed: () {
-
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyTicketScreen()),
+            );
           },
           backgroundColor:
           AppColors.primaryColor,
