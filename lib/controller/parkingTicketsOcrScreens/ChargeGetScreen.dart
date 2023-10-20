@@ -127,20 +127,29 @@ class _ChargeGetScreenState extends State<ChargeGetScreen> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  TextFormField(
-                    initialValue: scannedText,
-
-                    // Display scanned text
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: width * 0.05,
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white, // Border color
+                        width: 2.0,           // Border width
+                      ),
+                      borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                    ),
+                    child: TextFormField(
+                      controller: textController, // Display scanned text
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: width * 0.05,
+                      ),
+                      decoration: InputDecoration(
+                        // Optional hint text
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        border: InputBorder.none, // Remove the default border of the TextFormField
+                      ),
                     ),
                   ),
                   SizedBox(height: 10),
-                  TextField(
-                    controller: textController,
-                    style: TextStyle(color: Colors.white),
-                  ),
+
                   ElevatedButton(
                     onPressed: () async {
                       // Handle the "Next" button click

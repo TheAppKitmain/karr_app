@@ -22,9 +22,11 @@ class ParkingTicketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return  FlutterTicketWidget(
-      width: 400.0,
-      height: 200.0,
+      width: width*0.9,
+      height: height*0.26,
       isCornerRounded: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

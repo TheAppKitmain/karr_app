@@ -44,7 +44,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
             height: 30,
           ),
           CustomStepper(
-            steps: 6,
+            steps: 5,
             currentStep: currentStep,
           ),
           Expanded(
