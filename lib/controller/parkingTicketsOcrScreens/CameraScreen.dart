@@ -43,6 +43,7 @@ class _CameraScreenState extends State<CameraScreen> {
         scannedText = scannedText + line.text + "\n";
       }
     }
+    textController.text=scannedText;
     setState(() {
       textScanning = true;
     });
@@ -88,7 +89,6 @@ class _CameraScreenState extends State<CameraScreen> {
 
       final croppedImage = img.copyCrop(rawImage, x: x.toInt(), y: y.toInt(), width: width.toInt(), height: height.toInt());
 
-      final croppedImagePath = 'path_to_save_cropped_image.jpg';
       File(image.path).writeAsBytesSync(img.encodeJpg(croppedImage));
       final croppedXFile = XFile(image.path);
       getRecognisedText(croppedXFile);
@@ -127,7 +127,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
-                    initialValue: scannedText, // Display scanned text
+                    controller: textController,// Display scanned text
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: width * 0.05,
@@ -142,8 +142,9 @@ class _CameraScreenState extends State<CameraScreen> {
                     onPressed: () async {
                       // Handle the "Next" button click
                       String updatedText = textController.text;
+                      print(updatedText);
                       await SharedStorage().saveStringToLocalStorage('Ticket_number', updatedText);
-                      onNext();
+                      //onNext();
                       // Perform further actions with the updated text
                       // ...
 

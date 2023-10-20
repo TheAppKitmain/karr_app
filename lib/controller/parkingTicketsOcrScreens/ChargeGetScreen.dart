@@ -43,6 +43,7 @@ class _ChargeGetScreenState extends State<ChargeGetScreen> {
         scannedText = scannedText + line.text + "\n";
       }
     }
+    textController.text=scannedText;
     setState(() {
       textScanning = true;
     });
@@ -127,7 +128,9 @@ class _ChargeGetScreenState extends State<ChargeGetScreen> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
-                    initialValue: scannedText, // Display scanned text
+                    initialValue: scannedText,
+
+                    // Display scanned text
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: width * 0.05,
