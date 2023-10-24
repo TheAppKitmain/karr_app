@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyTicketScreen()),
+              MaterialPageRoute(builder: (context) => Step1Screen()),
             );
           },
           backgroundColor:
