@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:kaar/controller/tolls/dataClass/TollsDataClass.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/AddNoteDialog.dart';
 
 
 class AddTollsItemView extends StatefulWidget {
@@ -20,6 +21,8 @@ class AddTollsItemView extends StatefulWidget {
 
 class _AddTollsItemViewState extends State<AddTollsItemView> {
   bool _rememberMe = false;
+
+
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
@@ -54,19 +57,28 @@ class _AddTollsItemViewState extends State<AddTollsItemView> {
                           Text('${widget.tolls.days}',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
 
                       SizedBox(height: 10,),
-                      Row(
+                      GestureDetector(
+                        onTap: (){
+                          AddNoteDialog.show(context,"Successfuly Added",(v){
+                            widget.tolls.note=v;
+                          } );
 
-                        children: const [
-                          Text(
-                            'Add Note',
-                            style: TextStyle(
-                                fontSize: 14, color: AppColors.primaryColor),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.primaryColor,
-                          ),
-                        ],
+                        },
+                        child: Row(
+
+                          children: const [
+                            Text(
+                              'Add Note',
+                              style: TextStyle(
+                                  fontSize: 14, color: AppColors.primaryColor),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColors.primaryColor,
+                              size: 15,
+                            ),
+                          ],
+                        ),
                       ),
 
                     ],
@@ -78,9 +90,11 @@ class _AddTollsItemViewState extends State<AddTollsItemView> {
                   child: Checkbox(
                     value: _rememberMe,
                     onChanged: (bool? value) {
+
                       setState(() {
                         _rememberMe =
-                            value ?? false; // Update the _rememberMe variable
+                            value ?? false;
+                        widget.tolls.ischecked=_rememberMe;// Update the _rememberMe variable
                       });
                     },
                   ),

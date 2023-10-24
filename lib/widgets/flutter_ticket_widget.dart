@@ -1,6 +1,7 @@
 library flutter_ticket_widget;
 
 import 'package:flutter/material.dart';
+import 'package:kaar/utils/Constants.dart';
 
 class FlutterTicketWidget extends StatefulWidget {
   final double width;
@@ -27,8 +28,10 @@ class _FlutterTicketWidgetState extends State<FlutterTicketWidget> {
       clipper: TicketClipper(),
 
 
+
         child:Card(
           elevation: 4,
+
           margin: EdgeInsets.all(4),
           child: AnimatedContainer(
             duration: Duration(seconds: 3),
@@ -52,6 +55,7 @@ class TicketClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
+
 
     path.lineTo(0.0, size.height);
     path.lineTo(size.width, size.height);

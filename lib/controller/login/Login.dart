@@ -103,7 +103,9 @@ class _loginScreenState extends State<Login> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Form(
+        child:
+
+        Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,8 +225,8 @@ class _loginScreenState extends State<Login> {
                 child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: _isLoading // Show progress indicator if loading
-                    ? CircularProgressIndicator()
-                  : PrimaryButton(
+                        ? CircularProgressIndicator()
+                        : PrimaryButton(
                       text: 'Login',
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

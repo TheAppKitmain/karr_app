@@ -28,18 +28,21 @@ class TollsDataClass {
 class Toll {
   final int id;
   final String name;
+   String? note;
+   bool? ischecked;
   final List<String> days; // Change the type to List<String>
   final String price;
 
   final String createdAt;
   final String updatedAt;
 
-  Toll({
+  Toll(  {
     required this.id,
     required this.name,
     required this.days,
     required this.price,
-
+    this.note,
+    this.ischecked,
     required this.createdAt,
     required this.updatedAt,
   });

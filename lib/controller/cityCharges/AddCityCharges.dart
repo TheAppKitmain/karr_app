@@ -6,6 +6,8 @@ import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.da
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/AddTollItemView.dart';
 import 'package:kaar/widgets/AddItemView.dart';
+import 'package:kaar/widgets/CustomDialogBox.dart';
+import 'package:kaar/widgets/PrimaryButton.dart';
 
 
 
@@ -17,7 +19,7 @@ class AddCityCharges extends StatefulWidget {
 }
 class _AddCityChargesState extends State<AddCityCharges> {
   List<Charges> cityCharges = [];
-
+  bool _isLoading = false;
 
   Future<void> fetchallTolls() async {
     final dio = Dio();
@@ -59,6 +61,51 @@ class _AddCityChargesState extends State<AddCityCharges> {
     } catch (e) {
       // Handle network errors or exceptions
       print('API request error: $e');
+    }
+  }
+
+  final dio = Dio();
+
+  Future<Map<String, dynamic>?> addCityCharge() async {
+    final dio = Dio();
+
+    try {
+      final response = await dio.post(
+        'https://codecoyapps.com/karr/api/driver/city',
+        queryParameters: {
+          'driver_id': "1",
+          'date': "24 Oct 2023",
+
+          'notes':"test notes" ,
+          'city_id[]': ["1"],
+        },
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+
+      if (response.statusCode == 200) {
+        final status = responseData['status'] as bool;
+        final message = responseData['message'] as String;
+
+        if (status) {
+
+        } else {
+          // Handle the case where login failed
+          print('Login failed: $message');
+          return {
+            'status': status,
+            'message': message,
+          };
+        }
+      } else {
+        // Handle error status codes (e.g., show an error message)
+        print('API request failed with status code ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      // Handle network errors or exceptions
+      print('API request error: $e');
+      return null;
     }
   }
   @override
@@ -128,11 +175,58 @@ class _AddCityChargesState extends State<AddCityCharges> {
             itemBuilder: (context, index) {
               return AddItemView(tolls: cityCharges[index]);
             },)
-              :Text("data"),
+              :CircularProgressIndicator(),
 
+          Spacer(),
+          PrimaryButton(
+              text: "Submit City Charge",
+              onPressed: () async {
+                setState(() {
+                  _isLoading = true; // Start loading
+                });
+                final response = await addCityCharge();
+                if (response != null) {
+                  final status = response['status'] as bool;
+                  final message = response['message'] as String;
+
+                  if (status) {
+                    setState(() {
+                      _isLoading = false; // Start loading
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(' $message'),
+                      ),
+
+                    );
+                    CustomDialogBox.show(context, status, "Toll Submitted", "Great! Your city charge has been submitted successfully.");
+                  }else{
+                    setState(() {
+                      _isLoading = false; // Start loading
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(' $message'),
+                      ),
+
+                    );
+                    CustomDialogBox.show(context, status, "Toll  not Submitted", "Your city charge has not been submitted successfully.");
+                  }
+                }else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('API request failed'),
+                    ),
+                  );
+                  setState(() {
+                    _isLoading = false; // Stop loading
+                  });
+                }
+              })
         ],
 
       ),
+
     )
 
     );

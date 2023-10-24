@@ -8,14 +8,16 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool? obscureText;
+  final bool? focusKeypad;
   final VoidCallback? onTogglePasswordStatus;
+  final VoidCallback? onTap;
 
 
   const CustomTextField({
     required this.controller,
      this.hintText,
     required this.validator,
-    this.keyboardType = TextInputType.text, this.obscureText, this.onTogglePasswordStatus,
+    this.keyboardType = TextInputType.text, this.obscureText, this.onTogglePasswordStatus, this.onTap, this.focusKeypad
   });
 
   @override
@@ -26,10 +28,13 @@ class CustomTextField extends StatelessWidget {
         shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
     ),
+
      child: TextFormField(
       controller: controller,
       validator: validator,
        autofocus: false,
+      onTap: onTap,
+      readOnly: focusKeypad??false,
       keyboardType: keyboardType,
       obscureText:obscureText??false,
 
@@ -39,6 +44,7 @@ class CustomTextField extends StatelessWidget {
 
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(10)
         ),
         suffixIcon: obscureText != null
             ? IconButton(

@@ -25,6 +25,7 @@ class ParkingTicketCard extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return  FlutterTicketWidget(
+
       width: width*0.9,
       height: height*0.26,
       isCornerRounded: true,

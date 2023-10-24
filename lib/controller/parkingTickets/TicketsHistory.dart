@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kaar/controller/home/MyTicketScreen.dart';
+import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/ParkingTicketCard.dart';

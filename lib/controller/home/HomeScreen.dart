@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/carDetails/CarDetails.dart';
 import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
-import 'package:kaar/controller/home/MyTicketScreen.dart';
+import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
 import 'package:kaar/controller/parkingTickets/ParkingTickets.dart';
 import 'package:kaar/controller/profile/ProfileScreen.dart';
 import 'package:kaar/controller/tolls/AddTolls.dart';
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          SizedBox(height: height * 0.01),
+          SizedBox(height: height * 0.04),
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 addNew: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyTicketScreen(),
+                    builder: (context) => Step1Screen(),
                   ),
                 ),
               ),
