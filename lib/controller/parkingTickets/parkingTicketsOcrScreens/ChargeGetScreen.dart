@@ -174,31 +174,32 @@ class _ChargeGetScreenState extends State<ChargeGetScreen> {
             Container(
               child: Column(
                 children: [
-                  Container(
-                    color: Colors.black,
-                    key: _upperContainerKey,// Set the background color of the Center
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(),
-                        SizedBox(height: height * 0.1),
-                        Text(
-                          "Take a picture of the ticket Charge",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: width * 0.07,
+                  Expanded(
+                    child: Container(
+                      color: Colors.black,
+                      key: _upperContainerKey,// Set the background color of the Center
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(),
+                          Text(
+                            "Take a picture of the ticket Charge",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: width * 0.07,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          "Point the camera to the Charge",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: width * 0.05,
+                          SizedBox(height: 20),
+                          Text(
+                            "Point the camera to the Charge",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: width * 0.05,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: height * 0.1),
-                      ],
+                          SizedBox(height: height * 0.1),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: height * 0.15),
