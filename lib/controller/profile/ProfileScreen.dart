@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/login/Login.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,6 +31,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       licensePlate = prefs.getString('license_number');
     });
   }
+  void logOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login(),), (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +45,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100 ,
       appBar: AppBar(
-        automaticallyImplyLeading: true,
         // Set to true if you want the default back arrow
+        elevation: 0,
+
         toolbarHeight: height * 0.09,
         title: Text(
           "Profile",
@@ -52,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         iconTheme: const IconThemeData(color: Colors.black),
         centerTitle: true,
         // Center the title horizontally,
-        backgroundColor: AppColors.white,
+        backgroundColor: Colors.transparent,
       ),
       body: Center(
         child:  Column(
@@ -269,45 +276,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(12),
-
+              Divider(color: Colors.grey,height: 1,),
+              GestureDetector(
+                onTap: logOut,
                 child: Container(
+                  color: AppColors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
 
-                  height: 1, // Adjust the width of the line as needed
-                  color: Colors.black, // Adjust the color of the line as needed
-                ),
-              ),
-              Container(
-                color: AppColors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
+                      children: [
+                        const Icon(
+                          Icons.logout,
+                          color: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Logout",
+                          style: TextStyle(
+                              fontSize: fontSize*1.4,
+                              color: AppColors.black),
+                        ),
 
-                    children: [
-                      const Icon(
-                        Icons.logout,
-                        color: AppColors.primaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Logout",
-                        style: TextStyle(
-                            fontSize: fontSize*1.4,
-                            color: AppColors.black),
-                      ),
-
-                      Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.black,
-                        size: 17,
-                      ),
+                        Spacer(),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.black,
+                          size: 17,
+                        ),
 
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
