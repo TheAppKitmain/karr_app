@@ -32,6 +32,7 @@ class SelectableCard extends StatelessWidget {
       },
       child: Card(
         elevation: 4,
+        margin: EdgeInsets.zero,
         color: selected ? backgroundColor : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

@@ -168,7 +168,7 @@ print(response.data);
                   });
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -183,10 +183,11 @@ print(response.data);
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 1,
@@ -208,6 +209,7 @@ print(response.data);
                       },
                     ),
                   ),
+                  const SizedBox(width: 10),
                   Expanded(
                     flex: 1,
                     child: SelectableCard(
@@ -230,7 +232,7 @@ print(response.data);
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -245,7 +247,7 @@ print(response.data);
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               allTolls.isNotEmpty
@@ -257,10 +259,10 @@ print(response.data);
                         return AddTollsItemView(tolls: allTolls[index]);
                       },
                     )
-                  : CircularProgressIndicator(),
-              Spacer(),
+                  : const CircularProgressIndicator(),
+              const Spacer(),
       _isLoading // Show progress indicator if loading
-          ? CircularProgressIndicator()
+          ? const CircularProgressIndicator()
           : PrimaryButton(
                   text: "Submit Toll",
                   onPressed: () async {
@@ -297,7 +299,7 @@ print(response.data);
                       }
                     }else{
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('API request failed'),
                         ),
                       );

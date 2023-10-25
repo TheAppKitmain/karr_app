@@ -1,18 +1,16 @@
-import 'package:emobility/widgets/sizer.dart';
-import 'package:emobility/widgets/style.dart';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import '../src/utils/constants.dart';
 
-Future<DateTime?> getDatePicker() async {
+Future<DateTime?> getDatePicker(BuildContext context) async {
 
   DateTime? pickedDate;
-  if(GetPlatform.isIOS)
+  if(Platform.isIOS)
   {
     return showCupertinoModalPopup(
-      context: Get.context!, builder: (BuildContext context) {
+      context: context, builder: (BuildContext context) {
       return Container(
         height: 400,
         decoration: const BoxDecoration(
@@ -30,16 +28,14 @@ Future<DateTime?> getDatePicker() async {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(onPressed: (){
-                  Get.back();
+                  Navigator.pop(context);
                 }, child: Text(
                   'Cancel',
-                  style: StyleRefer.poppinsMedium.copyWith(fontSize: 12.sp),
                 )),
                 TextButton(onPressed: (){
-                  Get.back(result: pickedDate);
+                  Navigator.pop(context,pickedDate);
                 }, child: Text(
                   'Done',
-                  style: StyleRefer.poppinsBold.copyWith(fontSize: 14.sp),
                 ))
 
               ],),
@@ -63,7 +59,7 @@ Future<DateTime?> getDatePicker() async {
 
   }
   pickedDate= await showDatePicker(
-    context: Get.context!,
+    context:context,
     initialDate: DateTime(1980),
     firstDate: DateTime(1900),
     //DateTime.now() - not to allow to choose before today.
@@ -72,7 +68,6 @@ Future<DateTime?> getDatePicker() async {
       return Theme(
         data: Theme.of(context).copyWith(
           colorScheme:     const ColorScheme.light(
-            primary: AppColors.arsenic, // <-- SEE HERE
             onPrimary: Colors.white, // <-- SEE HERE
             onSurface: Colors.black, // <-- SEE HERE
           ),

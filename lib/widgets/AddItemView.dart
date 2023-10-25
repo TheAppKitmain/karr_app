@@ -66,6 +66,7 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
                           Icon(
                             Icons.arrow_forward_ios,
                             color: AppColors.primaryColor,
+                            size: 15,
                           ),
                         ],
                       ),

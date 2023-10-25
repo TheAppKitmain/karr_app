@@ -9,6 +9,8 @@ import 'package:intl/intl.dart';
 
 import 'package:kaar/widgets/TicketSubmissionDialog.dart';
 
+import '../../../widgets/date_picker.dart';
+
 class AddTicketManually extends StatefulWidget {
   const AddTicketManually({super.key});
 
@@ -27,13 +29,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
   DateTime? _date;
   Future<void> _selectDate(BuildContext context) async {
 
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-
-    );
+    final DateTime? picked = await getDatePicker(context);
     if (picked != null && picked != _date) {
       setState(() {
         _date = picked;

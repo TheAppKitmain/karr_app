@@ -36,174 +36,176 @@ class _HomeScreenState extends State<HomeScreen> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          SizedBox(height: height * 0.04),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextView(
-                text: "Welcome, $_username!",
-                onPressed: () {},
-              ),
-            ),
-          ),
-          SizedBox(height: height * 0.01),
-          Align(
-            alignment: Alignment.topLeft,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CarDetails()),
-                );
-              },
+        child: SingleChildScrollView(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            SizedBox(height: height * 0.04),
+            Align(
+              alignment: Alignment.topLeft,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Container(
-                  width: 170,
-                  height: height * 0.060,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.primaryColor),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _car_number,
-                        style: TextStyle(
-                            fontSize: width * 0.04,
-                            color: AppColors.primaryColor),
-                      ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.primaryColor,
-                      ),
-                    ],
+                child: TextView(
+                  text: "Welcome, $_username!",
+                  onPressed: () {},
+                ),
+              ),
+            ),
+            SizedBox(height: height * 0.01),
+            Align(
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CarDetails()),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                    width: 170,
+                    height: height * 0.060,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.primaryColor),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _car_number,
+                          style: TextStyle(
+                              fontSize: width * 0.04,
+                              color: AppColors.primaryColor),
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.primaryColor,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: height * 0.020),
-          Wrap(
-            runSpacing: height * .010,
-            spacing: 10,
-            children: [
-              HomeScreenCard(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ParkingTickets(),
+            SizedBox(height: height * 0.020),
+            Wrap(
+              runSpacing: height * .010,
+              spacing: 10,
+              children: [
+                HomeScreenCard(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ParkingTickets(),
+                    ),
+                  ),
+                  addNew: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Step1Screen(),
+                    ),
                   ),
                 ),
-                addNew: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Step1Screen(),
-                  ),
-                ),
-              ),
-              HomeScreenCard(
-                  image: 'assets/png/tolls.png',
-                  title: 'Toll',
-                  des: 'Create new tolls and check all tolls.',
-                  cardColor: AppColors.blue,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AllTolls(),
-                  ),
-                ),
-                addNew: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddTolls(),
-                  ),
-                ),
-              ),
-              HomeScreenCard(
-                  image: 'assets/png/city_charges.png',
-                  title: 'City Charges',
-                  des: 'Create new Charges and check status of all chargess',
-                  cardColor: AppColors.yellow,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CityCharges(),
-                  ),
-                ),
-                addNew: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddCityCharges(),
-                  ),
-                ),
-              ),
-              HomeScreenCard(
-                  image: 'assets/png/notes.png',
-                  title: 'Notes',
-                  des: 'Create new notes and check all notes your created.',
-                  cardColor: AppColors.pink,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ParkingTickets(),
-                  ),
-                ),
-                addNew: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyTicketScreen(),
-                  ),
-                ),)
-            ],
-          ),
-          /*Row(
-            children: [
-              // Card 1
-              Expanded(
-                flex: 1,
-                child: HomeScreenCard(),
-              ),
-              SizedBox(width: 8),
-              // Card 2
-              Expanded(
-                flex: 1,
-                child: HomeScreenCard(
+                HomeScreenCard(
                     image: 'assets/png/tolls.png',
                     title: 'Toll',
                     des: 'Create new tolls and check all tolls.',
-                    cardColor: AppColors.blue),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              // Card 3
-              Expanded(
-                flex: 1,
-                child: HomeScreenCard(
+                    cardColor: AppColors.blue,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AllTolls(),
+                    ),
+                  ),
+                  addNew: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddTolls(),
+                    ),
+                  ),
+                ),
+                HomeScreenCard(
                     image: 'assets/png/city_charges.png',
                     title: 'City Charges',
                     des: 'Create new Charges and check status of all chargess',
-                    cardColor: AppColors.yellow),
-              ),
-              SizedBox(width: 8),
-              // Card 4
-              Expanded(
-                flex: 1,
-                child: HomeScreenCard(
+                    cardColor: AppColors.yellow,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CityCharges(),
+                    ),
+                  ),
+                  addNew: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddCityCharges(),
+                    ),
+                  ),
+                ),
+                HomeScreenCard(
                     image: 'assets/png/notes.png',
                     title: 'Notes',
                     des: 'Create new notes and check all notes your created.',
-                    cardColor: AppColors.pink),
-              ),
-            ],
-          ),*/
-        ]),
+                    cardColor: AppColors.pink,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ParkingTickets(),
+                    ),
+                  ),
+                  addNew: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyTicketScreen(),
+                    ),
+                  ),)
+              ],
+            ),
+            /*Row(
+              children: [
+                // Card 1
+                Expanded(
+                  flex: 1,
+                  child: HomeScreenCard(),
+                ),
+                SizedBox(width: 8),
+                // Card 2
+                Expanded(
+                  flex: 1,
+                  child: HomeScreenCard(
+                      image: 'assets/png/tolls.png',
+                      title: 'Toll',
+                      des: 'Create new tolls and check all tolls.',
+                      cardColor: AppColors.blue),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                // Card 3
+                Expanded(
+                  flex: 1,
+                  child: HomeScreenCard(
+                      image: 'assets/png/city_charges.png',
+                      title: 'City Charges',
+                      des: 'Create new Charges and check status of all chargess',
+                      cardColor: AppColors.yellow),
+                ),
+                SizedBox(width: 8),
+                // Card 4
+                Expanded(
+                  flex: 1,
+                  child: HomeScreenCard(
+                      image: 'assets/png/notes.png',
+                      title: 'Notes',
+                      des: 'Create new notes and check all notes your created.',
+                      cardColor: AppColors.pink),
+                ),
+              ],
+            ),*/
+          ]),
+        ),
       ),
       bottomNavigationBar: CustomBottomNavigation(
         onHomeTap: () {

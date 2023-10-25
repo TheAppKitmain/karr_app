@@ -62,7 +62,7 @@ class AllTollsItemView extends StatelessWidget {
                     Icon(
                       Icons.arrow_forward_ios,
                       color: AppColors.primaryColor,
-
+                      size: 15,
                     ),
 
                   ],

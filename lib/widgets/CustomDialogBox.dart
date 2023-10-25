@@ -23,47 +23,55 @@ class CustomDialogBox {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-            content: Align(
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            child: Align(
               alignment: Alignment.bottomCenter,
-              child: Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                color: Colors.transparent,
-                margin: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Lottie.asset(
-                      'assets/json/success_animation.json',
-                      width: animationWidth,
-                      height: animationHeight,
-                    ),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontFamily: "Lato",
-                        fontSize: fontSizeTitle,
+              child: Container(
+                height: height*0.6,
+                child: Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+
+                      Lottie.asset(
+                        'assets/json/success_animation.json',
+                        width: animationWidth,
+                        height: animationHeight,
                       ),
-                    ),
-                    Text(
-                      description,
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontFamily: "Lato-Regular",
-                        fontSize: fontSizeDescription,
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: AppColors.black,
+                          fontFamily: "Lato",
+                          fontSize: fontSizeTitle,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: buttonHeight),
-                    PrimaryButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => HomeScreen("kyle", " mt9 2291")),
-                        );
-                      },
-                      text: 'Go to Home Screen',
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          description,
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontFamily: "Lato-Regular",
+                            fontSize: fontSizeDescription,
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      PrimaryButton(
+
+
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => HomeScreen("kyle", " mt9 2291")),
+                          );
+                        },
+                        text: 'Go to Home Screen',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

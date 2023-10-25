@@ -18,13 +18,12 @@ class AddNoteDialog {
       showCupertinoDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-            content: Container(
-              height: height * 0.42,
-              color: Colors.transparent,
-              child: Card(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            child: Card(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              child: Container(
+                height: height * 0.42,
                 margin: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -45,14 +44,19 @@ class AddNoteDialog {
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           hintText: "  Notes...",
+                          hintStyle: TextStyle(color: Colors.grey.shade300),
                         ),
                         maxLines: 8,
                       ),
                     ),
                     Spacer(),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         TextButton(
+
+                        Container(
+                          width: buttonWidth,
+                          child: TextButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -65,7 +69,7 @@ class AddNoteDialog {
                                   width: 1,
                                 ),
                               ),
-                              minimumSize: Size(buttonWidth, 0),
+
                             ),
                             child:  Padding(
                               padding: EdgeInsets.symmetric(vertical: 10),
@@ -79,36 +83,37 @@ class AddNoteDialog {
                               ),
                             ),
                           ),
+                        ),
 
                         SizedBox(width: 10),
-                         TextButton(
-                            onPressed: () {
-                              onSave!(_noteController.text);
-                              Navigator.pop(context);
-                            },
-                            style: TextButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                side: const BorderSide(
-                                  color: AppColors.primaryColor,
-                                  width: 1,
-                                ),
+                        TextButton(
+                          onPressed: () {
+                            onSave!(_noteController.text);
+                            Navigator.pop(context);
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(
+                                color: AppColors.primaryColor,
+                                width: 1,
                               ),
-                              minimumSize: Size(buttonWidth, 0),
                             ),
-                            child:  Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Text(
-                                "Save",
-                                style: TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: fontSize,
-                                  fontFamily: 'latoblack',
-                                ),
+                            minimumSize: Size(buttonWidth, 0),
+                          ),
+                          child:  Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              "Save",
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: fontSize,
+                                fontFamily: 'latoblack',
                               ),
                             ),
                           ),
+                        ),
 
                       ],
                     ),
