@@ -33,6 +33,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       validator: validator,
        autofocus: false,
+      autocorrect: false,
       onTap: onTap,
       readOnly: focusKeypad??false,
       keyboardType: keyboardType,

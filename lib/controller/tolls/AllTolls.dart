@@ -28,7 +28,7 @@ class _AllTollsState extends State<AllTolls> {
 
     try {
       final response = await dio.get(
-        'https://codecoyapps.com/karr/api/toll',
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/toll',
       );
 
       final responseData = response.data as Map<String, dynamic>;

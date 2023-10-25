@@ -26,7 +26,7 @@ class _CityChargesState extends State<CityCharges> {
 
     try {
       final response = await dio.get(
-        'https://codecoyapps.com/karr/api/city',
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/city',
       );
 
       final responseData = response.data as Map<String, dynamic>;

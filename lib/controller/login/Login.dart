@@ -35,7 +35,7 @@ class _loginScreenState extends State<Login> {
 
     try {
       final response = await dio.post(
-        'https://codecoyapps.com/karr/api/login',
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/login',
         queryParameters: {
           'number': number,
           'password': password,

@@ -26,7 +26,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
 
     try {
       final response = await dio.get(
-        'https://codecoyapps.com/karr/api/city',
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/city',
       );
 
       final responseData = response.data as Map<String, dynamic>;
@@ -77,7 +77,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
 
     try {
       final response = await dio.post(
-        'https://codecoyapps.com/karr/api/driver/city',
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/driver/city',
         queryParameters: {
           'driver_id': 1,
           'date': "24 Oct 2023",

@@ -24,7 +24,7 @@ class _AddTollsState extends State<AddTolls> {
 
     try {
       final response = await dio.get(
-        'https://codecoyapps.com/karr/api/toll',
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/toll',
       );
 
       final responseData = response.data as Map<String, dynamic>;
@@ -65,7 +65,7 @@ class _AddTollsState extends State<AddTolls> {
 
     try {
       final response = await dio.post(
-        'https://codecoyapps.com/karr/api/driver/toll',
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/driver/toll',
         queryParameters: {
           'driver_id': 1,
           'date': "24 Oct 2023",
