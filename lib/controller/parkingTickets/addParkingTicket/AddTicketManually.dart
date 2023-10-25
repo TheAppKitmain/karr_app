@@ -6,6 +6,7 @@ import 'package:kaar/widgets/CustomTextField.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/TextView.dart';
 import 'package:intl/intl.dart';
+
 import 'package:kaar/widgets/TicketSubmissionDialog.dart';
 
 class AddTicketManually extends StatefulWidget {
@@ -31,6 +32,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+
     );
     if (picked != null && picked != _date) {
       setState(() {

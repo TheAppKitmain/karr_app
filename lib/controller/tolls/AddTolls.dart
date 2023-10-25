@@ -115,7 +115,7 @@ print(response.data);
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
+    final fontSize = width * 0.04;
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
@@ -127,7 +127,7 @@ print(response.data);
           title: Text(
             "Add Tolls",
             style: TextStyle(
-                fontSize: width * 0.05,
+                fontSize: fontSize,
                 color: AppColors.black // Adjust the title text size as needed
                 ),
           ),
@@ -137,7 +137,7 @@ print(response.data);
           iconTheme: const IconThemeData(color: Colors.black),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
               Row(
@@ -145,7 +145,7 @@ print(response.data);
                   Text(
                     "Select Day",
                     style: TextStyle(
-                        fontSize: width * 0.04,
+                        fontSize: fontSize,
                         fontFamily: "Lato",
                         color: AppColors.black),
                     textAlign: TextAlign.start,
@@ -176,7 +176,7 @@ print(response.data);
                   Text(
                     "Select Number of Trips",
                     style: TextStyle(
-                        fontSize: width * 0.04,
+                        fontSize: fontSize,
                         fontFamily: "Lato",
                         color: AppColors.black),
                     textAlign: TextAlign.start,
@@ -195,6 +195,7 @@ print(response.data);
                       backgroundColor: AppColors.primaryColor,
                       textColor: Colors.white,
                       iconColor: Colors.white,
+                      icon:'assets/png/one_way.png',
                       selected: selectedCardIndex == 0,
                       onSelected: (selected) {
                         setState(() {
@@ -214,6 +215,7 @@ print(response.data);
                       backgroundColor: AppColors.primaryColor,
                       textColor: Colors.white,
                       iconColor: Colors.white,
+                      icon:'assets/png/two_way.png',
                       selected: selectedCardIndex == 1,
                       onSelected: (selected) {
                         setState(() {
@@ -236,7 +238,7 @@ print(response.data);
                   Text(
                     "Select Charge",
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: fontSize,
                         fontFamily: "Lato",
                         color: AppColors.black),
                     textAlign: TextAlign.start,

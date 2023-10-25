@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class SelectableCard extends StatelessWidget {
   final String title;
+  final String icon;
   final Color backgroundColor;
   final Color textColor;
   final Color iconColor;
@@ -11,6 +12,7 @@ class SelectableCard extends StatelessWidget {
 
   SelectableCard({
     required this.title,
+    required this.icon,
     required this.backgroundColor,
     required this.textColor,
     required this.iconColor,
@@ -20,13 +22,17 @@ class SelectableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final iconSize = width * 0.06; // Adjust as needed
+    final fontSize = width * 0.03; // Adjust as needed
+
     return GestureDetector(
       onTap: () {
         onSelected(!selected);
       },
       child: Card(
         elevation: 4,
-        color: selected ? backgroundColor : Colors.white, // Use the default color here
+        color: selected ? backgroundColor : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -35,17 +41,17 @@ class SelectableCard extends StatelessWidget {
           child: Row(
             children: [
               Image.asset(
-                'assets/png/one_way.png',
-                width: 24,
-                height: 24,
-                color: selected ? iconColor : Colors.white, // Use the default icon color here
+                icon,
+                width: iconSize,
+                height: iconSize,
+                color: selected ? iconColor : Colors.black,
               ),
               SizedBox(width: 10),
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 16,
-                  color: selected ? textColor : Colors.black, // Use the default text color here
+                  fontSize: fontSize,
+                  color: selected ? textColor : Colors.black,
                 ),
               ),
             ],

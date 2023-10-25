@@ -21,7 +21,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
   List<Charges> cityCharges = [];
   bool _isLoading = false;
 
-  Future<void> fetchallTolls() async {
+  Future<void> fetchallCityCharges() async {
     final dio = Dio();
 
     try {
@@ -36,7 +36,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
         final message = responseData['message'] as String;
 
         if (status) {
-          final chargeJson = responseData['tolls'];
+          final chargeJson = responseData['charges'];
           if (chargeJson != null) {
             chargeJson.forEach((v) {
               cityCharges.add( Charges.fromJson(v));
@@ -64,6 +64,12 @@ class _AddCityChargesState extends State<AddCityCharges> {
     }
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchallCityCharges();
+  }
   final dio = Dio();
 
   Future<Map<String, dynamic>?> addCityCharge() async {
@@ -73,11 +79,11 @@ class _AddCityChargesState extends State<AddCityCharges> {
       final response = await dio.post(
         'https://codecoyapps.com/karr/api/driver/city',
         queryParameters: {
-          'driver_id': "1",
+          'driver_id': 1,
           'date': "24 Oct 2023",
 
           'notes':"test notes" ,
-          'city_id[]': ["1"],
+          'city_id[]': ["2"],
         },
       );
 
@@ -112,15 +118,16 @@ class _AddCityChargesState extends State<AddCityCharges> {
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
+    final fontSize = width * 0.04;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-        toolbarHeight: 60,
-        title: const Text(
+          toolbarHeight: height * 0.08,
+        title:  Text(
         "Add City Chargess",
         style: TextStyle(
-        fontSize: 20,
+            fontSize: fontSize,
         color: AppColors.black // Adjust the title text size as needed
     ),
 
@@ -132,15 +139,15 @@ class _AddCityChargesState extends State<AddCityCharges> {
 
     ),
       body: Padding(
-    padding: const EdgeInsets.all(30.0),
+    padding:  EdgeInsets.all(15.0),
 
     child:Column(
 
         children:[
 
-          const Text("Select Days", style: TextStyle(
-              fontSize: 18, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
-          const SizedBox(height: 20,),
+           Text("Select Days", style: TextStyle(
+              fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+           SizedBox(height: height*0.01,),
           DatePicker(
 
             DateTime.now(),
@@ -161,21 +168,18 @@ class _AddCityChargesState extends State<AddCityCharges> {
           Row(
             children: [
               Text("Select Charge", style: TextStyle(
-                  fontSize: 16, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                  fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
             ],
           ),
           SizedBox(height: 10,),
-          cityCharges.isNotEmpty?
-
-
-          ListView.builder(
+          cityCharges.isNotEmpty
+         ? ListView.builder(
             itemCount: cityCharges.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return AddItemView(tolls: cityCharges[index]);
-            },)
-              :CircularProgressIndicator(),
+            },) :CircularProgressIndicator(),
 
           Spacer(),
           PrimaryButton(
@@ -199,7 +203,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
                       ),
 
                     );
-                    CustomDialogBox.show(context, status, "Toll Submitted", "Great! Your city charge has been submitted successfully.");
+                    CustomDialogBox.show(context, status, "City Charge Submitted", "Great! Your city charge has been submitted successfully.");
                   }else{
                     setState(() {
                       _isLoading = false; // Start loading
@@ -210,7 +214,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
                       ),
 
                     );
-                    CustomDialogBox.show(context, status, "Toll  not Submitted", "Your city charge has not been submitted successfully.");
+                    CustomDialogBox.show(context, status, "City Charge  not Submitted", "Your city charge has not been submitted successfully.");
                   }
                 }else{
                   ScaffoldMessenger.of(context).showSnackBar(
