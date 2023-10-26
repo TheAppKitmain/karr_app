@@ -114,7 +114,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                             }
                             return null;
                           },
-                          keyboardType: TextInputType.phone,
+                          keyboardType: TextInputType.numberWithOptions(decimal: true),
                         ),
 
                       const SizedBox(height: 20),

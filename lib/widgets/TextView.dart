@@ -14,8 +14,8 @@ class TextView extends StatelessWidget {
       text,
       style: const TextStyle(
         color: Colors.black,
-        fontSize: 16,
-        fontFamily: 'latoblod',
+        fontSize: 18,
+        fontFamily: 'Lato',
       ),
        textAlign:TextAlign.left,
     );

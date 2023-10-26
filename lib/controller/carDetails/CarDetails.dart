@@ -1,6 +1,9 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/carDetails/carDetailDataClass/CarDetailDataClass.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CarDetails extends StatefulWidget {
   @override
@@ -10,6 +13,60 @@ class CarDetails extends StatefulWidget {
 class _CarDetailsState extends State<CarDetails> {
   String? param_name;
   String? param_value;
+  String? licensePlate;
+  CarDetailDataClass? cardetailResponse;
+
+  void loadUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+
+      licensePlate = prefs.getString('license_number');
+    });
+  }
+  Future<CarDetailDataClass?> fetchCarDetails() async {
+    final dio = Dio();
+
+    try {
+      final response = await dio.post(
+        'https://dvlasearch.appspot.com/DvlaSearch',
+        queryParameters: {
+          'apikey': "LkN2tlDSFnZZ5zQp",
+          'licencePlate': "mt09nks",
+
+        },
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+
+      if (response.statusCode == 200) {
+
+
+        final cardetailresponse=CarDetailDataClass.fromJson(responseData);
+        setState(() {
+
+        });
+        cardetailResponse=CarDetailDataClass.fromJson(responseData);
+        return cardetailresponse;
+
+
+      } else {
+        // Handle error status codes (e.g., show an error message)
+        print('tolls screen :API request failed with status code ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      // Handle network errors or exceptions
+      print('tolls screen :API request error: $e');
+      return null;
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadUserDetails();
+    fetchCarDetails();
+  }
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
@@ -56,7 +113,7 @@ class _CarDetailsState extends State<CarDetails> {
               ),
               SizedBox(height: 30),
               Text(
-                "NM08 WUD",
+                licensePlate??"N/A",
                 style: TextStyle(
                     color: AppColors.primaryColor,
                     fontSize: height*0.03,
@@ -68,25 +125,25 @@ class _CarDetailsState extends State<CarDetails> {
     padding: EdgeInsets.symmetric(horizontal: 20),
     child: Center(
     child: Column(children: [
-            CustomVehicleDetailWidget(param_name: "Vehicle Make", param_value: "BMW"),
+            CustomVehicleDetailWidget(param_name: "Vehicle Make", param_value: cardetailResponse?.make??'N/A' ),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Date of Registration", param_value: "November 2013"),
+            CustomVehicleDetailWidget(param_name: "Date of Registration", param_value: cardetailResponse?.dateOfFirstRegistration??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Year of Manufacture", param_value: "2013"),
+            CustomVehicleDetailWidget(param_name: "Year of Manufacture", param_value: cardetailResponse?.yearOfManufacture??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Cylinder Capacity", param_value: "1598 Cc"),
+            CustomVehicleDetailWidget(param_name: "Cylinder Capacity", param_value: cardetailResponse?.cylinderCapacity??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "CO2 Emissions", param_value: "131 G/Km"),
+            CustomVehicleDetailWidget(param_name: "CO2 Emissions", param_value: cardetailResponse?.co2Emissions??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Fuel Type", param_value: "Petrol"),
+            CustomVehicleDetailWidget(param_name: "Fuel Type", param_value: cardetailResponse?.fuelType??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Euro Status", param_value: "Not Applicable"),
+            CustomVehicleDetailWidget(param_name: "WheelPlan", param_value: cardetailResponse?.wheelPlan??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Real Driving Emissions", param_value: "Not Applicable"),
+            CustomVehicleDetailWidget(param_name: "Colour", param_value: cardetailResponse?.colour??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Export Maker", param_value: "No"),
+            CustomVehicleDetailWidget(param_name: "Model", param_value: cardetailResponse?.model??"N/A"),
       SizedBox(height: 30),
-            CustomVehicleDetailWidget(param_name: "Vehicle Status", param_value: "Taxed"),
+            CustomVehicleDetailWidget(param_name: "Vehicle taxed Status", param_value: cardetailResponse?.taxed.toString()??"N/A"),
       SizedBox(height: 30),
     ]
     )
@@ -117,11 +174,11 @@ class CustomVehicleDetailWidget extends StatelessWidget {
     double width=MediaQuery.of(context).size.width;
     return Row(children: [
       Text(param_name, style: TextStyle(
-          fontSize: width*0.04 , fontFamily: "Lato-Regular", color: AppColors.black),),
+          fontSize: width*0.035 , fontFamily: "Lato-Regular", color: AppColors.black),),
 
       Spacer(),
       Text(param_value, style: TextStyle(
-          fontSize: width*0.04, fontFamily: "Lato", color: AppColors.black),),
+          fontSize: width*0.035, fontFamily: "Lato", color: AppColors.black),),
       ]
     );
   }

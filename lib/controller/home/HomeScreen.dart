@@ -37,57 +37,86 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center, children: [
             SizedBox(height: height * 0.04),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextView(
-                  text: "Welcome, $_username!",
-                  onPressed: () {},
+            Center(
+              child:  Image.asset(
+                  'assets/png/kaar_logo.png',
+                  // Replace with your image asset path
+                  width: width*0.2,
+                  height: 80,
                 ),
-              ),
+
             ),
-            SizedBox(height: height * 0.01),
-            Align(
-              alignment: Alignment.topLeft,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CarDetails()),
-                  );
-                },
+            Row(
+              children:[
+
+                Align(
+                alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
-                    width: 170,
-                    height: height * 0.060,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primaryColor),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          _car_number,
-                          style: TextStyle(
-                              fontSize: width * 0.04,
-                              color: AppColors.primaryColor),
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.primaryColor,
-                        ),
-                      ],
-                    ),
+                  child: TextView(
+                    text: "Welcome, $_username!",
+
+                    onPressed: () {},
                   ),
                 ),
               ),
+                Spacer(),
+                CircleAvatar(
+
+                  backgroundColor: Colors.white,
+                  child: Image.asset(
+                    'assets/png/profile_test.png',
+                    // Replace with your image asset path
+                    width: 40,
+                    height: 40,
+
+                  ),
+                ),
+                SizedBox(width: 20,),
+          ]
             ),
+            SizedBox(height: height * 0.01),
+            // Align(
+            //   alignment: Alignment.topLeft,
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => CarDetails()),
+            //       );
+            //     },
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 10),
+            //       child: Container(
+            //         width: 170,
+            //         height: height * 0.060,
+            //         decoration: BoxDecoration(
+            //           border: Border.all(color: AppColors.primaryColor),
+            //           borderRadius: BorderRadius.circular(8),
+            //         ),
+            //         padding: const EdgeInsets.all(10),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //           children: [
+            //             Text(
+            //               _car_number,
+            //               style: TextStyle(
+            //                   fontSize: width * 0.04,
+            //                   color: AppColors.primaryColor),
+            //             ),
+            //             const Icon(
+            //               Icons.arrow_forward_ios,
+            //               color: AppColors.primaryColor,
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: height * 0.020),
             Wrap(
               runSpacing: height * .010,
@@ -148,62 +177,53 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: 'Notes',
                     des: 'Create new notes and check all notes your created.',
                     cardColor: AppColors.pink,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ParkingTickets(),
+                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(' Notes under working'),
                     ),
+
                   ),
-                  addNew: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyTicketScreen(),
+                  addNew: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(' Notes under working'),
                     ),
-                  ),)
-              ],
-            ),
-            /*Row(
-              children: [
-                // Card 1
-                Expanded(
-                  flex: 1,
-                  child: HomeScreenCard(),
-                ),
-                SizedBox(width: 8),
-                // Card 2
-                Expanded(
-                  flex: 1,
-                  child: HomeScreenCard(
-                      image: 'assets/png/tolls.png',
-                      title: 'Toll',
-                      des: 'Create new tolls and check all tolls.',
-                      cardColor: AppColors.blue),
-                ),
+
+                  ),
+                )
               ],
             ),
             Row(
-              children: [
-                // Card 3
-                Expanded(
-                  flex: 1,
-                  child: HomeScreenCard(
-                      image: 'assets/png/city_charges.png',
-                      title: 'City Charges',
-                      des: 'Create new Charges and check status of all chargess',
-                      cardColor: AppColors.yellow),
+              children:[
+                Padding(
+                  padding: const EdgeInsets.only(left:12.0,top: 12.0),
+                  child: TextView(
+                  text: "Recent Activity",
+
+                  onPressed: () {},
+              ),
                 ),
-                SizedBox(width: 8),
-                // Card 4
-                Expanded(
-                  flex: 1,
-                  child: HomeScreenCard(
-                      image: 'assets/png/notes.png',
-                      title: 'Notes',
-                      des: 'Create new notes and check all notes your created.',
-                      cardColor: AppColors.pink),
+          ]
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
                 ),
-              ],
-            ),*/
+                child: Column(children: [
+                  RecentActivityCard(
+                    title: 'Profile Ticket Added',
+                    showDivider: true,
+                  ),
+                  RecentActivityCard(
+                    title: 'Toll Added',
+                    showDivider: false,
+                  ),
+                ],),
+              ),
+            ),
+
           ]),
         ),
       ),
@@ -352,6 +372,54 @@ class HomeScreenCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+class RecentActivityCard extends StatelessWidget {
+  final String title;
+  final bool showDivider;
+
+  RecentActivityCard({required this.title, required this.showDivider});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 12.0, // Adjust the size of the circle image
+                backgroundColor: AppColors.primaryColor, // Change the background color
+                child: Icon(
+                  Icons.circle, // You can use an image here
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(width: 16.0), // Adjust the spacing
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 14,
+
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (showDivider)
+          Row(
+            children:[ Container(
+              margin: EdgeInsets.symmetric(horizontal: 18.0),
+              height: 30.0,
+              width: 2,
+              color: AppColors.primaryColor, // Color of the vertical line
+            ),
+    ]
+          ),
+      ],
     );
   }
 }

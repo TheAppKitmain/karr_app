@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/carDetails/CarDetails.dart';
 import 'package:kaar/controller/login/Login.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -87,39 +88,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 15),
-                        Container(
-                          width: 150,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey.shade500, // Border color
-                              // Border width
-                            ),
-                            borderRadius: BorderRadius.circular(
-                                25), // Adjust the radius as needed
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child:
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.edit,
-                                  color: AppColors.black,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Edit Profile",
-                                  style: TextStyle(
-                                      fontSize: width * 0.04,
-                                      color: AppColors.black),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        SizedBox(height: 25),
+                        // Container(
+                        //   width: 150,
+                        //   decoration: BoxDecoration(
+                        //     border: Border.all(
+                        //       color: Colors.grey.shade500, // Border color
+                        //       // Border width
+                        //     ),
+                        //     borderRadius: BorderRadius.circular(
+                        //         25), // Adjust the radius as needed
+                        //   ),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(12),
+                        //     child:
+                        //     Row(
+                        //       children: [
+                        //         const Icon(
+                        //           Icons.edit,
+                        //           color: AppColors.black,
+                        //         ),
+                        //         SizedBox(
+                        //           width: 10,
+                        //         ),
+                        //         Text(
+                        //           "Edit Profile",
+                        //           style: TextStyle(
+                        //               fontSize: width * 0.04,
+                        //               color: AppColors.black),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     )),
               ),
@@ -177,6 +178,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CarDetails()),
+                  );
+                },
+                child: Container(
+                  color: AppColors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+
+                      children: [
+                        Image.asset(
+                          'assets/png/license_plate.png',
+                          color: AppColors.black,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          licensePlate??"License plate",
+                          style: TextStyle(
+                              fontSize: fontSize*1.4,
+                              color: AppColors.black),
+                        ),
+
+                        Spacer(),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.black,
+                          size: 17,
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(height: 10,),
               Container(
                 color: AppColors.white,
@@ -211,71 +252,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: AppColors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-
-                    children: [
-                    Image.asset(
-                    'assets/png/license_plate.png',
-                    ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "License Plate",
-                        style: TextStyle(
-                            fontSize: fontSize*1.4,
-                            color: AppColors.black),
-                      ),
-
-                      Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.black,
-                        size: 17,
-                      ),
 
 
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                color: AppColors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-
-                    children: [
-                      const Icon(
-                        Icons.support_agent,
-                        color: AppColors.primaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Customer support",
-                        style: TextStyle(
-                            fontSize: fontSize*1.4,
-                            color: AppColors.black),
-                      ),
-
-                      Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.black,
-                        size: 17,
-                      ),
-
-
-                    ],
-                  ),
-                ),
-              ),
               Divider(color: Colors.grey,height: 1,),
               GestureDetector(
                 onTap: logOut,

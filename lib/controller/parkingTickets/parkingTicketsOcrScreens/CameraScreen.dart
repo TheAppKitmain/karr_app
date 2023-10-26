@@ -26,6 +26,7 @@ class _CameraScreenState extends State<CameraScreen> {
   TextEditingController textController = TextEditingController();
   String scannedText = "";
   int tab = 0;
+  File? cropImage;
   @override
   void initState() {
     super.initState();
@@ -91,6 +92,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
       File(image.path).writeAsBytesSync(img.encodeJpg(croppedImage));
       final croppedXFile = XFile(image.path);
+      cropImage = File(image.path);
       getRecognisedText(croppedXFile);
       // You can use the croppedImagePath as needed for further processing or display.
     } catch (e) {
@@ -147,6 +149,12 @@ class _CameraScreenState extends State<CameraScreen> {
                       ),
                     ),
                   ),
+
+                    Image.file(
+                      cropImage!,
+                      width: 200, // Adjust the width as needed
+                      height: 200, // Adjust the height as needed
+                    ),
 
                   SizedBox(height: 10),
 
