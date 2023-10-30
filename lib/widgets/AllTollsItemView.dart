@@ -2,16 +2,15 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.dart';
-import 'package:kaar/controller/tolls/dataClass/TollsDataClass.dart';
-import 'package:kaar/utils/Constants.dart';
-import 'package:kaar/widgets/flutter_ticket_widget.dart';
-import 'package:dotted_line/dotted_line.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 
-import 'package:flutter/material.dart';
+
+import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/UpdateNoteDialog.dart';
+
 
 class AllTollsItemView extends StatelessWidget {
-  final Toll tolls;
+  final Tolls tolls;
 
 
 
@@ -48,24 +47,28 @@ class AllTollsItemView extends StatelessWidget {
 
                 SizedBox(height: 20,),
 
-                    Text('${tolls.days}',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
+                    Text('${tolls.date}',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
 
                 SizedBox(height: 10,),
-                Row(
-
-                  children: [
-                    Text(
-                      'See Note',
-                      style: TextStyle(
-                          fontSize: width*0.035, color: AppColors.primaryColor),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.primaryColor,
-                      size: 15,
-                    ),
-
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    UpdateNoteDialog.show(context, tolls.pd.toString(),tolls.notes.toString(),"pd", (v) {
+                      tolls.notes = v; //note added for this item
+                    });
+                  },
+                  child: Row(
+                    children: const [
+                      Text(
+                        'See Note',
+                        style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: AppColors.primaryColor,
+                        size: 15,
+                      ),
+                    ],
+                  ),
                 ),
 
               ],

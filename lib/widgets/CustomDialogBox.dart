@@ -25,9 +25,7 @@ class CustomDialogBox {
         builder: (BuildContext context) {
           return Dialog(
             backgroundColor: Colors.transparent,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
+            child:  Container(
                 height: height*0.6,
                 child: Card(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -74,7 +72,7 @@ class CustomDialogBox {
                   ),
                 ),
               ),
-            ),
+
           );
         },
       );

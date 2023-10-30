@@ -6,6 +6,7 @@ import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ReviewDe
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/DateGetScreen.dart';
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ChargeGetScreen.dart';
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/CameraScreen.dart';
+import 'package:kaar/widgets/CustomSnackBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyTicketScreen extends StatefulWidget {
@@ -188,10 +189,11 @@ class Step1Screen extends StatelessWidget {
               SizedBox(height: height * 0.04),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyTicketScreen()),
-                  );
+                  CustomSnackBar.showSnackBar(context,"Ocr Under Construction");
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => MyTicketScreen()),
+                  // );
                 },
                 child: Card(
                   color: AppColors.white,

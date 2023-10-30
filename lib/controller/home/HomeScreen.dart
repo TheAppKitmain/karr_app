@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/Notes/NotesScreen.dart';
+import 'package:kaar/controller/Notes/testnote/TestNoteScreen.dart';
 import 'package:kaar/controller/carDetails/CarDetails.dart';
 import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
 import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
@@ -39,13 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center, children: [
-            SizedBox(height: height * 0.04),
+
             Center(
               child:  Image.asset(
                   'assets/png/kaar_logo.png',
                   // Replace with your image asset path
-                  width: width*0.2,
-                  height: 80,
+                  width: width*0.3,
+                  height: 120,
                 ),
 
             ),
@@ -177,17 +179,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: 'Notes',
                     des: 'Create new notes and check all notes your created.',
                     cardColor: AppColors.pink,
-                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(' Notes under working'),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TestNoteScreen(),
                     ),
-
                   ),
-                  addNew: () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(' Notes under working'),
+                  addNew: () =>  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TestNoteScreen(),
                     ),
-
                   ),
                 )
               ],

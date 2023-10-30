@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/parkingTickets/TicketsPaidDetails.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/controller/parkingTickets/TicketsHistory.dart';
 
@@ -50,13 +51,15 @@ class ParkingTickets extends StatelessWidget {
         ),
         body: TabBarView(children: [
           TicketHistory(),
-          const Center( child: Text("All Tickets",style: TextStyle(fontSize: 50),)),
+          TicketsPaidDetails(),
 
         ]),
       ),
     );
   }
 }
+
+
 
 class TabBardemo extends StatelessWidget {
   @override

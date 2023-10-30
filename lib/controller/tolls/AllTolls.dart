@@ -1,13 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 
 import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.dart';
 import 'package:kaar/controller/tolls/AddTolls.dart';
-import 'package:kaar/controller/tolls/dataClass/TollsDataClass.dart';
+
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/AllTollsItemView.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AllTolls extends StatefulWidget {
@@ -17,18 +19,34 @@ class AllTolls extends StatefulWidget {
 
 class _AllTollsState extends State<AllTolls> {
   List<String> gameList = [ "Date", "City"];
-  List<Toll> allTolls = [];
+  List<Tolls> allTolls = [];
 
 
   var selectedValue;
+  String? userid;
+  @override
+  void initState() {
+    super.initState();
+    loadUserDetails();
+  }
 
+  void loadUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userid = prefs.getString('userid');
+      fetchallTolls();
+    });
+  }
 
   Future<void> fetchallTolls() async {
     final dio = Dio();
 
     try {
-      final response = await dio.get(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/toll',
+      final response = await dio.post(
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/recent/activity',
+        queryParameters: {
+          "driver_id": userid,
+        },
       );
 
       final responseData = response.data as Map<String, dynamic>;
@@ -42,7 +60,7 @@ class _AllTollsState extends State<AllTolls> {
           final chargeJson = responseData['tolls'];
           if (chargeJson != null) {
             chargeJson.forEach((v) {
-              allTolls.add( Toll.fromJson(v));
+              allTolls.add( Tolls.fromJson(v));
             });
           }
           print(' tolls screen :Data fetched successfully: $message');
@@ -67,27 +85,23 @@ class _AllTollsState extends State<AllTolls> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fetchallTolls();
-  }
+
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
+    final fontSize = width * 0.04;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+
         // Set to true if you want the default back arrow
         toolbarHeight: height*0.08,
         elevation: 0,
         title: Text(
           "All Tolls",
           style: TextStyle(
-              fontSize: width*0.05,
+              fontSize: fontSize,
               color: AppColors.black,
             fontFamily: "Lato"
           ),
@@ -106,7 +120,7 @@ class _AllTollsState extends State<AllTolls> {
             child:
             Row(children: [
               Text("All Tolls", style: TextStyle(
-                  fontSize: width*0.045, fontFamily: "Lato", color: AppColors.black),),
+                  fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),),
 
               Spacer(),
               Container(
@@ -119,7 +133,7 @@ class _AllTollsState extends State<AllTolls> {
                 child: DropdownButton<String>(
                   value: selectedValue,
                   underline: null,
-                  hint: Text("Sort By",style: TextStyle(color: AppColors.black),),
+                  hint: Text("Sort By",style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular'),),
 
                   items: gameList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -140,52 +154,54 @@ class _AllTollsState extends State<AllTolls> {
           ),
 
 
-          allTolls.isNotEmpty?
+          SingleChildScrollView(
+            child: allTolls.isNotEmpty?
 
-          Padding(
-              padding: EdgeInsets.all(10.0),child: ListView.builder(
-            itemCount: allTolls.length,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return AllTollsItemView(tolls: allTolls[index]);
-            },)
-          )
-              :Column(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Image.asset(
-                    'assets/png/notolls.png',
-                    // Replace with your image asset path
-                    width: width*0.3,
-                    height: height*0.2,
+            Padding(
+                padding: EdgeInsets.all(10.0),child: ListView.builder(
+              itemCount: allTolls.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return AllTollsItemView(tolls: allTolls[index]);
+              },)
+            )
+                :Column(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Image.asset(
+                      'assets/png/notolls.png',
+                      // Replace with your image asset path
+                      width: width*0.3,
+                      height: height*0.2,
+                    ),
                   ),
                 ),
-              ),
-              Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.07,fontFamily: "Lato",color: AppColors.black),)),
-              SizedBox(height: 20,),
-              Center( child: Text("Click “Add Toll” and provide us with the details to ",style: TextStyle(fontSize: width*0.04,fontFamily: "Lato-Regular",color: AppColors.black),)),
-              Center( child: Text("add toll for you.",style: TextStyle(fontSize: width*0.04,fontFamily: "Lato-Regular",color: AppColors.black),)),
+                Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.05,fontFamily: "Lato",color: AppColors.black),)),
+                SizedBox(height: 20,),
+                Center( child: Text("Click “Add Toll” and provide us with the details to ",style: TextStyle(fontSize:fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
+                Center( child: Text("add toll for you.",style: TextStyle(fontSize: fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
 
-              Center(
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: PrimaryButton(
-                      text: 'Add New Toll',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddTolls()),
-                        );
+                Center(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: PrimaryButton(
+                        text: 'Add New Toll',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddTolls()),
+                          );
 
-                      },
-                    )),
-              ),
-            ],
+                        },
+                      )),
+                ),
+              ],
 
+            ),
           ),
 
 

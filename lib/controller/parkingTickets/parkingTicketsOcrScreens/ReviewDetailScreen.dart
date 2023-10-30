@@ -39,7 +39,7 @@ class ReviewDetailScreen extends StatelessWidget {
             ),),
             SizedBox(height: height*0.07,),
 
-            ParkingTicketCard(pcnNumber: pcn_nmuber, status: "statusw", date: date, price: charge),
+            // ParkingTicketCard(pcnNumber: pcn_nmuber, status: "statusw", date: date, price: charge),
             const Spacer(),
             Row(
               children: [

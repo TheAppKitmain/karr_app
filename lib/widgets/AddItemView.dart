@@ -2,17 +2,20 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/cityCharges/AllCityCharges.dart';
 import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.dart';
 
 
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/AddNoteDialog.dart';
 
 
 class AddItemView extends StatefulWidget {
   final Charges tolls;
+  final Function(Charges, bool) onTollChecked;
 
   const AddItemView({super.key,
-    required this.tolls,
+    required this.tolls, required this.onTollChecked,
   });
 
   @override
@@ -48,27 +51,32 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
                     children: [
 
 
-                      Text('${widget.tolls.city}',style: TextStyle(color: AppColors.black,fontSize: width*0.04,fontFamily: "Lato")),
+                      Text('${widget.tolls.city}, ${widget.tolls.area}',style: TextStyle(color: AppColors.black,fontSize: width*0.04,fontFamily: "Lato")),
 
                       SizedBox(height: 20,),
 
                       Text('EveryDay',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
 
                       SizedBox(height: 10,),
-                      Row(
-
-                        children: const [
-                          Text(
-                            'Add Note',
-                            style: TextStyle(
-                                fontSize: 14, color: AppColors.primaryColor),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.primaryColor,
-                            size: 15,
-                          ),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          AddNoteDialog.show(context, "Successfully Added", (v) {
+                            widget.tolls.note = v; //note added for this item
+                          });
+                        },
+                        child: Row(
+                          children: const [
+                            Text(
+                              'Add Note',
+                              style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColors.primaryColor,
+                              size: 15,
+                            ),
+                          ],
+                        ),
                       ),
 
                     ],
@@ -81,8 +89,9 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
                     value: _rememberMe,
                     onChanged: (bool? value) {
                       setState(() {
-                        _rememberMe =
-                            value ?? false; // Update the _rememberMe variable
+                        _rememberMe = value ?? false;
+                        widget.tolls.ischecked = _rememberMe;
+                        widget.onTollChecked(widget.tolls, _rememberMe); // Call the callback
                       });
                     },
                   ),

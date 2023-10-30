@@ -1,13 +1,18 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/CustomSnackBar.dart';
 
 
-class AddNoteDialog {
-  static void show(BuildContext context, String id, Function(String?) onSave) {
+class UpdateNoteDialog {
+
+
+  static void show(BuildContext context, String id, String initial_note, String type, Function(String?) onSave) {
     bool isIOS = defaultTargetPlatform == TargetPlatform.iOS;
     TextEditingController _noteController = TextEditingController();
+    _noteController.text=initial_note;
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -40,6 +45,7 @@ class AddNoteDialog {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextFormField(
+
                         controller: _noteController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
@@ -87,9 +93,45 @@ class AddNoteDialog {
 
                         SizedBox(width: 10),
                         TextButton(
-                          onPressed: () {
-                            onSave!(_noteController.text);
-                            Navigator.pop(context);
+                          onPressed: () async {
+                            final dio = Dio();
+
+                            print("$type,${id}");
+                            try {
+                              final response = await dio.post(
+                                'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/add/notes',
+                                queryParameters: {
+                                  type: id,
+                                  "notes": _noteController.text,
+                                },
+                              );
+
+                              final responseData = response.data as Map<String, dynamic>;
+                              print(responseData);
+
+                              if (response.statusCode == 200) {
+                                final status = responseData['status'] as bool;
+                                final message = responseData['message'] as String;
+
+                                if (status) {
+
+                                  onSave!(_noteController.text);
+                                  Navigator.pop(context);
+                                  CustomSnackBar.showSnackBar(context, message);
+
+
+                                } else {
+                                  CustomSnackBar.showSnackBar(context, message);
+                                }
+                              } else {
+                                CustomSnackBar.showSnackBar(context, "Some Error Occour");
+                              }
+                            } catch (e) {
+
+                              CustomSnackBar.showSnackBar(context, "Api Request Failed");
+                            }
+
+
                           },
                           style: TextButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
@@ -105,7 +147,7 @@ class AddNoteDialog {
                           child:  Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: Text(
-                              "Save",
+                              "Update",
                               style: TextStyle(
                                 color: AppColors.white,
                                 fontSize: fontSize,
@@ -150,6 +192,7 @@ class AddNoteDialog {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextFormField(
+
                         controller: _noteController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
@@ -164,45 +207,14 @@ class AddNoteDialog {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
-                         Container(
-                            width: buttonWidth,
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: TextButton.styleFrom(
-                                backgroundColor: AppColors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  side: const BorderSide(
-                                    color: AppColors.primaryColor,
-                                    width: 1,
-                                  ),
-                                ),
-
-                              ),
-                              child:  Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                    color: AppColors.primaryColor,
-                                    fontSize: fontSize,
-                                    fontFamily: 'latoblack',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        SizedBox(width: 10),
-                        TextButton(
+                        Container(
+                          width: buttonWidth,
+                          child: TextButton(
                             onPressed: () {
-                              onSave!(_noteController.text);
                               Navigator.pop(context);
                             },
                             style: TextButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
+                              backgroundColor: AppColors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 side: const BorderSide(
@@ -210,20 +222,87 @@ class AddNoteDialog {
                                   width: 1,
                                 ),
                               ),
-                              minimumSize: Size(buttonWidth, 0),
+
                             ),
                             child:  Padding(
                               padding: EdgeInsets.symmetric(vertical: 10),
                               child: Text(
-                                "Save",
+                                "Cancel",
                                 style: TextStyle(
-                                  color: AppColors.white,
+                                  color: AppColors.primaryColor,
                                   fontSize: fontSize,
                                   fontFamily: 'latoblack',
                                 ),
                               ),
                             ),
                           ),
+                        ),
+
+                        SizedBox(width: 10),
+                        TextButton(
+                          onPressed: () async {
+                            final dio = Dio();
+
+                            print("$type,${id}");
+                            try {
+                              final response = await dio.post(
+                                'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/add/notes',
+                                queryParameters: {
+                                  type: id,
+                                  "notes": _noteController.text,
+                                },
+                              );
+
+                              final responseData = response.data as Map<String, dynamic>;
+                              print(responseData);
+
+                              if (response.statusCode == 200) {
+                                final status = responseData['status'] as bool;
+                                final message = responseData['message'] as String;
+
+                                if (status) {
+
+                                  onSave!(_noteController.text);
+                                  Navigator.pop(context);
+                                  CustomSnackBar.showSnackBar(context, message);
+
+
+                                } else {
+                                  CustomSnackBar.showSnackBar(context, message);
+                                }
+                              } else {
+                                CustomSnackBar.showSnackBar(context, "Some Error Occour");
+                              }
+                            } catch (e) {
+
+                              CustomSnackBar.showSnackBar(context, "Api Request Failed");
+                            }
+
+
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide(
+                                color: AppColors.primaryColor,
+                                width: 1,
+                              ),
+                            ),
+                            minimumSize: Size(buttonWidth, 0),
+                          ),
+                          child:  Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              "Update",
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: fontSize,
+                                fontFamily: 'latoblack',
+                              ),
+                            ),
+                          ),
+                        ),
 
                       ],
                     ),

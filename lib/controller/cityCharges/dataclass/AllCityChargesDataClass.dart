@@ -34,6 +34,8 @@ class Charges {
   String? time;
   String? area;
   int? status;
+  String? note;
+  bool? ischecked;
   String? createdAt;
   String? updatedAt;
 
@@ -44,6 +46,8 @@ class Charges {
         this.time,
         this.area,
         this.status,
+        this.note,
+        this.ischecked,
         this.createdAt,
         this.updatedAt});
 

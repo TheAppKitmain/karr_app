@@ -2,22 +2,31 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
+
 import 'package:kaar/widgets/flutter_ticket_widget.dart';
 import 'package:dotted_line/dotted_line.dart';
 
 import 'package:flutter/material.dart';
 
 class ParkingTicketCard extends StatelessWidget {
-  final String pcnNumber;
-  final String status;
-  final String date;
-  final String price;
+  final Tickets tickets;
+
+
+
+
+
+  // final String pcnNumber;
+  // final String status;
+  // final String date;
+  // final String price;
 
   const ParkingTicketCard({
-    required this.pcnNumber,
-    required this.status,
-    required this.date,
-    required this.price,
+    // required this.pcnNumber,
+    // required this.status,
+    // required this.date,
+    // required this.price,
+    required this.tickets,
   });
 
   @override
@@ -51,7 +60,7 @@ class ParkingTicketCard extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            pcnNumber,
+                            tickets.pcn??"N/A",
                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ),
 
                           ),
@@ -62,11 +71,11 @@ class ParkingTicketCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: status == 'Paid' ? Colors.green : Colors.red,
+                        color: tickets.status == 1 ? Colors.green : Colors.red,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        status,
+                        tickets.status == 1 ?"Paid":"Unpaid",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -88,11 +97,11 @@ class ParkingTicketCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      date,
+                      tickets.date??"N/A",
                       style: TextStyle(fontSize: 14),
                     ),
                     Text(
-                      'Price: $price',
+                      "Price: ${tickets.price}"??"N/A",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     // Add any other icons or buttons here

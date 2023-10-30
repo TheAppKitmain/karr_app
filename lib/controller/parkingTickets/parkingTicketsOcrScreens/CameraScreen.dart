@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
-
 import 'package:image/image.dart' as img;
 import 'dart:io';
 
@@ -10,23 +9,32 @@ import 'package:kaar/utils/Constants.dart';
 class CameraScreen extends StatefulWidget {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
+
   CameraScreen({required this.onPrevious, required this.onNext});
 
   @override
-  _CameraScreenState createState() => _CameraScreenState(onPrevious: onPrevious,onNext:onNext );
+  _CameraScreenState createState() =>
+      _CameraScreenState(onPrevious: onPrevious, onNext: onNext);
 }
 
 class _CameraScreenState extends State<CameraScreen> {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
+
   _CameraScreenState({required this.onPrevious, required this.onNext});
+
   late CameraController _controller;
   bool isReady = false;
   bool textScanning = false;
   TextEditingController textController = TextEditingController();
+  File? capturedImage;
+
   String scannedText = "";
-  int tab = 0;
-  File? cropImage;
+  String pcnNumber = "PCN Number: N/A";
+  String date = "Date: N/A";
+  String vehicleNumber = "Vehicle Number: N/A";
+  String charge = "Charge: N/A";
+
   @override
   void initState() {
     super.initState();
@@ -44,18 +52,37 @@ class _CameraScreenState extends State<CameraScreen> {
         scannedText = scannedText + line.text + "\n";
       }
     }
-    textController.text=scannedText;
+    textController.text = scannedText;
+
+    // Extract the desired information using regex
+    pcnNumber = extractText("PCN Number:", scannedText);
+    date = extractText("Date:", scannedText);
+    vehicleNumber = extractText("Vehicle Number:", scannedText);
+    charge = extractCharge(scannedText);
+
     setState(() {
       textScanning = true;
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(scannedText),
-      ),
-    );
-    print("scanned text is $scannedText");
-    setState(() {});
   }
+
+  String extractText(String keyword, String source) {
+    RegExp regExp = RegExp('$keyword\\s*([\\w\\s\\d:.]*)', caseSensitive: false);
+    Match? match = regExp.firstMatch(source);
+    if (match != null) {
+      return match.group(1) ?? "N/A";
+    }
+    return "N/A";
+  }
+
+  String extractCharge(String source) {
+    RegExp regExp = RegExp(r'£\s*(\d+(\.\d{1,2})?)', caseSensitive: false);
+    Match? match = regExp.firstMatch(source);
+    if (match != null) {
+      return 'Charge: £' + match.group(1)!;
+    }
+    return 'Charge: N/A';
+  }
+
   Future<void> initializeCamera() async {
     final cameras = await availableCameras();
     _controller = CameraController(cameras[0], ResolutionPreset.medium);
@@ -74,34 +101,19 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  Future<void> captureAndCrop() async {
+  Future<void> captureAndProcess() async {
     try {
       final image = await _controller.takePicture();
 
-      final RenderBox upperContainer = _upperContainerKey.currentContext!.findRenderObject() as RenderBox;
-      final RenderBox bottomContainer = _bottomContainerKey.currentContext!.findRenderObject() as RenderBox;
-
-      final double x = 0;
-      final double y = upperContainer.localToGlobal(Offset(0, 0)).dy;
-      final double width = MediaQuery.of(context).size.width;
-      final double height = bottomContainer.localToGlobal(Offset(0, 0)).dy - upperContainer.localToGlobal(Offset(0, 0)).dy;
-
       final rawImage = img.decodeImage(File(image.path).readAsBytesSync())!;
+      File(image.path).writeAsBytesSync(img.encodeJpg(rawImage));
 
-      final croppedImage = img.copyCrop(rawImage, x: x.toInt(), y: y.toInt(), width: width.toInt(), height: height.toInt());
-
-      File(image.path).writeAsBytesSync(img.encodeJpg(croppedImage));
-      final croppedXFile = XFile(image.path);
-      cropImage = File(image.path);
-      getRecognisedText(croppedXFile);
-      // You can use the croppedImagePath as needed for further processing or display.
+      capturedImage = File(image.path);
+      getRecognisedText(XFile(image.path));
     } catch (e) {
       print(e);
     }
   }
-
-  final GlobalKey _upperContainerKey = GlobalKey();
-  final GlobalKey _bottomContainerKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -121,48 +133,43 @@ class _CameraScreenState extends State<CameraScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Ticket Number:",
+                    "PCN Number: ${pcnNumber}",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: width * 0.07,
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white, // Border color
-                        width: 2.0,           // Border width
-                      ),
-                      borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
-                    ),
-                    child: TextFormField(
-                      controller: textController, // Display scanned text
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: width * 0.05,
-                      ),
-                      decoration: InputDecoration(
-                        // Optional hint text
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        border: InputBorder.none, // Remove the default border of the TextFormField
-                      ),
+                  Text(
+                    "Date: ${date}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: width * 0.07,
                     ),
                   ),
-
-                    Image.file(
-                      cropImage!,
-                      width: 200, // Adjust the width as needed
-                      height: 200, // Adjust the height as needed
+                  Text(
+                    "Vehicle Number: ${vehicleNumber}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: width * 0.07,
                     ),
-
+                  ),
+                  Text(
+                    charge,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: width * 0.07,
+                    ),
+                  ),
+                  Image.file(
+                    capturedImage!,
+                    width: 200, // Adjust the width as needed
+                    height: 200, // Adjust the height as needed
+                  ),
                   SizedBox(height: 10),
-
                   ElevatedButton(
                     onPressed: () async {
                       // Handle the "Next" button click
                       String updatedText = textController.text;
-                      print(updatedText);
                       await SharedStorage().saveStringToLocalStorage('Ticket_number', updatedText);
                       onNext();
                       // Perform further actions with the updated text
@@ -178,64 +185,28 @@ class _CameraScreenState extends State<CameraScreen> {
                   ),
                 ],
               ),
-            ),// Camera preview
+            ),
           if (!textScanning)
             Container(
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.black,
-                  key: _upperContainerKey,// Set the background color of the Center
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(),
-                      SizedBox(height: height * 0.1),
-                      Text(
-                        "Take a picture of the ticket",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: width * 0.07,
-                        ),
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.black,
+                    child: ElevatedButton(
+                      onPressed: captureAndProcess,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                        foregroundColor: MaterialStateProperty.all(Colors.white),
                       ),
-                      SizedBox(height: 20),
-                      Text(
-                        "Point the camera to the PCN number",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: width * 0.05,
-                        ),
+                      child: Icon(
+                        Icons.camera,
+                        size: 60,
                       ),
-                      SizedBox(height: height * 0.1),
-                    ],
+                    ),
                   ),
-                ),
-                SizedBox(height: height * 0.15),
-                Container(
-                  color: Colors.black,
-                  key: _bottomContainerKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(),
-                      SizedBox(height: height * 0.2),
-                      ElevatedButton(
-                        onPressed: captureAndCrop, // Capture and crop when the button is pressed
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.transparent), // Remove background color
-                          foregroundColor: MaterialStateProperty.all(Colors.white), // Set icon color to white
-                        ),
-                        child: Icon(
-                          Icons.camera,
-                          size: 60,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:kaar/widgets/AddTollItemView.dart';
 import 'package:kaar/widgets/AddItemView.dart';
 import 'package:kaar/widgets/CustomDialogBox.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -19,12 +20,24 @@ class AddCityCharges extends StatefulWidget {
 }
 class _AddCityChargesState extends State<AddCityCharges> {
   List<Charges> cityCharges = [];
+  List<Charges> selectedCityCharges = [];
   bool _isLoading = false;
+  DateTime? _selectedDate;
+  String? userid;
+
+
+  void loadUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userid = prefs.getString('userid');
+    });
+  }
 
   Future<void> fetchallCityCharges() async {
     final dio = Dio();
 
     try {
+
       final response = await dio.get(
         'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/city',
       );
@@ -68,24 +81,32 @@ class _AddCityChargesState extends State<AddCityCharges> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    loadUserDetails();
     fetchallCityCharges();
   }
-  final dio = Dio();
+
 
   Future<Map<String, dynamic>?> addCityCharge() async {
     final dio = Dio();
 
     try {
+      final Map<String, dynamic> requestData = {
+        'driver_id': userid,
+        'date': _selectedDate?.toLocal().toString().split(' ')[0] ?? DateTime.now().toLocal().toString().split(' ')[0],
+
+        'cities': selectedCityCharges
+            .where((toll) => toll.ischecked!)
+            .map((toll) => {
+          'city_id': toll.id,
+          'notes': toll.note, // Assuming that the note is stored in the 'note' property of the Toll object
+        })
+            .toList(),
+      };
       final response = await dio.post(
         'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/driver/city',
-        queryParameters: {
-          'driver_id': 1,
-          'date': "24 Oct 2023",
-
-          'notes':"test notes" ,
-          'city_id[]': ["2"],
-        },
+        data: requestData,
       );
+
 
       final responseData = response.data as Map<String, dynamic>;
 
@@ -94,7 +115,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
         final message = responseData['message'] as String;
 
         if (status) {
-
+          return response.data;
         } else {
           // Handle the case where login failed
           print('Login failed: $message');
@@ -114,6 +135,16 @@ class _AddCityChargesState extends State<AddCityCharges> {
       return null;
     }
   }
+
+  void onTollChecked(Charges city, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        selectedCityCharges.add(city);
+      } else {
+        selectedCityCharges.remove(city);
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
@@ -121,6 +152,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
     final fontSize = width * 0.04;
     return Scaffold(
         backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 0,
           toolbarHeight: height * 0.08,
@@ -178,13 +210,25 @@ class _AddCityChargesState extends State<AddCityCharges> {
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return AddItemView(tolls: cityCharges[index]);
+              return AddItemView(tolls: cityCharges[index]
+              ,onTollChecked: onTollChecked,);
             },) :CircularProgressIndicator(),
 
-          Spacer(),
-          PrimaryButton(
+          const Spacer(),
+          _isLoading // Show progress indicator if loading
+              ? const CircularProgressIndicator()
+              : PrimaryButton(
               text: "Submit City Charge",
               onPressed: () async {
+                if (selectedCityCharges.isEmpty) {
+                  // Show a Snackbar if no tolls are selected
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Please select at least one charge to submit.'),
+                    ),
+                  );
+                  return; // Return to prevent further execution
+                }
                 setState(() {
                   _isLoading = true; // Start loading
                 });

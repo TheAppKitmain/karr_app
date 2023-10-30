@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
-import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.dart';
+
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/AllCityChargeItemView.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/ParkingTicketCard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CityCharges extends StatefulWidget {
   @override
@@ -20,13 +22,29 @@ class _CityChargesState extends State<CityCharges> {
 
   var selectedValue;
 
+  String? userid;
+  @override
+  void initState() {
+    super.initState();
+    loadUserDetails();
+  }
 
+  void loadUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userid = prefs.getString('userid');
+      fetchCityCharges();
+    });
+  }
   Future<void> fetchCityCharges() async {
     final dio = Dio();
 
     try {
-      final response = await dio.get(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/city',
+      final response = await dio.post(
+        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/recent/activity',
+        queryParameters: {
+          "driver_id": userid,
+        },
       );
 
       final responseData = response.data as Map<String, dynamic>;
@@ -64,24 +82,22 @@ class _CityChargesState extends State<CityCharges> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    fetchCityCharges();
-  }
+
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    final fontSize = width * 0.04;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+
         // Set to true if you want the default back arrow
         toolbarHeight: 60,
         title: Text(
           "All City Charges",
           style: TextStyle(
-              fontSize: 20,
+              fontSize: fontSize,
               color: AppColors.black // Adjust the title text size as needed
           ),
 
@@ -99,7 +115,7 @@ class _CityChargesState extends State<CityCharges> {
               child:
           Row(children: [
            Text("All Charges", style: TextStyle(
-              fontSize: 18, fontFamily: "Lato", color: AppColors.black),),
+              fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),),
 
             Spacer(),
             Container(
@@ -112,7 +128,7 @@ class _CityChargesState extends State<CityCharges> {
               child: DropdownButton<String>(
                 value: selectedValue,
                 underline: null,
-                hint: Text("Sort By",style: TextStyle(color: AppColors.black),),
+                hint: Text("Sort By",style: TextStyle(color: AppColors.black,fontFamily: 'Lato-Regular',fontSize: fontSize),),
 
                 items: gameList.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
@@ -157,10 +173,10 @@ class _CityChargesState extends State<CityCharges> {
         ),
         ),
         ),
-        Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: 23,fontFamily: "Lato",color: AppColors.black),)),
+        Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.07,fontFamily: "Lato",color: AppColors.black),)),
         SizedBox(height: 20,),
-        Center( child: Text("Click “Add City Charge” and provide us with the ",style: TextStyle(fontSize: 18,fontFamily: "fonts/Lato-BoldItalic",color: AppColors.black),)),
-        Center( child: Text("details to add new charge for you. ",style: TextStyle(fontSize: 18,fontFamily: "fonts/Lato-BoldItalic",color: AppColors.black),)),
+        Center( child: Text("Click “Add City Charge” and provide us with the ",style: TextStyle(fontSize: fontSize,fontFamily: "fonts/Lato-Regular",color: AppColors.black),)),
+        Center( child: Text("details to add new charge for you. ",style: TextStyle(fontSize: fontSize,fontFamily: "fonts/Lato-Regular",color: AppColors.black),)),
 
         Center(
           child: Padding(

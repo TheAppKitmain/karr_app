@@ -2,8 +2,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kaar/controller/cityCharges/dataclass/AllCityChargesDataClass.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
+
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/UpdateNoteDialog.dart';
 import 'package:kaar/widgets/flutter_ticket_widget.dart';
 import 'package:dotted_line/dotted_line.dart';
 
@@ -40,30 +42,35 @@ class AllCityChargeItemView extends StatelessWidget {
 
                Row(
                  children: [
-                   Text('${cityCharge.city}, ${cityCharge.area}',style: TextStyle(color: AppColors.black,fontSize: 18,fontFamily: "Lato"),textAlign: TextAlign.left,),
+                   Text('${cityCharge.name}',style: TextStyle(color: AppColors.black,fontSize: 18,fontFamily: "Lato"),textAlign: TextAlign.left,),
                  ],
                ),
                SizedBox(height: 20,),
                Row(
                  children: [
-                   Text('${cityCharge.time}am',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato_regular")),
+                   Text('${cityCharge.date}am',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato-Regular")),
                  ],
                ),
                SizedBox(height: 10,),
-               Row(
-
-                 children: const [
-                   Text(
-                     'See Note',
-                     style: TextStyle(
-                         fontSize: 16, color: AppColors.primaryColor),
-                   ),
-                   Icon(
-                     Icons.arrow_forward_ios,
-                     color: AppColors.primaryColor,
-                     size: 15,
-                   ),
-                 ],
+               GestureDetector (
+                 onTap: () {
+                   UpdateNoteDialog.show(context, cityCharge.cd.toString(),cityCharge.notes.toString(),"cd", (v) {
+                     cityCharge.notes = v; //note added for this item
+                   });
+                 },
+                 child: Row(
+                   children: const [
+                     Text(
+                       'See Note',
+                       style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
+                     ),
+                     Icon(
+                       Icons.arrow_forward_ios,
+                       color: AppColors.primaryColor,
+                       size: 15,
+                     ),
+                   ],
+                 ),
                ),
 
              ],
