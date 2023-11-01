@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/UpdatePassword/UpdatePassword.dart';
 import 'package:kaar/controller/carDetails/CarDetails.dart';
 import 'package:kaar/controller/login/Login.dart';
 import 'package:kaar/utils/Constants.dart';
@@ -219,36 +220,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SizedBox(height: 10,),
-              Container(
-                color: AppColors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UpdatePassword()),
+                  );
+                },
+                child: Container(
 
-                    children: [
-                      const Icon(
-                        Icons.lock,
-                        color: AppColors.primaryColor,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "Password",
-                        style: TextStyle(
-                            fontSize: fontSize*1.4,
-                            color: AppColors.black),
-                      ),
+                  color: AppColors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
 
-                      Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.black,
-                        size: 17,
-                      ),
+                      children: [
+                        const Icon(
+                          Icons.lock,
+                          color: AppColors.primaryColor,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Password",
+                          style: TextStyle(
+                              fontSize: fontSize*1.4,
+                              color: AppColors.black),
+                        ),
+
+                        Spacer(),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.black,
+                          size: 17,
+                        ),
 
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

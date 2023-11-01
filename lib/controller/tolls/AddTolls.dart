@@ -12,6 +12,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddTolls extends StatefulWidget {
+
   @override
   _AddTollsState createState() => _AddTollsState();
 }

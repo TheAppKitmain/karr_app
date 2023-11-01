@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 import 'package:kaar/controller/parkingTickets/addParkingTicket/AddTicketManually.dart';
 
 import 'package:kaar/utils/Constants.dart';
@@ -6,7 +7,6 @@ import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ReviewDe
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/DateGetScreen.dart';
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ChargeGetScreen.dart';
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/CameraScreen.dart';
-import 'package:kaar/widgets/CustomSnackBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyTicketScreen extends StatefulWidget {
@@ -19,6 +19,8 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
    late String ticket_number;
    late String date;
    late String charge;
+   late String issuer;
+  final t=Tickets();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +49,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
             height: 30,
           ),
           CustomStepper(
-            steps: 4,
+            steps: 2,
             currentStep: currentStep,
           ),
           Expanded(
@@ -56,47 +58,35 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
                         setState(() {
                           currentStep = 0;
                         });
-                      }, onNext: () {
-                        setState(() {
-                          currentStep = 1;
-                        });
-                      }): currentStep == 1
-                    ? DateGetScreen(onPrevious: () {
-                        setState(() {
-                          currentStep = 1;
-                        });
-                      }, onNext: () {
-                        setState(() {
-                          currentStep = 2;
-                        });
-                      }): currentStep == 2
-                    ? ChargeGetScreen(onPrevious: () {
-                        setState(() {
-                          currentStep = 2;
-                        });
                       }, onNext: () async {
               final prefs = await SharedPreferences.getInstance();
               // ticket_number = prefs.getString('Ticket_number') ?? '';
               // date = prefs.getString('Ticket_date') ?? '';
               // charge = prefs.getString('Ticket_charge') ?? '';
 
-                        setState(()  {
-                          ticket_number = prefs.getString('Ticket_number') ?? '';
-                          date = prefs.getString('Ticket_date') ?? '';
-                          charge = prefs.getString('Ticket_charge') ?? '';
-                          print("scanned text is $ticket_number,$date,$charge");
-                          currentStep = 3;
-                        });
-                      }):currentStep == 3
+              setState(()  {
+                ticket_number = prefs.getString('Ticket_number') ?? '';
+                date = prefs.getString('Ticket_date') ?? '';
+                charge = prefs.getString('Ticket_charge') ?? '';
+                issuer = prefs.getString('Issuer_name') ?? '';
+
+                t.pcn=ticket_number;
+                t.date=date;
+                t.price=charge;
+                t.ticketIssuer=issuer;
+                print("scanned text is $ticket_number,$date,$charge,$issuer");
+                currentStep = 1;
+              });
+                      }):currentStep == 1
                     ? ReviewDetailScreen(onPrevious: () {
                         setState(() {
-                          currentStep = 1;
+                          currentStep = 0;
                         });
                       }, onNext: () {
                         setState(() {
                           currentStep = 2;
                         });
-                      }, pcn_nmuber: ticket_number, date: date, charge: charge,)
+                      }, pcn_nmuber: ticket_number, date: date, charge: charge, ticket: t,)
                     : Step3Screen(
                         onPrevious: () {
                           setState(() {
@@ -189,11 +179,10 @@ class Step1Screen extends StatelessWidget {
               SizedBox(height: height * 0.04),
               GestureDetector(
                 onTap: () {
-                  CustomSnackBar.showSnackBar(context,"Ocr Under Construction");
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => MyTicketScreen()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyTicketScreen()),
+                  );
                 },
                 child: Card(
                   color: AppColors.white,

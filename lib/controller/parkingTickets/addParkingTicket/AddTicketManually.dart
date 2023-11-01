@@ -56,7 +56,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
           'date': _dateController.text,
           'pcn': _pcnNumberController.text,
           'price': _amountController.text,
-          'ticket_issuer': "issuer name",
+          'ticket_issuer': _issuerController.text,
         },
       );
       print(response.data);
@@ -181,6 +181,24 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                         },
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
+                      ),
+                      const SizedBox(height: 20),
+                      TextView(
+                        text: "Issuer Name",
+                        onPressed: () {},
+                      ),
+
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: _issuerController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'This field is required';
+                          }
+                          return null;
+                        },
+                        keyboardType:
+                            TextInputType.name,
                       ),
 
                       const SizedBox(height: 20),

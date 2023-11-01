@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:kaar/widgets/MyHomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kaar/controller/login/Login.dart';
 import 'package:kaar/controller/home/HomeScreen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
 
   final String carnumber;
 
+
   MyApp({
     required this.initialRoute,
     required this.username,
@@ -42,9 +44,12 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/login': (context) => Login(),
-        '/home': (context) => HomeScreen(username, carnumber),
+        '/home': (context) => MyHomePage(),
       },
+
+
     );
+
   }
 }
 

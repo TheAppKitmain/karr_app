@@ -32,7 +32,7 @@ class _CameraScreenState extends State<CameraScreen> {
   String scannedText = "";
   String pcnNumber = "PCN Number: N/A";
   String date = "Date: N/A";
-  String vehicleNumber = "Vehicle Number: N/A";
+  String issuerName = "Issuer Name: N/A";
   String charge = "Charge: N/A";
 
   @override
@@ -52,24 +52,58 @@ class _CameraScreenState extends State<CameraScreen> {
         scannedText = scannedText + line.text + "\n";
       }
     }
+
     textController.text = scannedText;
+    List<String> keywordsToExtractPcn = ["PCN Number :", "Penalty Charge Notice :","Penalty Charge Notice Number :","Notice Number :","(PCN) Number :"];
+
+    List<String> keywordsToExtractCOMPANYNAME = ["BARNET", "BEXLEY","BROMLEY ","CAMDEN","CITY OF LONDON","CROYDON","EALING","ENFIELD","GREENWICH","HECKNEY COUNCIL"
+      ,"HAVERING","HILLINGDON","HOUNSLOW","ISLINGTON","HAMMERRSMITH & FULHAM","HARINGEY","HARROWCOUNCIL","KENSINGTON AND CHELSEA","KINGSTON UPON THAMES","LAMBETH"
+      ,"LEWISHAM","NEWHAM","REDBRIDGE","RICHMOND","SUTTON","TRANSPORT FOR LONDON","TOWER HAMLETS","WALTHAM FOROST","WANDSWORTH","WESTMINSTER"];
 
     // Extract the desired information using regex
-    pcnNumber = extractText("PCN Number:", scannedText);
-    date = extractText("Date:", scannedText);
-    vehicleNumber = extractText("Vehicle Number:", scannedText);
+    pcnNumber = extractText(keywordsToExtractPcn, scannedText);
+    date = extractDate("Date:", scannedText);
+    issuerName = extractcompanyname(keywordsToExtractCOMPANYNAME, scannedText);
     charge = extractCharge(scannedText);
-
+    print("Scanned text is $issuerName");
+    await SharedStorage().saveStringToLocalStorage('Ticket_number', pcnNumber);
+    await SharedStorage().saveStringToLocalStorage('Ticket_date', date);
+    await SharedStorage().saveStringToLocalStorage('Ticket_charge', charge);
+    await SharedStorage().saveStringToLocalStorage('Issuer_name', issuerName);
+    onNext();
     setState(() {
       textScanning = true;
     });
   }
 
-  String extractText(String keyword, String source) {
-    RegExp regExp = RegExp('$keyword\\s*([\\w\\s\\d:.]*)', caseSensitive: false);
+  String extractText(List<String> keywords, String source) {
+    for (String keyword in keywords) {
+      RegExp regExp = RegExp('$keyword\\s*([^\\s]+)', caseSensitive: false);
+      Match? match = regExp.firstMatch(source);
+      if (match != null) {
+        return match.group(1) ?? "N/A";
+      }
+    }
+    return "N/A";
+  }
+
+
+  String extractDate(String keyword,String source) {
+    RegExp regExp = RegExp(r'(\d{2}/\d{2}/\d{2,4})', caseSensitive: false);
     Match? match = regExp.firstMatch(source);
     if (match != null) {
-      return match.group(1) ?? "N/A";
+      return '' + match.group(1)!;
+    }
+    return ' N/A';
+  }
+
+
+  String extractcompanyname(List<String> keywords, String source) {
+    for (String keyword in keywords) {
+      print("keyword $keyword");
+      if (source.toLowerCase().contains(keyword.toLowerCase())) {
+        return keyword;
+      }
     }
     return "N/A";
   }
@@ -147,7 +181,7 @@ class _CameraScreenState extends State<CameraScreen> {
                     ),
                   ),
                   Text(
-                    "Vehicle Number: ${vehicleNumber}",
+                    "Vehicle Number: ${issuerName}",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: width * 0.07,
@@ -189,18 +223,22 @@ class _CameraScreenState extends State<CameraScreen> {
           if (!textScanning)
             Container(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    color: Colors.black,
-                    child: ElevatedButton(
-                      onPressed: captureAndProcess,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                        foregroundColor: MaterialStateProperty.all(Colors.white),
-                      ),
-                      child: Icon(
-                        Icons.camera,
-                        size: 60,
+                  Center(
+                    child: Container(
+                      color: Colors.black,
+                      child: ElevatedButton(
+                        onPressed: captureAndProcess,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                          foregroundColor: MaterialStateProperty.all(Colors.white),
+                        ),
+                        child: Icon(
+                          Icons.camera,
+                          size: 60,
+                        ),
                       ),
                     ),
                   ),

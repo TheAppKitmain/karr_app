@@ -63,7 +63,7 @@ class CustomDialogBox {
 
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => HomeScreen("kyle", " mt9 2291")),
+                            MaterialPageRoute(builder: (context) => HomeScreen()),
                           );
                         },
                         text: 'Go to Home Screen',
@@ -116,7 +116,7 @@ class CustomDialogBox {
                   PrimaryButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomeScreen("kyle", " mt9 2291")),
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
                       );
                     },
                     text: 'Go to Home Screen',

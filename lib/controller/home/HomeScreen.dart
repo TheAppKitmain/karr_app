@@ -11,26 +11,45 @@ import 'package:kaar/controller/tolls/AllTolls.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/CustomBottomNavigation.dart';
 import 'package:kaar/widgets/TextView.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../cityCharges/AllCityCharges.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String username;
 
-  final String car_number;
 
-  HomeScreen(this.username, this.car_number, {super.key});
+
+
+
 
   @override
-  _HomeScreenState createState() => _HomeScreenState(username, car_number);
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final String _username;
 
-  final String _car_number;
 
-  _HomeScreenState(this._username, this._car_number);
+    String? _username;
+
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserDetails();
+
+  }
+
+  void loadUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _username = prefs.getString('name')!;
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,44 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ]
             ),
             SizedBox(height: height * 0.01),
-            // Align(
-            //   alignment: Alignment.topLeft,
-            //   child: GestureDetector(
-            //     onTap: () {
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(builder: (context) => CarDetails()),
-            //       );
-            //     },
-            //     child: Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 10),
-            //       child: Container(
-            //         width: 170,
-            //         height: height * 0.060,
-            //         decoration: BoxDecoration(
-            //           border: Border.all(color: AppColors.primaryColor),
-            //           borderRadius: BorderRadius.circular(8),
-            //         ),
-            //         padding: const EdgeInsets.all(10),
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: [
-            //             Text(
-            //               _car_number,
-            //               style: TextStyle(
-            //                   fontSize: width * 0.04,
-            //                   color: AppColors.primaryColor),
-            //             ),
-            //             const Icon(
-            //               Icons.arrow_forward_ios,
-            //               color: AppColors.primaryColor,
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+
             SizedBox(height: height * 0.020),
             Wrap(
               runSpacing: height * .010,
@@ -229,42 +211,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(
-        onHomeTap: () {
-          // Handle Home tap
-          print('Home tapped and');
-        },
-        onFabTap: () {
-          // Handle FAB tap
-          print('FAB tapped');
-        },
-        onProfileTap: () {
-          // Handle Profile tap
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProfileScreen()),
-          );
-          print('Profile tappeda');
-        },
-      ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    floatingActionButton:  Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Step1Screen()),
-            );
-          },
-          backgroundColor:
-          AppColors.primaryColor,
 
-          child: Icon(Icons.add) // Set FAB background color
-        // Set a different color when not selected
-      ),
-    ),
     );
   }
 }
@@ -356,14 +304,17 @@ class HomeScreenCard extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     flex: 1,
-                    child: GestureDetector(
-                      onTap: onTap,
+                    child: ElevatedButton(
+                      onPressed: onTap,
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                      ),
                       child: Text(
                         'View All', // Adjust text as needed
                         style: TextStyle(
-                          fontSize: width * 0.035,
-                          color: Colors.white,
-                          decoration: TextDecoration.underline,
+                          fontSize: width * 0.025,
+                          color: cardColor ??
+                              AppColors.primaryColor,
                         ),
                       ),
                     ),

@@ -269,9 +269,7 @@ class _loginScreenState extends State<Login> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen(user.name!,
-
-                                        "${user.license}")),
+                                    builder: (context) => HomeScreen()),
                               );
                               setState(() {
                                 _isLoading = false; // Stop loading
