@@ -56,7 +56,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
           'driver_id': userid,
           'date': date??"",
           'pcn': pcn??"",
-          'price': price??"",
+          'price': double.tryParse(price??'0'),
           'ticket_issuer': issuer??"",
         },
       );

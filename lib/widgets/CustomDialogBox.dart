@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kaar/controller/home/HomeScreen.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/MyHomePage.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:lottie/lottie.dart';
 
@@ -63,7 +64,7 @@ class CustomDialogBox {
 
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => HomeScreen()),
+                            MaterialPageRoute(builder: (context) => MyHomePage()),
                           );
                         },
                         text: 'Go to Home Screen',

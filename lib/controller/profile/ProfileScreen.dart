@@ -81,15 +81,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: 200,
                           height: 80,
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Text(
                           userName ?? "Ajony Houst",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 25),
+                        const SizedBox(height: 25),
                         // Container(
                         //   width: 150,
                         //   decoration: BoxDecoration(
@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Icons.email,
                         color: AppColors.black,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -163,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Icons.phone,
                         color: AppColors.black,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -197,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           'assets/png/license_plate.png',
                           color: AppColors.black,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -207,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: AppColors.black),
                         ),
 
-                        Spacer(),
+                        const Spacer(),
                         const Icon(
                           Icons.arrow_forward_ios,
                           color: AppColors.black,
@@ -257,6 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
 
 
+
                       ],
                     ),
                   ),
@@ -264,7 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
 
 
-              Divider(color: Colors.grey,height: 1,),
+              const Divider(color: Colors.grey,height: 1,),
               GestureDetector(
                 onTap: logOut,
                 child: Container(
@@ -278,7 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Icons.logout,
                           color: AppColors.primaryColor,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Text(
@@ -288,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: AppColors.black),
                         ),
 
-                        Spacer(),
+                        const Spacer(),
                         const Icon(
                           Icons.arrow_forward_ios,
                           color: AppColors.black,

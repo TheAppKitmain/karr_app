@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kaar/controller/Notes/NotesScreen.dart';
 import 'package:kaar/controller/Notes/testnote/TestNoteScreen.dart';
-import 'package:kaar/controller/carDetails/CarDetails.dart';
 import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
 import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
 import 'package:kaar/controller/parkingTickets/ParkingTickets.dart';
-import 'package:kaar/controller/profile/ProfileScreen.dart';
 import 'package:kaar/controller/tolls/AddTolls.dart';
 import 'package:kaar/controller/tolls/AllTolls.dart';
 import 'package:kaar/utils/Constants.dart';
-import 'package:kaar/widgets/CustomBottomNavigation.dart';
 import 'package:kaar/widgets/TextView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

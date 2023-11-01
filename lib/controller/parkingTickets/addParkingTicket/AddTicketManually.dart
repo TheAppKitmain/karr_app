@@ -55,7 +55,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
           'driver_id': userid,
           'date': _dateController.text,
           'pcn': _pcnNumberController.text,
-          'price': _amountController.text,
+          'price': double.tryParse(_amountController.text),
           'ticket_issuer': _issuerController.text,
         },
       );

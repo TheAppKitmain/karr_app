@@ -112,9 +112,9 @@ class _CameraScreenState extends State<CameraScreen> {
     RegExp regExp = RegExp(r'£\s*(\d+(\.\d{1,2})?)', caseSensitive: false);
     Match? match = regExp.firstMatch(source);
     if (match != null) {
-      return 'Charge: £' + match.group(1)!;
+      return   match.group(1)!;
     }
-    return 'Charge: N/A';
+    return 'N/A';
   }
 
   Future<void> initializeCamera() async {

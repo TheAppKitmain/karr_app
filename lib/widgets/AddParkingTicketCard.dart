@@ -101,7 +101,7 @@ class AddParkingTicketCard extends StatelessWidget {
                       style: TextStyle(fontSize: 14),
                     ),
                     Text(
-                      "Price: ${tickets.price}"??"N/A",
+                      "Price: £${tickets.price}"??"N/A",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     // Add any other icons or buttons here

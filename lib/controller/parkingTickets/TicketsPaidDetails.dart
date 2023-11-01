@@ -85,66 +85,64 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
 
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      body: SingleChildScrollView(
-        child: isLoading // Show a circular progress indicator while loading
-            ? Center(
-          child: CircularProgressIndicator(),
-        )
-            : allTickets.isNotEmpty
-            ? Padding(
-          padding: EdgeInsets.all(10.0),
-          child: ListView.builder(
-            itemCount: allTickets.length,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return ParkingTicketCard(tickets: allTickets[index]);
-            },
-          ),
-        )
-            :   Column( children: [
-          SizedBox(height: 90,),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset(
-                'assets/png/notickets.png',
-                // Replace with your image asset path
-                width: width*0.3,
-                height: height*0.2,
-              ),
+      body: isLoading // ßShow a circular progress indicator while loading
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : allTickets.isNotEmpty
+          ? Padding(
+        padding: EdgeInsets.all(10.0),
+        child: ListView.builder(
+          itemCount: allTickets.length,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return ParkingTicketCard(tickets: allTickets[index]);
+          },
+        ),
+      )
+          :   Column( children: [
+        SizedBox(height: 90,),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Image.asset(
+              'assets/png/notickets.png',
+              // Replace with your image asset path
+              width: width*0.3,
+              height: height*0.2,
             ),
           ),
-          SizedBox(height: 20,),
-          Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.07,fontFamily: "Lato",color: AppColors.black),)),
-          SizedBox(height: 20,),
-          Center( child: Text("Click “Add New Ticket” and provide us with the ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),)),
-          Center( child: Text("details to add new ticket for you. ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),)),
-
-          Center(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: PrimaryButton(
-                  text: 'Add New Ticket',
-
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyTicketScreen(),
-                      ),
-                    );
-
-
-                  },
-                )),
-          ),
-
-        ]
-
-
         ),
+        SizedBox(height: 20,),
+        Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.07,fontFamily: "Lato",color: AppColors.black),)),
+        SizedBox(height: 20,),
+        Center( child: Text("Click “Add New Ticket” and provide us with the ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),)),
+        Center( child: Text("details to add new ticket for you. ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),)),
+
+        Center(
+          child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: PrimaryButton(
+                text: 'Add New Ticket',
+
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyTicketScreen(),
+                    ),
+                  );
+
+
+                },
+              )),
         ),
+
+      ]
+
+
+      ),
 
     );
   }

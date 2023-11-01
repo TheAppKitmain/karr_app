@@ -26,7 +26,9 @@ class AllTollsItemView extends StatelessWidget {
 
     return
       Card(
-        elevation: 8, // Adjust the elevation value as needed
+        elevation: 8,
+        // Adjust the elevation value as needed
+         margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
         ),

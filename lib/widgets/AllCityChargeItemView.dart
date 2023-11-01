@@ -25,7 +25,8 @@ class AllCityChargeItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       Card(
-          elevation: 8, // Adjust the elevation value as needed
+          elevation: 8,
+          margin: EdgeInsets.all(10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
           ),
