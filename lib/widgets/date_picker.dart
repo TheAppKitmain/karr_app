@@ -43,8 +43,8 @@ Future<DateTime?> getDatePicker(BuildContext context) async {
             SizedBox(
               height: 300,
               child: CupertinoDatePicker(
-                  initialDateTime: DateTime(1980),
-                  maximumDate: DateTime.now(),
+                  initialDateTime: DateTime.now(),
+                  maximumDate: DateTime(2024),
                   minimumDate: DateTime(1900),
                   mode: CupertinoDatePickerMode.date,
                   onDateTimeChanged: (val) {
@@ -60,10 +60,10 @@ Future<DateTime?> getDatePicker(BuildContext context) async {
   }
   pickedDate= await showDatePicker(
     context:context,
-    initialDate: DateTime(1980),
+    initialDate: DateTime.now(),
     firstDate: DateTime(1900),
     //DateTime.now() - not to allow to choose before today.
-    lastDate: DateTime.now(),
+    lastDate: DateTime(2024),
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(

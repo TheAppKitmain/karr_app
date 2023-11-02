@@ -5,6 +5,7 @@ import 'package:kaar/controller/login/dataclass/LoginDataCLass.dart';
 import 'package:kaar/controller/login/dataclass/User.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/CustomTextField.dart';
+import 'package:kaar/widgets/MyHomePage.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/TextView.dart';
 import 'package:kaar/controller/home/HomeScreen.dart';
@@ -19,7 +20,7 @@ class Login extends StatefulWidget {
 class _loginScreenState extends State<Login> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+
   TextEditingController _passwordController = TextEditingController();
 
   bool _rememberMe = false;
@@ -30,15 +31,15 @@ class _loginScreenState extends State<Login> {
 
   final dio = Dio();
 
-  Future<Map<String, dynamic>?> login(String number, String password) async {
+  Future<Map<String, dynamic>?> login() async {
     final dio = Dio();
 
     try {
       final response = await dio.post(
         'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/login',
         queryParameters: {
-          'number': number,
-          'password': password,
+
+          'password': _passwordController.text,
           'email': _emailController.text,
         },
       );
@@ -91,7 +92,7 @@ class _loginScreenState extends State<Login> {
 
         // Set the values in the text fields
         _emailController.text = email;
-        _phoneController.text = number;
+
 
 
         // Update the _rememberMe state
@@ -150,30 +151,7 @@ class _loginScreenState extends State<Login> {
                 // Add more CustomTextField widgets with validators
               ),
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: TextView(
-                  text: "Mobile Number",
-                  onPressed: () {
 
-                  },
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: CustomTextField(
-                  controller: _phoneController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.phone,
-                ),
-              ),
-              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
@@ -236,12 +214,12 @@ class _loginScreenState extends State<Login> {
                           });
                           // Validation successful, navigate to the next screen
                           String email = _emailController.text;
-                          String countryCode = _phoneController.text;
+
                           String password = _passwordController.text;
                           // request(countryCode,password);
                           // final user = await login(countryCode, password);
 
-                          final response = await login(countryCode, password);
+                          final response = await login();
                           if (response != null) {
                             final status = response['status'] as bool;
                             final message = response['message'] as String;
@@ -265,12 +243,8 @@ class _loginScreenState extends State<Login> {
                              await SharedStorage().saveBoolToLocalStorage('remember_me', _rememberMe);
                              // await SharedStorage().saveStringToLocalStorage('carnumber', '${user.car?.number}');
 
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(),), (route) => false);
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()),
-                              );
                               setState(() {
                                 _isLoading = false; // Stop loading
                               });

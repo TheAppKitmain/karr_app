@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/Notes/testnote/TestNoteScreen.dart';
+import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
+import 'package:kaar/controller/cityCharges/AllCityCharges.dart';
 import 'package:kaar/controller/home/HomeScreen.dart';
 import 'package:kaar/controller/parkingTickets/ParkingTickets.dart';
 import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
 import 'package:kaar/controller/profile/ProfileScreen.dart';
+import 'package:kaar/controller/tolls/AddTolls.dart';
+import 'package:kaar/controller/tolls/AllTolls.dart';
 import 'package:kaar/utils/Constants.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -52,16 +57,127 @@ class _MyHomePageState extends State<MyHomePage> {
         physics:  NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: [
-          HomeScreen(),
-          Step1Screen(),
+          HomeScreen(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },),
+          Step1Screen(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),
           ProfileScreen(),
+          ParkingTickets(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),//3
+          AddTolls(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),//4
+          AllTolls(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),//5
+          CityCharges(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),//6
+    AddCityCharges(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),//7
+    TestNoteScreen(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),//8
 
         ],
-        onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        // onPageChanged: (index) {
+        //   setState(() {
+        //     _currentIndex = index;
+        //   });
+        // },
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavigationBarItems,

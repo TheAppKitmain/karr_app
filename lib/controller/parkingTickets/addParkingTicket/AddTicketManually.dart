@@ -94,7 +94,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
     if (picked != null && picked != _date) {
       setState(() {
         _date = picked;
-        _dateController.text = DateFormat('dd-MMM-yyyy')
+        _dateController.text = DateFormat('yyyy-MM-dd')
             .format(picked); // Format the date as needed
       });
     }

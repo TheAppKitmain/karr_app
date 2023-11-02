@@ -13,7 +13,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AddCityCharges extends StatefulWidget {
+  Function(int?) onNext;
+  Function(int?) onPrevious;
 
+
+
+  AddCityCharges( {required this.onNext,required this.onPrevious});
 
   @override
   _AddCityChargesState createState() => _AddCityChargesState();
@@ -150,133 +155,136 @@ class _AddCityChargesState extends State<AddCityCharges> {
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
     final fontSize = width * 0.04;
-    return Scaffold(
-        backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: height * 0.08,
-        title:  Text(
-        "Add City Chargess",
-        style: TextStyle(
-            fontSize: fontSize,
-        color: AppColors.black // Adjust the title text size as needed
-    ),
-
-    ),
-    centerTitle: true,
-    iconTheme: const IconThemeData(color: Colors.black),
-    // Center the title horizontally,
-    backgroundColor: AppColors.white,
-
-    ),
-      body: Padding(
-    padding:  EdgeInsets.all(15.0),
-
-    child:Column(
-
-        children:[
-
-           Text("Select Days", style: TextStyle(
-              fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
-           SizedBox(height: height*0.01,),
-          DatePicker(
-
-            DateTime.now(),
-            initialSelectedDate: DateTime.now(),
-
-            selectionColor: AppColors.primaryColor,
-            selectedTextColor: Colors.white,
-
-            height: height*0.12 ,
-            onDateChange: (date) {
-              // New date selected
-              setState(() {
-                // _selectedValue = date;
-              });
-            },
-          ),
-          SizedBox(height: 10,),
-          Row(
-            children: [
-              Text("Select Charge", style: TextStyle(
-                  fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
-            ],
-          ),
-          SizedBox(height: 10,),
-          cityCharges.isNotEmpty
-         ? ListView.builder(
-            itemCount: cityCharges.length,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return AddItemView(tolls: cityCharges[index]
-              ,onTollChecked: onTollChecked,);
-            },) :CircularProgressIndicator(),
-
-          const Spacer(),
-          _isLoading // Show progress indicator if loading
-              ? const CircularProgressIndicator()
-              : PrimaryButton(
-              text: "Submit City Charge",
-              onPressed: () async {
-                if (selectedCityCharges.isEmpty) {
-                  // Show a Snackbar if no tolls are selected
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Please select at least one charge to submit.'),
-                    ),
-                  );
-                  return; // Return to prevent further execution
-                }
-                setState(() {
-                  _isLoading = true; // Start loading
-                });
-                final response = await addCityCharge();
-                if (response != null) {
-                  final status = response['status'] as bool;
-                  final message = response['message'] as String;
-
-                  if (status) {
-                    setState(() {
-                      _isLoading = false; // Start loading
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(' $message'),
-                      ),
-
-                    );
-                    CustomDialogBox.show(context, status, "City Charge Submitted", "Great! Your city charge has been submitted successfully.");
-                  }else{
-                    setState(() {
-                      _isLoading = false; // Start loading
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(' $message'),
-                      ),
-
-                    );
-                    CustomDialogBox.show(context, status, "City Charge  not Submitted", "Your city charge has not been submitted successfully.");
-                  }
-                }else{
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('API request failed'),
-                    ),
-                  );
-                  setState(() {
-                    _isLoading = false; // Stop loading
-                  });
-                }
-              })
-        ],
-
+    return WillPopScope(
+      onWillPop: () =>widget.onPrevious(0),
+      child: Scaffold(
+          backgroundColor: Colors.white,
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            elevation: 0,
+            toolbarHeight: height * 0.08,
+          title:  Text(
+          "Add City Chargess",
+          style: TextStyle(
+              fontSize: fontSize,
+          color: AppColors.black // Adjust the title text size as needed
       ),
 
-    )
+      ),
+      centerTitle: true,
+      iconTheme: const IconThemeData(color: Colors.black),
+      // Center the title horizontally,
+      backgroundColor: AppColors.white,
 
+      ),
+        body: Padding(
+      padding:  EdgeInsets.all(15.0),
+
+      child:Column(
+
+          children:[
+
+             Text("Select Days", style: TextStyle(
+                fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+             SizedBox(height: height*0.01,),
+            DatePicker(
+
+              DateTime.now(),
+              initialSelectedDate: DateTime.now(),
+
+              selectionColor: AppColors.primaryColor,
+              selectedTextColor: Colors.white,
+
+              height: height*0.12 ,
+              onDateChange: (date) {
+                // New date selected
+                setState(() {
+                  // _selectedValue = date;
+                });
+              },
+            ),
+            SizedBox(height: 10,),
+            Row(
+              children: [
+                Text("Select Charge", style: TextStyle(
+                    fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+              ],
+            ),
+            SizedBox(height: 10,),
+            cityCharges.isNotEmpty
+           ? ListView.builder(
+              itemCount: cityCharges.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return AddItemView(tolls: cityCharges[index]
+                ,onTollChecked: onTollChecked,);
+              },) :CircularProgressIndicator(),
+
+            const Spacer(),
+            _isLoading // Show progress indicator if loading
+                ? const CircularProgressIndicator()
+                : PrimaryButton(
+                text: "Submit City Charge",
+                onPressed: () async {
+                  if (selectedCityCharges.isEmpty) {
+                    // Show a Snackbar if no tolls are selected
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please select at least one charge to submit.'),
+                      ),
+                    );
+                    return; // Return to prevent further execution
+                  }
+                  setState(() {
+                    _isLoading = true; // Start loading
+                  });
+                  final response = await addCityCharge();
+                  if (response != null) {
+                    final status = response['status'] as bool;
+                    final message = response['message'] as String;
+
+                    if (status) {
+                      setState(() {
+                        _isLoading = false; // Start loading
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(' $message'),
+                        ),
+
+                      );
+                      CustomDialogBox.show(context, status, "City Charge Submitted", "Great! Your city charge has been submitted successfully.");
+                    }else{
+                      setState(() {
+                        _isLoading = false; // Start loading
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(' $message'),
+                        ),
+
+                      );
+                      CustomDialogBox.show(context, status, "City Charge  not Submitted", "Your city charge has not been submitted successfully.");
+                    }
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('API request failed'),
+                      ),
+                    );
+                    setState(() {
+                      _isLoading = false; // Stop loading
+                    });
+                  }
+                })
+          ],
+
+        ),
+
+      )
+
+      ),
     );
   }
 

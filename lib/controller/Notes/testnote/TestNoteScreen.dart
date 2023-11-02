@@ -6,7 +6,14 @@ import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TestNoteScreen extends StatefulWidget {
-  const TestNoteScreen({super.key});
+
+
+  Function(int?) onNext;
+  Function(int?) onPrevious;
+
+
+
+  TestNoteScreen( {required this.onNext,required this.onPrevious});
 
   @override
   State<TestNoteScreen> createState() => _TestNoteScreenState();
@@ -91,72 +98,75 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey.shade200,
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        toolbarHeight: 60,
-        title: Text(
-          "All Notes",
-          style: TextStyle(
-            fontSize: 20,
-            color: AppColors.black,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: DropdownButton<String>(
-                      value: selectedValue,
-                      underline: null,
-                      hint: Text(
-                        "Sort By",
-                        style: TextStyle(color: AppColors.black),
-                      ),
-                      items: gameList.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedValue = newValue;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+    return WillPopScope(
+      onWillPop: () =>widget.onPrevious(0),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.grey.shade200,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          toolbarHeight: 60,
+          title: Text(
+            "All Notes",
+            style: TextStyle(
+              fontSize: 20,
+              color: AppColors.black,
             ),
-            isLoading
-                ? CircularProgressIndicator()
-                : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AllNotesItemView(
-                allTolls: allTolls,
-                cityCharges: cityCharges,
-                allTickets: allTickets,
-                selectedCategory: selectedValue ?? "Tolls",
+          ),
+          centerTitle: true,
+          backgroundColor: AppColors.white,
+          iconTheme: const IconThemeData(color: Colors.black),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: [
+                    Spacer(),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: DropdownButton<String>(
+                        value: selectedValue,
+                        underline: null,
+                        hint: Text(
+                          "Sort By",
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                        items: gameList.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValue = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            )
-          ],
+              isLoading
+                  ? CircularProgressIndicator()
+                  : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AllNotesItemView(
+                  allTolls: allTolls,
+                  cityCharges: cityCharges,
+                  allTickets: allTickets,
+                  selectedCategory: selectedValue ?? "Tolls",
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

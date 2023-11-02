@@ -136,196 +136,204 @@ class CustomStepper extends StatelessWidget {
 
 class Step1Screen extends StatelessWidget {
 
+  Function(int?) onNext;
+  Function(int?) onPrevious;
 
+
+
+  Step1Screen( {required this.onNext,required this.onPrevious});
 
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+    return WillPopScope(
+      onWillPop: () =>onPrevious(0),
+      child: Scaffold(
         backgroundColor: AppColors.white,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            // Align text to the start
-            children: [
-              Text(
-                "How Would You Like To Submit Your Tickets?",
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontFamily: "Lato",
-                  fontSize: width * 0.07,
+        appBar: AppBar(
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: AppColors.white,
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // Align text to the start
+              children: [
+                Text(
+                  "How Would You Like To Submit Your Tickets?",
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontFamily: "Lato",
+                    fontSize: width * 0.07,
 
-                ),
-              ),
-              SizedBox(height: height * 0.02),
-              Text(
-                "The below options are available to submit your ticket. Please choose your preferred method.",
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontFamily: "Lato-Regular",
-                  fontSize: width * 0.04,
-                ),
-              ),
-              SizedBox(height: height * 0.04),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyTicketScreen()),
-                  );
-                },
-                child: Card(
-                  color: AppColors.white,
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        // Wrap the text with Flexible
-                        flex: 2,
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.white,
-                          child: Image.asset(
-                            'assets/png/mobile_icon.png',
-                            width: 40,
-                            height: 40,
-                            color: AppColors.primaryColor,
+                ),
+                SizedBox(height: height * 0.02),
+                Text(
+                  "The below options are available to submit your ticket. Please choose your preferred method.",
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontFamily: "Lato-Regular",
+                    fontSize: width * 0.04,
+                  ),
+                ),
+                SizedBox(height: height * 0.04),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MyTicketScreen()),
+                    );
+                  },
+                  child: Card(
+                    color: AppColors.white,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          // Wrap the text with Flexible
+                          flex: 2,
+                          child: CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.white,
+                            child: Image.asset(
+                              'assets/png/mobile_icon.png',
+                              width: 40,
+                              height: 40,
+                              color: AppColors.primaryColor,
+                            ),
                           ),
                         ),
-                      ),
-                      Flexible(
-                        // Wrap the text with Flexible
-                        flex: 4,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 20),
-                            Text(
-                              'Submit Ticket',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Lato",
-                                color: Colors.black,
+                        Flexible(
+                          // Wrap the text with Flexible
+                          flex: 4,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 20),
+                              Text(
+                                'Submit Ticket',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Lato",
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Take a picture of your ticket or select a photo of your ticket from the camera roll.',
-                              style: TextStyle(
-                                fontSize: width * 0.03,
-                                color: Colors.black,
+                              SizedBox(height: 10),
+                              Text(
+                                'Take a picture of your ticket or select a photo of your ticket from the camera roll.',
+                                style: TextStyle(
+                                  fontSize: width * 0.03,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.start,
                               ),
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Spacer(),
-                      Flexible(
-                        // Wrap the text with Flexible
-                        flex: 1,
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.primaryColor,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: height * 0.02),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddTicketManually()),
-                  );
-                },
-                child: Card(
-                  color: AppColors.white,
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        // Wrap the text with Flexible
-                        flex: 2,
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.white,
-                          child: Image.asset(
-                            'assets/png/parking_tickets.png',
-                            width: 40,
-                            height: 40,
-                            color: AppColors.primaryColor,
+                            ],
                           ),
                         ),
-                      ),
-                      Flexible(
-                        // Wrap the text with Flexible
-                        flex: 4,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 20),
-                            Text(
-                              'Manual Input',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Lato",
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Enter the details of your ticket manually.',
-                              style: TextStyle(
-                                fontSize: width * 0.03,
-                                color: Colors.black,
-                              ),
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Spacer(),
-                      Flexible(
-                        // Wrap the text with Flexible
-                        flex: 1,
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.primaryColor,
-                        ),
-                      )
-                    ],
+                        Spacer(),
+                        Flexible(
+                          // Wrap the text with Flexible
+                          flex: 1,
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.primaryColor,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(height: height * 0.02),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AddTicketManually()),
+                    );
+                  },
+                  child: Card(
+                    color: AppColors.white,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          // Wrap the text with Flexible
+                          flex: 2,
+                          child: CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.white,
+                            child: Image.asset(
+                              'assets/png/parking_tickets.png',
+                              width: 40,
+                              height: 40,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          // Wrap the text with Flexible
+                          flex: 4,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 20),
+                              Text(
+                                'Manual Input',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "Lato",
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Enter the details of your ticket manually.',
+                                style: TextStyle(
+                                  fontSize: width * 0.03,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Spacer(),
+                        Flexible(
+                          // Wrap the text with Flexible
+                          flex: 1,
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.primaryColor,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

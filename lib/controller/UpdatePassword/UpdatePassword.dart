@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/CustomDialogBox.dart';
 import 'package:kaar/widgets/CustomSnackBar.dart';
 import 'package:kaar/widgets/CustomTextField.dart';
@@ -85,6 +86,12 @@ class _UpdatePasswordState extends State<UpdatePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: AppColors.white,
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,

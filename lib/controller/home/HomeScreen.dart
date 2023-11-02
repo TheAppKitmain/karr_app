@@ -13,10 +13,11 @@ import '../cityCharges/AllCityCharges.dart';
 
 class HomeScreen extends StatefulWidget {
 
+ Function(int?) onNext;
 
 
 
-
+HomeScreen( {required this.onNext});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -61,148 +62,157 @@ class _HomeScreenState extends State<HomeScreen> {
               child:  Image.asset(
                   'assets/png/kaar_logo.png',
                   // Replace with your image asset path
-                  width: width*0.3,
-                  height: 120,
+                  width: width*0.4,
+                  height: 140,
                 ),
 
             ),
-            Row(
-              children:[
 
-                Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: TextView(
-                    text: "Welcome, $_username!",
-
-                    onPressed: () {},
-                  ),
-                ),
-              ),
-                Spacer(),
-                CircleAvatar(
-
-                  backgroundColor: Colors.white,
-                  child: Image.asset(
-                    'assets/png/profile_test.png',
-                    // Replace with your image asset path
-                    width: 40,
-                    height: 40,
-
-                  ),
-                ),
-                SizedBox(width: 20,),
-          ]
-            ),
-            SizedBox(height: height * 0.01),
-
-            SizedBox(height: height * 0.020),
+          //   Row(
+          //     children:[
+          //
+          //       Align(
+          //       alignment: Alignment.topLeft,
+          //       child: Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 10),
+          //         child: TextView(
+          //           text: "Welcome, $_username!",
+          //
+          //           onPressed: () {},
+          //         ),
+          //       ),
+          //     ),
+          //       Spacer(),
+          //       CircleAvatar(
+          //
+          //         backgroundColor: Colors.white,
+          //         child: Image.asset(
+          //           'assets/png/profile_test.png',
+          //           // Replace with your image asset path
+          //           width: 40,
+          //           height: 40,
+          //
+          //         ),
+          //       ),
+          //       SizedBox(width: 20,),
+          // ]
+          //   ),
+          //   SizedBox(height: height * 0.01),
+          //
+          //   SizedBox(height: height * 0.020),
             Wrap(
               runSpacing: height * .010,
               spacing: 10,
               children: [
                 HomeScreenCard(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ParkingTickets(),
-                    ),
-                  ),
-                  addNew: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Step1Screen(),
-                    ),
-                  ),
+                  onTap: () => widget.onNext(3),
+                  //     Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => ParkingTickets(),
+                  //   ),
+                  // ),
+                  addNew: () => widget.onNext(1),
+      // Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (context) => Step1Screen(),
+      //               ),
+      //             ),
                 ),
                 HomeScreenCard(
                     image: 'assets/png/tolls.png',
                     title: 'Toll',
                     des: 'Create new tolls and check all tolls.',
                     cardColor: AppColors.blue,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AllTolls(),
-                    ),
-                  ),
-                  addNew: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddTolls(),
-                    ),
-                  ),
+                  onTap: () =>widget.onNext(5),
+                  //     Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => AllTolls(),
+                  //   ),
+                  // ),
+                  addNew: () => widget.onNext(4),
+                  //     Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => AddTolls(),
+                  //   ),
+                  // ),
                 ),
                 HomeScreenCard(
                     image: 'assets/png/city_charges.png',
                     title: 'City Charges',
                     des: 'Create new Charges and check status of all chargess',
                     cardColor: AppColors.yellow,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CityCharges(),
-                    ),
-                  ),
-                  addNew: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddCityCharges(),
-                    ),
-                  ),
+                  onTap: () =>widget.onNext(6),
+                  //     Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => CityCharges(),
+                  //   ),
+                  // ),
+                  addNew: () => widget.onNext(7)
+                  //     Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => AddCityCharges(),
+                  //   ),
+                  // ),
                 ),
                 HomeScreenCard(
                     image: 'assets/png/notes.png',
                     title: 'Notes',
                     des: 'Create new notes and check all notes your created.',
                     cardColor: AppColors.pink,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TestNoteScreen(),
-                    ),
-                  ),
-                  addNew: () =>  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TestNoteScreen(),
-                    ),
-                  ),
+                  onTap: () => widget.onNext(8),
+                  //     Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => TestNoteScreen(),
+                  //   ),
+                  // ),
+                  addNew: () => widget.onNext(8),
+                  //     Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => TestNoteScreen(),
+                  //   ),
+                  // ),
                 )
               ],
             ),
-            Row(
-              children:[
-                Padding(
-                  padding: const EdgeInsets.only(left:12.0,top: 12.0),
-                  child: TextView(
-                  text: "Recent Activity",
-
-                  onPressed: () {},
-              ),
-                ),
-          ]
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
-                ),
-                child: Column(children: [
-                  RecentActivityCard(
-                    title: 'Profile Ticket Added',
-                    showDivider: true,
-                  ),
-                  RecentActivityCard(
-                    title: 'Toll Added',
-                    showDivider: false,
-                  ),
-                ],),
-              ),
-            ),
+          //   Row(
+          //     children:[
+          //       Padding(
+          //         padding: const EdgeInsets.only(left:12.0,top: 12.0),
+          //         child: TextView(
+          //         text: "Recent Activity",
+          //
+          //         onPressed: () {},
+          //     ),
+          //       ),
+          // ]
+          //   ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Card(
+            //     elevation: 4,
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+            //     ),
+            //     child: Column(children: [
+            //       RecentActivityCard(
+            //         title: 'Profile Ticket Added',
+            //         showDivider: true,
+            //       ),
+            //       RecentActivityCard(
+            //         title: 'Toll Added',
+            //         showDivider: false,
+            //       ),
+            //     ],),
+            //   ),
+            // ),
 
           ]),
         ),
