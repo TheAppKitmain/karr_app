@@ -22,6 +22,8 @@ class _MyHomePageState extends State<MyHomePage> {
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
       label: 'Home',
+
+
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.add),
@@ -30,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
     BottomNavigationBarItem(
       icon: Icon(Icons.person),
       label: 'Profile',
+
     ),
   ];
   int _currentIndex = 0;
@@ -42,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onItemTapped(int index) {
+
     setState(() {
       _currentIndex = index;
       _pageController.animateToPage(index,
@@ -52,7 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: PageView(
         physics:  NeverScrollableScrollPhysics(),
         controller: _pageController,
@@ -180,6 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // },
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: AppColors.primaryColor,
         items: bottomNavigationBarItems,
         currentIndex: _currentIndex,
         onTap: _onItemTapped,

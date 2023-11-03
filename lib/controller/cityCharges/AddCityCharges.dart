@@ -10,6 +10,8 @@ import 'package:kaar/widgets/CustomDialogBox.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../tolls/AllTolls.dart';
+
 
 
 class AddCityCharges extends StatefulWidget {
@@ -160,23 +162,9 @@ class _AddCityChargesState extends State<AddCityCharges> {
       child: Scaffold(
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            elevation: 0,
-            toolbarHeight: height * 0.08,
-          title:  Text(
-          "Add City Chargess",
-          style: TextStyle(
-              fontSize: fontSize,
-          color: AppColors.black // Adjust the title text size as needed
-      ),
-
-      ),
-      centerTitle: true,
-      iconTheme: const IconThemeData(color: Colors.black),
-      // Center the title horizontally,
-      backgroundColor: AppColors.white,
-
-      ),
+          appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
+            widget.onPrevious(0);
+          },title: 'Add City Charges',),
         body: Padding(
       padding:  EdgeInsets.all(15.0),
 
