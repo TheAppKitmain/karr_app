@@ -12,6 +12,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String? userName;
+  String? logo;
   String? userEmail;
   String? phoneNumber;
   String? licensePlate;
@@ -31,6 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       userEmail = prefs.getString('email');
       phoneNumber = prefs.getString('usernumber');
       licensePlate = prefs.getString('license_number');
+      logo = prefs.getString('logo');
     });
   }
   void logOut() async {
@@ -75,11 +77,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
-                        Image.asset(
-                          'assets/png/profile_test.png',
-                          // Replace with your image asset path
-                          width: 200,
-                          height: 80,
+                        CircleAvatar(
+                          radius: 50.0,
+                          backgroundImage:
+                          NetworkImage("${logo}"),
+                          backgroundColor: Colors.transparent,
                         ),
                         const SizedBox(height: 15),
                         Text(

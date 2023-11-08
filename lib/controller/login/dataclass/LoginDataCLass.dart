@@ -3,15 +3,16 @@ class LoginDataClass {
   String? message;
   bool? status;
   User? user;
-  String? car;
+  
+  String? logo;
 
-  LoginDataClass({this.message, this.status, this.user, this.car});
+  LoginDataClass({this.message, this.status, this.user, this.logo});
 
   LoginDataClass.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    car = json['car'];
+    logo = json['logo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +22,7 @@ class LoginDataClass {
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
-    data['car'] = this.car;
+    data['logo'] = this.logo;
     return data;
   }
 }

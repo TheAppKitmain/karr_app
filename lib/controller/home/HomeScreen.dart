@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kaar/controller/Notes/testnote/TestNoteScreen.dart';
-import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
-import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
-import 'package:kaar/controller/parkingTickets/ParkingTickets.dart';
-import 'package:kaar/controller/tolls/AddTolls.dart';
-import 'package:kaar/controller/tolls/AllTolls.dart';
 import 'package:kaar/utils/Constants.dart';
-import 'package:kaar/widgets/TextView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../cityCharges/AllCityCharges.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -123,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 HomeScreenCard(
                     image: 'assets/png/tolls.png',
                     title: 'Toll',
-                    des: 'Create new tolls and check all tolls.',
+                    des: 'Create new toll entries and check all tolls.',
                     cardColor: AppColors.blue,
                   onTap: () =>widget.onNext(5),
                   //     Navigator.push(
@@ -143,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 HomeScreenCard(
                     image: 'assets/png/city_charges.png',
                     title: 'City Charges',
-                    des: 'Create new Charges and check status of all chargess',
+                    des: 'Create new charge entries and check status of all charges.',
                     cardColor: AppColors.yellow,
                   onTap: () =>widget.onNext(6),
                   //     Navigator.push(
@@ -163,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 HomeScreenCard(
                     image: 'assets/png/notes.png',
                     title: 'Notes',
-                    des: 'Create new notes and check all notes your created.',
+                    des: 'Create new notes and check all notes you\'ve created.',
                     cardColor: AppColors.pink,
                   onTap: () => widget.onNext(8),
                   //     Navigator.push(
@@ -278,7 +270,7 @@ class HomeScreenCard extends StatelessWidget {
               ),
               SizedBox(height: height * 0.020),
               Text(
-                des ?? 'Create new tickets and check status of all tickets',
+                des ?? 'Create new ticket entries and check status of all tickets',
                 style: TextStyle(
                   fontSize: width * 0.03,
                   color: Colors.white,

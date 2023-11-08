@@ -49,6 +49,10 @@ class _loginScreenState extends State<Login> {
       if (response.statusCode == 200) {
         final status = responseData['status'] as bool;
         final message = responseData['message'] as String;
+        final logo = responseData['logo'] as String;
+
+        print(logo);
+
 
         if (status) {
           final userJson = responseData['user'] as Map<String, dynamic>;
@@ -58,6 +62,7 @@ class _loginScreenState extends State<Login> {
             'status': status,
             'message': message,
             'user': user,
+            'logo':logo,
           };
         } else {
           // Handle the case where login failed
@@ -223,10 +228,14 @@ class _loginScreenState extends State<Login> {
                           if (response != null) {
                             final status = response['status'] as bool;
                             final message = response['message'] as String;
+                            final logo = response['logo'] as String;
+
+
 
 
                             if (status) {
                               final user = response['user'] as User;
+                              // final logo = response['logo'] as String;
                               // Login was successful, handle accordingly
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -241,7 +250,7 @@ class _loginScreenState extends State<Login> {
                              await SharedStorage().saveStringToLocalStorage('license_number', user.license!);
                              await SharedStorage().saveStringToLocalStorage('userid', "${user.id!}");
                              await SharedStorage().saveBoolToLocalStorage('remember_me', _rememberMe);
-                             // await SharedStorage().saveStringToLocalStorage('carnumber', '${user.car?.number}');
+                             await SharedStorage().saveStringToLocalStorage('logo', logo);
 
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(),), (route) => false);
 
