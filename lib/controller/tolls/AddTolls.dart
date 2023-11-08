@@ -11,6 +11,8 @@ import 'package:kaar/widgets/selectable_card.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'AllTolls.dart';
+
 class AddTolls extends StatefulWidget {
   Function(int?) onNext;
   Function(int?) onPrevious;
@@ -152,17 +154,9 @@ class _AddTollsState extends State<AddTolls> {
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: height * 0.08,
-          title: Text(
-            "Add Tolls",
-            style: TextStyle(fontSize: fontSize, color: AppColors.black),
-          ),
-          centerTitle: true,
-          backgroundColor: AppColors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-        ),
+        appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
+          widget.onPrevious(0);
+        },title: 'Add Tolls',),
         body: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(

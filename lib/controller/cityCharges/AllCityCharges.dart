@@ -7,6 +7,8 @@ import 'package:kaar/widgets/AllCityChargeItemView.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../tolls/AllTolls.dart';
+
 class CityCharges extends StatefulWidget {
   Function(int?) onNext;
   Function(int?) onPrevious;
@@ -91,21 +93,9 @@ class _CityChargesState extends State<CityCharges> {
       onWillPop: () =>widget.onPrevious(0),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          // Set to true if you want the default back arrow
-          toolbarHeight: 60,
-          title: Text(
-            "All City Charges",
-            style: TextStyle(
-                fontSize: fontSize,
-                color: AppColors.black // Adjust the title text size as needed
-                ),
-          ),
-          centerTitle: true,
-          // Center the title horizontally,
-          backgroundColor: AppColors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-        ),
+        appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
+          widget.onPrevious(0);
+        },title: 'All City Charges',),
         body: Column(children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -174,8 +164,8 @@ class _CityChargesState extends State<CityCharges> {
                         child: Image.asset(
                           'assets/png/nocitycharges.png',
                           // Replace with your image asset path
-                          width: 200,
-                          height: 300,
+                          width: width*0.3,
+                          height: height*0.2,
                         ),
                       ),
                     ),

@@ -5,6 +5,8 @@ import 'package:kaar/controller/Notes/testnote/dataclass.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../tolls/AllTolls.dart';
+
 class TestNoteScreen extends StatefulWidget {
 
 
@@ -98,25 +100,17 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    final fontSize = width * 0.04;
     return WillPopScope(
       onWillPop: () =>widget.onPrevious(0),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey.shade200,
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          toolbarHeight: 60,
-          title: Text(
-            "All Notes",
-            style: TextStyle(
-              fontSize: 20,
-              color: AppColors.black,
-            ),
-          ),
-          centerTitle: true,
-          backgroundColor: AppColors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-        ),
+        appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
+          widget.onPrevious(0);
+        },title: 'Parking Tickets',),
         body: SingleChildScrollView(
           child: Column(
             children: [

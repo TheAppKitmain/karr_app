@@ -9,6 +9,8 @@ import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ChargeGe
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/CameraScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../tolls/AllTolls.dart';
+
 class MyTicketScreen extends StatefulWidget {
   @override
   _MyTicketScreenState createState() => _MyTicketScreenState();
@@ -152,11 +154,9 @@ class Step1Screen extends StatelessWidget {
       onWillPop: () =>onPrevious(0),
       child: Scaffold(
         backgroundColor: AppColors.white,
-        appBar: AppBar(
-          elevation: 0,
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: AppColors.white,
-        ),
+        appBar:CustomAppBar(fontSize: width*0.04,onBackClick: () {
+          onPrevious(0);
+        },title: '',),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(20.0),

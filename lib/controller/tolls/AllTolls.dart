@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -102,25 +104,9 @@ class _AllTollsState extends State<AllTolls> {
       onWillPop: () =>widget.onPrevious(0),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-
-          // Set to true if you want the default back arrow
-          toolbarHeight: height*0.08,
-          elevation: 0,
-          title: Text(
-            "All Tolls",
-            style: TextStyle(
-                fontSize: fontSize,
-                color: AppColors.black,
-              fontFamily: "Lato"
-            ),
-
-          ),
-          centerTitle: true,
-          // Center the title horizontally,
-          backgroundColor: AppColors.white,
-          iconTheme: const IconThemeData(color: Colors.black),
-        ),
+        appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
+          widget.onPrevious(0);
+        }, title: 'All Tolls',),
         body:
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -233,4 +219,43 @@ class _AllTollsState extends State<AllTolls> {
       ),
     );
   }
+}
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBar({
+    super.key,
+    required this.fontSize, required this.onBackClick, required this.title,
+  });
+
+  final double fontSize;
+  final String title;
+  final VoidCallback onBackClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+
+      // Set to true if you want the default back arrow
+      elevation: 0,
+      leading: IconButton(onPressed: onBackClick, icon: Icon(Platform.isAndroid?Icons.arrow_back:Icons.arrow_back_ios)),
+      iconTheme: IconThemeData(color: Colors.black),
+      backgroundColor: Colors.white,
+
+      title: Text(
+        title,
+        style: TextStyle(
+            fontSize: fontSize,
+            color: AppColors.black,
+          fontFamily: "Lato"
+        ),
+
+      ),
+      centerTitle: true,
+      // Center the title horizontally,
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => AppBar().preferredSize;
 }
