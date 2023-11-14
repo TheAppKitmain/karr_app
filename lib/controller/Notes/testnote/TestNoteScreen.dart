@@ -110,7 +110,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
         backgroundColor: Colors.grey.shade200,
         appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
           widget.onPrevious(0);
-        },title: 'Parking Tickets',),
+        },title: 'Notes',),
         body: SingleChildScrollView(
           child: Column(
             children: [

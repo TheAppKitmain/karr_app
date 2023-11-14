@@ -297,7 +297,7 @@ class _loginScreenState extends State<Login> {
                             children: <TextSpan>[
                               TextSpan(text: 'By continuing, you agree to accept our '),
 
-                              TextSpan(text: ' Privacy Policy', style: TextStyle(color: AppColors.primaryColor)),
+                              TextSpan(text: ' Privacy Policy ', style: TextStyle(color: AppColors.primaryColor)),
                               TextSpan(text: '&'),
                               TextSpan(text: ' Terms of Service.', style: TextStyle(color: AppColors.primaryColor)),
                             ],
