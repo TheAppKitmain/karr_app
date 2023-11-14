@@ -224,17 +224,17 @@ class _AllTollsState extends State<AllTolls> {
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
-    required this.fontSize, required this.onBackClick, required this.title,
+    required this.fontSize, required this.onBackClick, required this.title,this.tabBar,
   });
 
   final double fontSize;
   final String title;
   final VoidCallback onBackClick;
+  final PreferredSizeWidget? tabBar;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-
       // Set to true if you want the default back arrow
       elevation: 0,
       leading: IconButton(onPressed: onBackClick, icon: Icon(Platform.isAndroid?Icons.arrow_back:Icons.arrow_back_ios)),
@@ -251,11 +251,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       ),
       centerTitle: true,
+      bottom:tabBar,
+
       // Center the title horizontally,
     );
   }
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => AppBar().preferredSize;
+  Size get preferredSize => Size.fromHeight(90.0);
 }

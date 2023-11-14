@@ -33,6 +33,12 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
         name: toll.name,
         date: toll.date,
         note: toll.note??"",
+        updateNoteValue: (value) {
+          toll.note=value;
+          setState(() {
+
+          });
+        },
         type: "pd",
 
         context: context
@@ -47,6 +53,12 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
         date: charge.date,
         note: charge.note??"",
           type: "cd",
+          updateNoteValue: (value) {
+            charge.note=value;
+            setState(() {
+
+            });
+          },
         context: context
       ))
           .toList();
@@ -58,6 +70,12 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
         date: ticket.date,
         note: ticket.note??"",
           type: "ticket_id",
+          updateNoteValue: (value) {
+            ticket.note=value;
+            setState(() {
+
+            });
+          },
         context: context
       ))
           .toList();
@@ -77,6 +95,7 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
     required String note,
     required String type,
     required BuildContext context,
+    Function(String)? updateNoteValue,
   }) {
     return Card(
         elevation: 8, // Adjust the elevation value as needed
@@ -110,6 +129,7 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
             onTap: () {
               UpdateNoteDialog.show(context, id,note.toString(),type, (v) {
                 note = v!;
+               if(updateNoteValue!=null) updateNoteValue(v);
                 setState(() {
 
                 });

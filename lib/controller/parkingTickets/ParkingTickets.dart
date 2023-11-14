@@ -23,22 +23,36 @@ class ParkingTickets extends StatelessWidget {
     final fontSize = width * 0.04;
     return DefaultTabController(
       length: 2,
+      child: Builder(builder: (context) {
 
-      child: WillPopScope(
-        onWillPop: () =>onPrevious(0),
-        child: Scaffold(
-          backgroundColor: AppColors.white,
+        return WillPopScope(
+          onWillPop: () =>onPrevious(0),
+          child: Scaffold(
 
-          appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
-            onPrevious(0);
-          },title: 'Parking Tickets',),
-          body: TabBarView(children: [
-            TicketHistory(),
-            TicketsPaidDetails(),
+            appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
+              onPrevious(0);
+            },title: 'Parking Tickets',tabBar: TabBar(
+              indicatorColor: AppColors.primaryColor,
+              tabs: [
+                Tab(
+                  child: Text('Ticket History',style: TextStyle(color: Colors.black),),
 
-          ]),
-        ),
-      ),
+                ),
+                Tab(
+                  child: Text('Tickets',style: TextStyle(color: Colors.black),),
+
+                ),
+
+              ],
+            ),),
+            body: TabBarView(children: [
+              TicketHistory(),
+              TicketsPaidDetails(),
+
+            ]),
+          ),
+        );
+      },),
     );
   }
 }

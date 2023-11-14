@@ -246,12 +246,12 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                 _isLoading =
                                                     false; // Start loading
                                               });
-                                              ScaffoldMessenger.of(context)
+                                             /* ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(' $message'),
                                                 ),
-                                              );
+                                              );*/
                                               CustomDialogBox.show(
                                                   context,
                                                   status,
@@ -262,12 +262,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                 _isLoading =
                                                     false; // Start loading
                                               });
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(' $message'),
-                                                ),
-                                              );
+
                                               CustomDialogBox.show(
                                                   context,
                                                   status,

@@ -33,7 +33,7 @@ Future<DateTime?> getDatePicker(BuildContext context) async {
                   'Cancel',
                 )),
                 TextButton(onPressed: (){
-                  Navigator.pop(context,pickedDate);
+                  Navigator.pop(context,pickedDate??DateTime.now());
                 }, child: Text(
                   'Done',
                 ))

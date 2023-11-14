@@ -11,6 +11,7 @@ import 'package:kaar/widgets/selectable_card.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../widgets/CustomSnackBar.dart';
 import 'AllTolls.dart';
 
 class AddTolls extends StatefulWidget {
@@ -266,17 +267,18 @@ class _AddTollsState extends State<AddTolls> {
                   );
                 },
               )
-                  : CircularProgressIndicator(),
+                  : const CircularProgressIndicator(),
               const Spacer(),
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : PrimaryButton(
                 text: "Submit Toll",
                 onPressed: () async {
                   if (selectedTolls.isEmpty) {
                     // Show a Snackbar if no tolls are selected
+
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text('Please select at least one toll to submit.'),
                       ),
                     );

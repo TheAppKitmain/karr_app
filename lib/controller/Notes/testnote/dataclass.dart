@@ -2,7 +2,7 @@ class Ticket {
   final int id;
   final String pcnNumber;
   final String date;
-  final String note;
+   String note;
 
   Ticket({
     required this.id,
@@ -25,7 +25,7 @@ class Toll {
   final String name;
   final String id;
   final String date;
-  final String note;
+   String note;
 
   Toll({
     required this.name,
@@ -48,7 +48,7 @@ class Charge {
   final String name;
   final String id;
   final String date;
-  final String note;
+   String note;
 
   Charge({
     required this.name,

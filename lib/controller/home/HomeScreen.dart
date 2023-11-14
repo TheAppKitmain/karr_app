@@ -236,6 +236,7 @@ class HomeScreenCard extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
       width: width / 2.1,
+
       child: Card(
         margin: EdgeInsets.only(top: height * 0.01),
         color: cardColor ?? AppColors.primaryColor,
@@ -272,7 +273,7 @@ class HomeScreenCard extends StatelessWidget {
               Text(
                 des ?? 'Create new ticket entries and check status of all tickets',
                 style: TextStyle(
-                  fontSize: width * 0.03,
+                  fontSize: width * 0.028,
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.start,

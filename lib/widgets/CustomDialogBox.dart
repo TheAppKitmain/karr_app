@@ -1,15 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:kaar/controller/home/HomeScreen.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/MyHomePage.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:lottie/lottie.dart';
 
-
 class CustomDialogBox {
-  static void show(BuildContext context, bool successful, String title, String description) {
+  static void show(
+      BuildContext context, bool successful, String title, String description) {
     bool isIOS = defaultTargetPlatform == TargetPlatform.iOS;
 
     final height = MediaQuery.of(context).size.height;
@@ -26,54 +25,53 @@ class CustomDialogBox {
         builder: (BuildContext context) {
           return Dialog(
             backgroundColor: Colors.transparent,
-            child:  Container(
-                height: height*0.6,
-                child: Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-
-                      Lottie.asset(
-                        'assets/json/success_animation.json',
-                        width: animationWidth,
-                        height: animationHeight,
+            child: Container(
+              height: height * 0.6,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Lottie.asset(
+                      successful
+                          ? 'assets/json/success_animation.json'
+                          : 'assets/json/cancel.json',
+                      width: animationWidth,
+                      height: animationHeight,
+                    ),
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontFamily: "Lato",
+                        fontSize: fontSizeTitle,
                       ),
-                      Text(
-                        title,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        description,
                         style: TextStyle(
                           color: AppColors.black,
-                          fontFamily: "Lato",
-                          fontSize: fontSizeTitle,
+                          fontFamily: "Lato-Regular",
+                          fontSize: fontSizeDescription,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          description,
-                          style: TextStyle(
-                            color: AppColors.black,
-                            fontFamily: "Lato-Regular",
-                            fontSize: fontSizeDescription,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      PrimaryButton(
-
-
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => MyHomePage()),
-                          );
-                        },
-                        text: 'Go to Home Screen',
-                      ),
-                    ],
-                  ),
+                    ),
+                    Spacer(),
+                    PrimaryButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                        );
+                      },
+                      text: 'Go to Home Screen',
+                    ),
+                  ],
                 ),
               ),
-
+            ),
           );
         },
       );
@@ -85,12 +83,15 @@ class CustomDialogBox {
           return Dialog(
             backgroundColor: Colors.transparent,
             child: Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Lottie.asset(
-                    'assets/json/success_animation.json',
+                    successful
+                        ? 'assets/json/success_animation.json'
+                        : 'assets/json/cancel.json',
                     width: animationWidth,
                     height: animationHeight,
                   ),
@@ -131,4 +132,3 @@ class CustomDialogBox {
     }
   }
 }
-
