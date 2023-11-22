@@ -1,5 +1,6 @@
 ﻿import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/login/dataclass/LoginDataCLass.dart';
 import 'package:kaar/controller/login/dataclass/User.dart';
@@ -9,6 +10,7 @@ import 'package:kaar/widgets/MyHomePage.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/TextView.dart';
 import 'package:kaar/controller/home/HomeScreen.dart';
+import 'package:kaar/widgets/WebView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -292,14 +294,28 @@ class _loginScreenState extends State<Login> {
                     child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child:  RichText(
-                          text: const TextSpan(
+                          text:  TextSpan(
                             style: TextStyle(color: Colors.black, fontSize: 16),
                             children: <TextSpan>[
                               TextSpan(text: 'By continuing, you agree to accept our '),
 
-                              TextSpan(text: ' Privacy Policy ', style: TextStyle(color: AppColors.primaryColor)),
+                              TextSpan(text: ' Privacy Policy ', style: TextStyle(color: AppColors.primaryColor),recognizer: TapGestureRecognizer()..onTap = () {
+                                Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WebViewClass(title: "Privacy policy",url: "http://ec2-54-146-4-118.compute-1.amazonaws.com/privacy"),
+                                    ));
+
+                              }),
                               TextSpan(text: '&'),
-                              TextSpan(text: ' Terms of Service.', style: TextStyle(color: AppColors.primaryColor)),
+                              TextSpan(text: ' Terms of Service.', style: TextStyle(color: AppColors.primaryColor),recognizer: TapGestureRecognizer()..onTap = () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => WebViewClass(title: "Terms of Service",url: "http://ec2-54-146-4-118.compute-1.amazonaws.com/terms-conditions"),
+                                    ));
+
+                              }),
                             ],
                           ),
                         )

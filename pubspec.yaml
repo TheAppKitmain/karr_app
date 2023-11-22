@@ -49,6 +49,9 @@ dependencies:
   flutter_scalable_ocr: ^2.0.0
   flare_flutter: ^3.0.2
   lottie: ^2.6.0
+  webview_flutter: ^4.4.2
+
+
 
 
 #  flutter_ocr_sdk: ^1.1.3

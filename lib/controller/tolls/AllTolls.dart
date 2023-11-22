@@ -177,7 +177,7 @@ class _AllTollsState extends State<AllTolls> {
               ),
               Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.05,fontFamily: "Lato",color: AppColors.black),)),
               SizedBox(height: 20,),
-              Center( child: Text("Click “Add Toll” and provide us with the details to ",style: TextStyle(fontSize:fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
+              Center( child: Text("Click Add Toll and provide us with the details to ",style: TextStyle(fontSize:fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
               Center( child: Text("add toll for you.",style: TextStyle(fontSize: fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
 
               Center(

@@ -31,7 +31,8 @@ class ParkingTickets extends StatelessWidget {
 
             appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
               onPrevious(0);
-            },title: 'Parking Tickets',tabBar: TabBar(
+            },title: 'Parking Tickets',
+              tabBar: TabBar(
               indicatorColor: AppColors.primaryColor,
               tabs: [
                 Tab(

@@ -166,7 +166,7 @@ class Step1Screen extends StatelessWidget {
               // Align text to the start
               children: [
                 Text(
-                  "How Would You Like To Submit Your Tickets?",
+                  "How would you like to Submit your Tickets?",
                   style: TextStyle(
                     color: AppColors.black,
                     fontFamily: "Lato",

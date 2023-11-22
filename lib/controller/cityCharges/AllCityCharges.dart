@@ -182,7 +182,7 @@ class _CityChargesState extends State<CityCharges> {
                     ),
                     Center(
                         child: Text(
-                      "Click “Add City Charge” and provide us with the ",
+                      "Click Add City Charge and provide us with the ",
                       style: TextStyle(
                           fontSize: fontSize,
                           fontFamily: "fonts/Lato-Regular",

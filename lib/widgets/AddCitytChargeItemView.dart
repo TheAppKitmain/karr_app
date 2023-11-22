@@ -52,7 +52,7 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
 
                       SizedBox(height: 20,),
 
-                      Text('EveryDay',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
+                      Text('Everyday',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
 
                       SizedBox(height: 10,),
                       Row(
