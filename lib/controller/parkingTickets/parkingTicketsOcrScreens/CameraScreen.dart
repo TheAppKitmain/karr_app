@@ -154,7 +154,8 @@ class _CameraScreenState extends State<CameraScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
+    return
+      Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[

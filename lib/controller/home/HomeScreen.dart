@@ -273,7 +273,7 @@ class HomeScreenCard extends StatelessWidget {
               Text(
                 des ?? 'Create new ticket entries and check status of all tickets',
                 style: TextStyle(
-                  fontSize: width * 0.028,
+                  fontSize: width * 0.026,
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.start,

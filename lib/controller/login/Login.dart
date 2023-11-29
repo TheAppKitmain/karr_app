@@ -251,6 +251,7 @@ class _loginScreenState extends State<Login> {
                              await SharedStorage().saveStringToLocalStorage('name', user.name!);
                              await SharedStorage().saveStringToLocalStorage('license_number', user.license!);
                              await SharedStorage().saveStringToLocalStorage('userid', "${user.id!}");
+                             await SharedStorage().saveStringToLocalStorage('adminid', "${user.userid!}");
                              await SharedStorage().saveBoolToLocalStorage('remember_me', _rememberMe);
                              await SharedStorage().saveStringToLocalStorage('logo', logo);
 

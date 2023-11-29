@@ -4,8 +4,7 @@ import 'package:kaar/controller/parkingTickets/addParkingTicket/AddTicketManuall
 
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ReviewDetailScreen.dart';
-import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/DateGetScreen.dart';
-import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ChargeGetScreen.dart';
+
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/CameraScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

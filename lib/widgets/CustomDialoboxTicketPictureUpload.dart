@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/parkingTickets/addParkingTicket/AddTicketManually.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/MyHomePage.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:lottie/lottie.dart';
 
-class CustomDialogBox {
+class CustomDialoboxTicketPictureUpload {
   static void show(
       BuildContext context, bool successful, String title, String description) {
     bool isIOS = defaultTargetPlatform == TargetPlatform.iOS;
@@ -64,10 +65,10 @@ class CustomDialogBox {
                     PrimaryButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          MaterialPageRoute(builder: (context) => AddTicketManually()),
                         );
                       },
-                      text: 'Go to Home Screen',
+                      text: 'Go to Add Detail',
                     ),
                   ],
                 ),
@@ -120,10 +121,10 @@ class CustomDialogBox {
                   PrimaryButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                        MaterialPageRoute(builder: (context) => AddTicketManually()),
                       );
                     },
-                    text: 'Go to Home Screen',
+                    text: 'Go to Add Detail',
                   ),
                 ],
               ),

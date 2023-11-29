@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
+import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/SubmitticketPictureScreen.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/AddParkingTicketCard.dart';
 import 'package:kaar/widgets/CustomDialogBox.dart';
@@ -192,7 +193,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                               context,
                               status,
                               "Ticket  not Submitted",
-                              "Your Ticket has not been submitted successfully.");
+                              "Your Ticket has not been submitted .");
                         }
                       } else {
                         ScaffoldMessenger.of(context)
@@ -232,7 +233,42 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                   ),
                 ),
               ],
-            )
+            ),
+            SizedBox(height: 10,),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TicketCameraScreen()),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(
+                      color: AppColors.primaryColor,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+
+                    "Ticket not recognized? submit picture of the ticket",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 16,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
           ],
         ),

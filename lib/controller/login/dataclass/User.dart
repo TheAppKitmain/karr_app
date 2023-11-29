@@ -1,5 +1,6 @@
 class User {
   int? id;
+  int? userid;
   String? name;
   String? number;
   String? license;
@@ -10,6 +11,7 @@ class User {
 
   User(
       {this.id,
+        this.userid,
         this.name,
         this.number,
         this.license,
@@ -20,6 +22,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    userid = json['user_id'];
     name = json['name'];
     number = json['number'];
     license = json['license'];
@@ -31,14 +34,15 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['number'] = this.number;
-    data['license'] = this.license;
-    data['password'] = this.password;
-    data['email'] = this.email;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['user_id'] = userid;
+    data['name'] = name;
+    data['number'] = number;
+    data['license'] = license;
+    data['password'] = password;
+    data['email'] = email;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
