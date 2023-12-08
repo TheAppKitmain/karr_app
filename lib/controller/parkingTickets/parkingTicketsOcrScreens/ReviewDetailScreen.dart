@@ -96,181 +96,185 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Container(
-      color: AppColors.backgroundColorOvwhite,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Review Details",
-              style: TextStyle(
-              color: AppColors.black,
-              fontFamily: "Lato",
-              fontSize: width * 0.07,
-            ),),
-            SizedBox(height: height*0.02,),
-            Text("Please confirm the details below are correct before submitting.",
-              style: TextStyle(
-              color: AppColors.black,
-              fontFamily: "Lato-Regular",
-              fontSize: width * 0.04,
-            ),),
-            SizedBox(height: height*0.07,),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        color: AppColors.backgroundColorOvwhite,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Review Details",
+                style: TextStyle(
+                color: AppColors.black,
+                fontFamily: "Lato",
+                fontSize: width * 0.07,
+              ),),
+              SizedBox(height: height*0.02,),
+              Text("Please confirm the details below are correct before submitting.",
+                style: TextStyle(
+                color: AppColors.black,
+                fontFamily: "Lato-Regular",
+                fontSize: width * 0.04,
+              ),),
+              SizedBox(height: height*0.07,),
 
-            AddParkingTicketCard(tickets: widget.ticket),
-            const Spacer(),
-            _isLoading?CircularProgressIndicator():
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      widget.onPrevious();
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: AppColors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: const BorderSide(
-                          color: AppColors.primaryColor,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Take Photo Again",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 16,
-                          fontFamily: 'Lato',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 10,),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () async {
-                      final response = await addTicket(widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer);
-                      if (response != null) {
-                        final status =
-                        response['status'] as bool;
-                        final message =
-                        response['message'] as String;
-
-                        if (status) {
-                          setState(() {
-                            _isLoading =
-                            false; // Start loading
-                          });
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
-                            SnackBar(
-                              content: Text(' $message'),
-                            ),
-                          );
-                          CustomDialogBox.show(
-                              context,
-                              status,
-                              "Ticket Submitted",
-                              "Great! Your Ticket has been submitted successfully.");
-                        } else {
-                          setState(() {
-                            _isLoading =
-                            false; // Start loading
-                          });
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
-                            SnackBar(
-                              content: Text(' $message'),
-                            ),
-                          );
-                          CustomDialogBox.show(
-                              context,
-                              status,
-                              "Ticket  not Submitted",
-                              "Your Ticket has not been submitted .");
-                        }
-                      } else {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(
-                          SnackBar(
-                            content:
-                            Text('API request failed'),
+              AddParkingTicketCard(tickets: widget.ticket,isEdit: true),
+              const Spacer(),
+              _isLoading?CircularProgressIndicator():
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        widget.onPrevious();
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(
+                            color: AppColors.primaryColor,
+                            width: 1,
                           ),
-                        );
-                        setState(() {
-                          _isLoading =
-                          false; // Stop loading
-                        });
-                      }
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: const BorderSide(
-                          color: AppColors.primaryColor,
-                          width: 1,
                         ),
                       ),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Submit Ticket",
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: 16,
-                          fontFamily: 'Lato',
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Take Photo Again",
+                          style: TextStyle(
+                            color: AppColors.primaryColor,
+                            fontSize: 16,
+                            fontFamily: 'Lato',
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10,),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TicketCameraScreen()),
-                  );
-                },
-                style: TextButton.styleFrom(
-                  backgroundColor: AppColors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: const BorderSide(
-                      color: AppColors.primaryColor,
-                      width: 1,
-                    ),
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
+                  SizedBox(width: 10,),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () async {
+                        final response = await addTicket(widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer);
+                        if (response != null) {
+                          final status =
+                          response['status'] as bool;
+                          final message =
+                          response['message'] as String;
 
-                    "Ticket not recognized? submit picture of the ticket",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontSize: 16,
-                      fontFamily: 'Lato',
+                          if (status) {
+                            setState(() {
+                              _isLoading =
+                              false; // Start loading
+                            });
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(
+                              SnackBar(
+                                content: Text(' $message'),
+                              ),
+                            );
+                            CustomDialogBox.show(
+                                context,
+                                status,
+                                "Ticket Submitted",
+                                "Great! Your Ticket has been submitted successfully.");
+                          } else {
+                            setState(() {
+                              _isLoading =
+                              false; // Start loading
+                            });
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(
+                              SnackBar(
+                                content: Text(' $message'),
+                              ),
+                            );
+                            CustomDialogBox.show(
+                                context,
+                                status,
+                                "Ticket  not Submitted",
+                                "Your Ticket has not been submitted .");
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                            SnackBar(
+                              content:
+                              Text('API request failed'),
+                            ),
+                          );
+                          setState(() {
+                            _isLoading =
+                            false; // Stop loading
+                          });
+                        }
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(
+                            color: AppColors.primaryColor,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Submit Ticket",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 16,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TicketCameraScreen()),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: AppColors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: const BorderSide(
+                        color: AppColors.primaryColor,
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+
+                      "Ticket not recognized? Submit picture of the ticket",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: 16,
+                        fontFamily: 'Lato',
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+              SizedBox(height: height*0.04,),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

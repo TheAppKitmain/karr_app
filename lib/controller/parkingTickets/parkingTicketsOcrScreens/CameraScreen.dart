@@ -56,7 +56,7 @@ class _CameraScreenState extends State<CameraScreen> {
     textController.text = scannedText;
     List<String> keywordsToExtractPcn = ["PCN Number :", "Penalty Charge Notice :","Penalty Charge Notice Number :","Notice Number :","(PCN) Number :"];
 
-    List<String> keywordsToExtractCOMPANYNAME = ["BARNET", "BEXLEY","BROMLEY ","CAMDEN","CITY OF LONDON","CROYDON","EALING","ENFIELD","GREENWICH","HECKNEY COUNCIL"
+    List<String> keywordsToExtractCOMPANYNAME = ["BARNET", "BEXLEY","BROMLEY ","CAMDEN","CITY OF LONDON","CROYDON","EALING","ENFIELD","GREENWICH","HACKNEY COUNCIL"
       ,"HAVERING","HILLINGDON","HOUNSLOW","ISLINGTON","HAMMERRSMITH & FULHAM","HARINGEY","HARROWCOUNCIL","KENSINGTON AND CHELSEA","KINGSTON UPON THAMES","LAMBETH"
       ,"LEWISHAM","NEWHAM","REDBRIDGE","RICHMOND","SUTTON","TRANSPORT FOR LONDON","TOWER HAMLETS","WALTHAM FOROST","WANDSWORTH","WESTMINSTER"];
 
@@ -243,6 +243,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: height*0.06,),
                 ],
               ),
             ),

@@ -271,7 +271,7 @@ class HomeScreenCard extends StatelessWidget {
               ),
               SizedBox(height: height * 0.020),
               Text(
-                des ?? 'Create new ticket entries and check status of all tickets',
+                des ?? 'Create new ticket entries and check status of all tickets.',
                 style: TextStyle(
                   fontSize: width * 0.026,
                   color: Colors.white,

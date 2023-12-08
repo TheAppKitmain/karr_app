@@ -198,6 +198,7 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: height*0.06,),
                   ],
                 ),
               ),

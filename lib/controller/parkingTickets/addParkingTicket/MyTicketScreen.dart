@@ -25,6 +25,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.white,
       appBar: AppBar(
         elevation: 0,
@@ -340,38 +341,6 @@ class Step1Screen extends StatelessWidget {
   }
 }
 
-class Step2Screen extends StatelessWidget {
-  final VoidCallback onPrevious;
-  final VoidCallback onNext;
-
-  Step2Screen({required this.onPrevious, required this.onNext});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Step 2: Enter Data Manually'),
-          ElevatedButton(
-            onPressed: () {
-              // Add form logic here
-              // If data entered, move to the next step
-              onNext();
-            },
-            child: Text('Enter Data'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              onPrevious();
-            },
-            child: Text('Back to Step 1'),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class Step3Screen extends StatelessWidget {
   final VoidCallback onPrevious;
