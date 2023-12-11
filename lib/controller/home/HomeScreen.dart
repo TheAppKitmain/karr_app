@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //             ),
                 ),
                 HomeScreenCard(
-                    image: 'assets/png/tolls.png',
+                    image: 'assets/svg/tol.svg',
                     title: 'Toll',
                     des: 'Create new toll entries and check all tolls.',
                     cardColor: AppColors.blue,
@@ -133,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
                 ),
                 HomeScreenCard(
-                    image: 'assets/png/city_charges.png',
+                    image: 'assets/svg/city.svg',
                     title: 'City Charges',
                     des: 'Create new charge entries and check status of all charges.',
                     cardColor: AppColors.yellow,
@@ -153,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
                 ),
                 HomeScreenCard(
-                    image: 'assets/png/notes.png',
+                    image: 'assets/svg/note.svg',
                     title: 'Notes',
                     des: 'Create new notes and check all notes you\'ve created.',
                     cardColor: AppColors.pink,
@@ -252,13 +253,17 @@ class HomeScreenCard extends StatelessWidget {
               CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.white,
-                child: Image.asset(
-                  image ?? 'assets/png/parking_tickets.png',
-                  // Replace with your image asset path
-                  width: 40,
-                  height: 40,
-                  color: cardColor ?? AppColors.primaryColor,
+                child: SvgPicture.asset(
+                  image ??'assets/svg/ticket.svg',
+                  semanticsLabel: 'otp logo',
                 ),
+                // Image.asset(
+                //   image ?? 'assets/png/parking_tickets.png',
+                //   // Replace with your image asset path
+                //   width: 40,
+                //   height: 40,
+                //   color: cardColor ?? AppColors.primaryColor,
+                // ),
               ),
               SizedBox(height: height * 0.020),
               Text(
