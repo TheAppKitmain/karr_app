@@ -55,7 +55,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
           'driver_id': userid,
           'date': _dateController.text,
           'pcn': _pcnNumberController.text,
-          'price': double.tryParse(_amountController.text),
+          'price': double.parse(_amountController.text),
           'ticket_issuer': _issuerController.text,
         },
       );
@@ -94,7 +94,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
     if (picked != null && picked != _date) {
       setState(() {
         _date = picked;
-        _dateController.text = DateFormat('yyyy-MM-dd')
+        _dateController.text = DateFormat('dd-MM-yyyy')
             .format(picked); // Format the date as needed
       });
     }
@@ -173,12 +173,18 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _amountController,
+                        onChanged: (v){
+
+                        },
+
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'This field is required';
                           }
                           return null;
                         },
+
+
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                       ),
@@ -256,7 +262,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                   context,
                                                   status,
                                                   "Ticket Submitted",
-                                                  "Great! Your Ticket has been submitted successfully.");
+                                                  "Great! Your ticket has been submitted successfully.");
                                             } else {
                                               setState(() {
                                                 _isLoading =
@@ -266,8 +272,8 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                               CustomDialogBox.show(
                                                   context,
                                                   status,
-                                                  "Ticket  not Submitted",
-                                                  "Your Ticket has not been submitted successfully.");
+                                                  "Ticket  Not Submitted",
+                                                  "Your ticket has not been submitted successfully.");
                                             }
                                           } else {
                                             ScaffoldMessenger.of(context)

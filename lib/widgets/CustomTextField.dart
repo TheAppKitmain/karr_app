@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../utils/Constants.dart';
 
@@ -11,13 +12,14 @@ class CustomTextField extends StatelessWidget {
   final bool? focusKeypad;
   final VoidCallback? onTogglePasswordStatus;
   final VoidCallback? onTap;
+  final Function(String?)? onChanged;
 
 
   const CustomTextField({
     required this.controller,
      this.hintText,
     required this.validator,
-    this.keyboardType = TextInputType.text, this.obscureText, this.onTogglePasswordStatus, this.onTap, this.focusKeypad
+    this.keyboardType = TextInputType.text, this.obscureText, this.onTogglePasswordStatus, this.onTap, this.focusKeypad, this.onChanged
   });
 
   @override
@@ -38,7 +40,7 @@ class CustomTextField extends StatelessWidget {
       readOnly: focusKeypad??false,
       keyboardType: keyboardType,
       obscureText:obscureText??false,
-
+      onChanged: onChanged,
 
       decoration: InputDecoration(
         hintText: hintText,

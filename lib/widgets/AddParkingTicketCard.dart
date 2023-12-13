@@ -71,7 +71,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                           SizedBox(height: 8),
                           GestureDetector(
                             onTap: (){
-                              EditTicketDialog.show(context, widget.tickets.pcn??"N/A","PCN Number", (p0) =>{
+                              EditTicketDialog.show(context, widget.tickets.pcn??"","PCN Number", (p0) =>{
                                 widget.tickets.pcn=p0,
                               setState(() {
 
@@ -79,7 +79,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                               } );
                             },
                             child: Text(
-                              widget.tickets.pcn??"N/A",
+                              widget.tickets.pcn??"",
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ),
 
                             ),
@@ -94,19 +94,24 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
 
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: GestureDetector(
-                        onTap: (){
-                          EditTicketDialog.show(context, widget.tickets.ticketIssuer??"N/A","Ticket Issuer", (p0) =>{
-                            widget.tickets.ticketIssuer=p0,
-                            setState(() {
+                      child: Column(
+                        children:[
 
-                            })
-                          } );
-                        },
-                        child: Text(
-                          widget.tickets.ticketIssuer??"N/A" ,
-                          style: TextStyle(color: Colors.black),
+                          GestureDetector(
+                          onTap: (){
+                            EditTicketDialog.show(context, widget.tickets.ticketIssuer??"","Ticket Issuer", (p0) =>{
+                              widget.tickets.ticketIssuer=p0,
+                              setState(() {
+
+                              })
+                            } );
+                          },
+                          child: Text(
+                            widget.tickets.ticketIssuer??"" ,
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
+      ]
                       ),
                     ),
 
@@ -126,35 +131,42 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap:() async {
-                        final DateTime? picked = await getDatePicker(context);
-                        if (picked != null && picked != _date) {
-                          setState(() {
-                            _date = picked;
-                            widget.tickets.date = DateFormat('yyyy-MM-dd')
-                                .format(picked); // Format the date as needed
-                          });
-                        }
-                      },
-                      child: Text(
-                        widget.tickets.date??"N/A",
-                        style: TextStyle(fontSize: 14),
+                    Column(
+                      children:[
+
+                        GestureDetector(
+                        onTap:() async {
+                          final DateTime? picked = await getDatePicker(context);
+                          if (picked != null && picked != _date) {
+                            setState(() {
+                              _date = picked;
+                              widget.tickets.date = DateFormat('dd-MM-yyyy')
+                                  .format(picked); // Format the date as needed
+                            });
+                          }
+                        },
+                        child: Text(
+                          widget.tickets.date??"",
+                          style: TextStyle(fontSize: 14),
+                        ),
                       ),
+    ]
                     ),
                     GestureDetector(
                       onTap: (){
-                        EditTicketDialog.show(context, widget.tickets.price??"N/A","Ticket Price", (p0) =>{
+                        EditTicketDialog.show(context, widget.tickets.price??"","Ticket Price", (p0) =>{
                           widget.tickets.price=p0,
                           setState(() {
 
                           })
                         } );
                       },
-                      child: Text(
-                        "Price: £${widget.tickets.price}"??"N/A",
+                      child:Text(
+                       widget.tickets.price??'' ,
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
+
+
                     ),
                     // Add any other icons or buttons here
                   ],

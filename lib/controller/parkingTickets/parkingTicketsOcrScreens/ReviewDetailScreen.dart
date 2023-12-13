@@ -11,16 +11,15 @@ import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/AddParkingTicketCard.dart';
 import 'package:kaar/widgets/CustomDialogBox.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
+import 'package:kaar/widgets/TicketNotDetectDialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReviewDetailScreen extends StatefulWidget {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
-  final String pcn_nmuber;
-  final String date;
-  final String charge;
+
   final Tickets ticket;
-  ReviewDetailScreen({required this.onPrevious, required this.onNext, required this.pcn_nmuber, required this.date, required this.charge,required this.ticket});
+  ReviewDetailScreen({required this.onPrevious, required this.onNext,required this.ticket});
 
   @override
   State<ReviewDetailScreen> createState() => _ReviewDetailScreenState();
@@ -38,6 +37,20 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
     // TODO: implement initState
     super.initState();
     loadUserDetails();
+    checkTicketDetails(context);
+
+  }
+  void checkTicketDetails(BuildContext context){
+    if(widget.ticket.price=='Price'||widget.ticket.pcn=='Not Recognized'||widget.ticket.date=='Date'||widget.ticket.ticketIssuer=='Ticket Issuer'){
+
+      Future.delayed(Duration(milliseconds: 500),(){
+        TicketNotDetect.show(context,"Ticket Not Recognized", "Try again or enter manually",() {
+
+          widget.onPrevious();},);
+
+      });
+
+    }
   }
 
   void loadUserDetails() async {
@@ -179,7 +192,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                                 context,
                                 status,
                                 "Ticket Submitted",
-                                "Great! Your Ticket has been submitted successfully.");
+                                "Great! Your ticket has been submitted successfully.");
                           } else {
                             setState(() {
                               _isLoading =
@@ -194,8 +207,8 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                             CustomDialogBox.show(
                                 context,
                                 status,
-                                "Ticket  not Submitted",
-                                "Your Ticket has not been submitted .");
+                                "Ticket  Not Submitted",
+                                "Your ticket has not been submitted .");
                           }
                         } else {
                           ScaffoldMessenger.of(context)

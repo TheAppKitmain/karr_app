@@ -83,7 +83,8 @@ class _TicketHistoryState extends State<TicketHistory> {
       backgroundColor: Colors.grey.shade200,
       body: isLoading
           ? Center(
-        child: CircularProgressIndicator(),
+        child:
+        CircularProgressIndicator(),
 
       )
           : allTickets.isNotEmpty
@@ -97,8 +98,7 @@ class _TicketHistoryState extends State<TicketHistory> {
             return ParkingTicketCard(tickets: allTickets[index]);
           },
         ),
-      )
-          : Column(
+      ) : Column(
         children: [
           SizedBox(height: 90),
           Center(
@@ -130,6 +130,7 @@ class _TicketHistoryState extends State<TicketHistory> {
                 fontSize: width * 0.04,
                 color: AppColors.black,
               ),
+                textAlign: TextAlign.center
             ),
           ),
           Center(
@@ -139,6 +140,7 @@ class _TicketHistoryState extends State<TicketHistory> {
                 fontSize: width * 0.04,
                 color: AppColors.black,
               ),
+                textAlign: TextAlign.center
             ),
           ),
           Center(

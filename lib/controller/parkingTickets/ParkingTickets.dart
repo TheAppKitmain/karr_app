@@ -36,19 +36,21 @@ class ParkingTickets extends StatelessWidget {
               indicatorColor: AppColors.primaryColor,
               tabs: [
                 Tab(
-                  child: Text('Ticket History',style: TextStyle(color: Colors.black),),
+                  child: Text('Pending Tickets',style: TextStyle(color: Colors.black),),
 
                 ),
                 Tab(
-                  child: Text('Tickets',style: TextStyle(color: Colors.black),),
+                  child: Text('Paid Tickets',style: TextStyle(color: Colors.black),),
 
                 ),
+
 
               ],
             ),),
             body: TabBarView(children: [
-              TicketHistory(),
               TicketsPaidDetails(),
+              TicketHistory(),
+
 
             ]),
           ),

@@ -88,7 +88,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
                         setState(() {
                           currentStep = 2;
                         });
-                      }, pcn_nmuber: ticket_number, date: date, charge: charge, ticket: t,)
+                      }, ticket: t,)
                     : Step3Screen(
                         onPrevious: () {
                           setState(() {

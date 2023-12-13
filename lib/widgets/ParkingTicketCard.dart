@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
+import 'package:kaar/utils/Constants.dart';
 
 import 'package:kaar/widgets/flutter_ticket_widget.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -92,16 +93,42 @@ class ParkingTicketCard extends StatelessWidget {
                 DottedLine(
                   dashColor: Colors.black,
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+
+                      Text(
+                       "Ticket Issuer:",
+                        style: TextStyle(fontSize: 14),
+                      ),
+
+
+                      Text(
+                          tickets.ticketIssuer??"" ,
+                          style: TextStyle(fontSize: 18,color: AppColors.black,fontWeight: FontWeight.bold )
+                      ),
+                      // Add any other icons or buttons here
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+
+                        Text(
+                          tickets.date??"N/A",
+                          style: TextStyle(fontSize: 14),
+                        ),
+
+
                     Text(
-                      tickets.date??"N/A",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    Text(
-                      "Price: ${tickets.price}"??"N/A",
+                     " Price: ${double.tryParse(tickets.price??"0")?.toStringAsFixed(2)}",
+                      // " ${tickets.price}"??"N/A",
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     // Add any other icons or buttons here

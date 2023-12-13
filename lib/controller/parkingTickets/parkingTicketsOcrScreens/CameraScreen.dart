@@ -30,10 +30,10 @@ class _CameraScreenState extends State<CameraScreen> {
   File? capturedImage;
 
   String scannedText = "";
-  String pcnNumber = "PCN Number: N/A";
-  String date = "Date: N/A";
-  String issuerName = "Issuer Name: N/A";
-  String charge = "Charge: N/A";
+  String pcnNumber = "PCN Number: ";
+  String date = "Date: ";
+  String issuerName = "Issuer Name: ";
+  String charge = "Charge: ";
 
   @override
   void initState() {
@@ -81,10 +81,10 @@ class _CameraScreenState extends State<CameraScreen> {
       RegExp regExp = RegExp('$keyword\\s*([^\\s]+)', caseSensitive: false);
       Match? match = regExp.firstMatch(source);
       if (match != null) {
-        return match.group(1) ?? "N/A";
+        return match.group(1) ?? "";
       }
     }
-    return "N/A";
+    return "Not Recognized";
   }
 
 
@@ -94,7 +94,7 @@ class _CameraScreenState extends State<CameraScreen> {
     if (match != null) {
       return '' + match.group(1)!;
     }
-    return ' N/A';
+    return 'Date';
   }
 
 
@@ -105,16 +105,16 @@ class _CameraScreenState extends State<CameraScreen> {
         return keyword;
       }
     }
-    return "N/A";
+    return "Ticket Issuer";
   }
 
   String extractCharge(String source) {
     RegExp regExp = RegExp(r'£\s*(\d+(\.\d{1,2})?)', caseSensitive: false);
     Match? match = regExp.firstMatch(source);
     if (match != null) {
-      return   match.group(1)!;
+      return   "Price: £${match.group(1)!}";
     }
-    return 'N/A';
+    return 'Price';
   }
 
   Future<void> initializeCamera() async {

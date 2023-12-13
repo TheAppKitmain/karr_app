@@ -9,7 +9,7 @@ import 'package:kaar/widgets/AddItemView.dart';
 import 'package:kaar/widgets/CustomDialogBox.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 import '../tolls/AllTolls.dart';
 
 
@@ -99,7 +99,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
     try {
       final Map<String, dynamic> requestData = {
         'driver_id': userid,
-        'date': _selectedDate?.toLocal().toString().split(' ')[0] ?? DateTime.now().toLocal().toString().split(' ')[0],
+        'date': DateFormat('dd-MM-yyyy').format(_selectedDate??DateTime.now())  ?? DateTime.now().toLocal().toString().split(' ')[0],
 
         'cities': selectedCityCharges
             .where((toll) => toll.ischecked!)
@@ -253,7 +253,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
                         ),
 
                       );
-                      CustomDialogBox.show(context, status, "City Charge  not Submitted", "Your city charge has not been submitted successfully.");
+                      CustomDialogBox.show(context, status, "City Charge  Not Submitted", "Your city charge has not been submitted successfully.");
                     }
                   }else{
                     ScaffoldMessenger.of(context).showSnackBar(

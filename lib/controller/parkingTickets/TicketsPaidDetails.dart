@@ -117,8 +117,8 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
         SizedBox(height: 20,),
         Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.07,fontFamily: "Lato",color: AppColors.black),)),
         SizedBox(height: 20,),
-        Center( child: Text("Click “Add New Ticket” and provide us with the ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),)),
-        Center( child: Text("details to add new ticket for you. ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),)),
+        Center( child: Text("Click “Add New Ticket” and provide us with the ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),textAlign: TextAlign.center,)),
+        Center( child: Text("details to add new ticket for you. ",style: TextStyle(fontSize: width*0.04,color: AppColors.black),textAlign: TextAlign.center)),
 
         Center(
           child: Padding(

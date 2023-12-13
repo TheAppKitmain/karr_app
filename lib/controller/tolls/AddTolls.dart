@@ -10,7 +10,7 @@ import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/selectable_card.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 import '../../widgets/CustomSnackBar.dart';
 import 'AllTolls.dart';
 
@@ -95,7 +95,7 @@ class _AddTollsState extends State<AddTolls> {
     try {
       final Map<String, dynamic> requestData = {
         'driver_id': userid,
-        'date': _selectedDate?.toLocal().toString().split(' ')[0] ?? DateTime.now().toLocal().toString().split(' ')[0],
+        'date': DateFormat('dd-MM-yyyy').format(_selectedDate??DateTime.now()) ?? DateTime.now().toLocal().toString().split(' ')[0],
         'way': selectedCardIndex + 1,
         'tolls': selectedTolls
             .where((toll) => toll.ischecked!)
@@ -311,7 +311,7 @@ class _AddTollsState extends State<AddTolls> {
                           content: Text(' $message'),
                         ),
                       );
-                      CustomDialogBox.show(context, status, "Toll not Submitted", "Your toll has not been submitted successfully.");
+                      CustomDialogBox.show(context, status, "Toll Not Submitted", "Your toll has not been submitted successfully.");
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
