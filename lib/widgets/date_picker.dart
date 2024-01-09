@@ -9,6 +9,9 @@ Future<DateTime?> getDatePicker(BuildContext context) async {
   DateTime? pickedDate;
   if(Platform.isIOS)
   {
+    DateTime now = DateTime.now();
+    DateTime lastDate = now;
+    DateTime initialDate = now.isBefore(lastDate) ? now : lastDate;
     return showCupertinoModalPopup(
       context: context, builder: (BuildContext context) {
       return Container(
@@ -43,9 +46,10 @@ Future<DateTime?> getDatePicker(BuildContext context) async {
             SizedBox(
               height: 300,
               child: CupertinoDatePicker(
-                  initialDateTime: DateTime.now(),
-                  maximumDate: DateTime(2024),
+                  initialDateTime: initialDate,
                   minimumDate: DateTime(1900),
+                  maximumDate: lastDate,
+
                   mode: CupertinoDatePickerMode.date,
                   onDateTimeChanged: (val) {
                     pickedDate=val;

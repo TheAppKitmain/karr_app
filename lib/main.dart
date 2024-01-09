@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
   MyApp({
     required this.initialRoute,
     required this.username,
-
     required this.carnumber,
   });
 

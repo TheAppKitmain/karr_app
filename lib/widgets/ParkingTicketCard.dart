@@ -44,12 +44,12 @@ class ParkingTicketCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -60,10 +60,10 @@ class ParkingTicketCard extends StatelessWidget {
                             style: TextStyle(fontSize: fontsize),
 
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             tickets.pcn??"N/A",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ),
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold ),
 
                           ),
                         ]
@@ -71,30 +71,29 @@ class ParkingTicketCard extends StatelessWidget {
                     ),
 
                     Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: tickets.status == 1 ? Colors.green : Colors.red,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
                         tickets.status == 1 ?"Paid":"Unpaid",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
 
                   ],
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Container(
                 //   height: 1,
                 //   color: Colors.grey,
                 //   margin: EdgeInsets.symmetric(horizontal: 16),
                 // ),
-                DottedLine(
+                const DottedLine(
                   dashColor: Colors.black,
                 ),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -109,14 +108,14 @@ class ParkingTicketCard extends StatelessWidget {
 
                       Text(
                           tickets.ticketIssuer??"" ,
-                          style: TextStyle(fontSize: 18,color: AppColors.black,fontWeight: FontWeight.bold )
+                          style: const TextStyle(fontSize: 18,color: AppColors.black,fontWeight: FontWeight.bold )
                       ),
                       // Add any other icons or buttons here
                     ],
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
