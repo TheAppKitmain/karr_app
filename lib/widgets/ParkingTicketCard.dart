@@ -34,6 +34,7 @@ class ParkingTicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    double fontsize=width*0.03;
     return  FlutterTicketWidget(
 
       width: width*0.9,
@@ -56,7 +57,7 @@ class ParkingTicketCard extends StatelessWidget {
                         children: [
                           Text(
                             'PCN Number',
-                            style: TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: fontsize),
 
                           ),
                           SizedBox(height: 8),
@@ -93,7 +94,7 @@ class ParkingTicketCard extends StatelessWidget {
                 DottedLine(
                   dashColor: Colors.black,
                 ),
-                SizedBox(height: 10),
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -102,7 +103,7 @@ class ParkingTicketCard extends StatelessWidget {
 
                       Text(
                        "Ticket Issuer:",
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: fontsize),
                       ),
 
 
@@ -122,14 +123,14 @@ class ParkingTicketCard extends StatelessWidget {
 
                         Text(
                           tickets.date??"N/A",
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: fontsize),
                         ),
 
 
                     Text(
                      " Price: ${double.tryParse(tickets.price??"0")?.toStringAsFixed(2)}",
                       // " ${tickets.price}"??"N/A",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: fontsize, fontWeight: FontWeight.bold),
                     ),
                     // Add any other icons or buttons here
                   ],
