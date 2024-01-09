@@ -65,7 +65,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
 
     try {
       final response = await dio.post(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/ticket',
+        'https://dashboard.karrcompany.co.uk/api/ticket',
         queryParameters: {
           'driver_id': userid,
           'date': date??"",

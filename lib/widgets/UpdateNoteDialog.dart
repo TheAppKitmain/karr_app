@@ -99,7 +99,7 @@ class UpdateNoteDialog {
                             print("$type,${id}");
                             try {
                               final response = await dio.post(
-                                'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/add/notes',
+                                'https://dashboard.karrcompany.co.uk/api/add/notes',
                                 queryParameters: {
                                   type: id,
                                   "notes": _noteController.text,
@@ -246,7 +246,7 @@ class UpdateNoteDialog {
                             print("$type,${id}");
                             try {
                               final response = await dio.post(
-                                'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/add/notes',
+                                'https://dashboard.karrcompany.co.uk/api/add/notes',
                                 queryParameters: {
                                   type: id,
                                   "notes": _noteController.text,

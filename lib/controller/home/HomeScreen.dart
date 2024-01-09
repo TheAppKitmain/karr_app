@@ -291,13 +291,15 @@ class HomeScreenCard extends StatelessWidget {
                     flex: 1,
                     child: ElevatedButton(
                       onPressed: addNew,
+
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       ),
                       child: Text(
                         'Add New',
                         style: TextStyle(
-                          fontSize: width * 0.025,
+                          fontSize: width * 0.028,
                           color: cardColor ??
                               AppColors.primaryColor, // Button text color
                           // Add this line
@@ -312,11 +314,13 @@ class HomeScreenCard extends StatelessWidget {
                       onPressed: onTap,
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white,
+
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       ),
                       child: Text(
                         'View All', // Adjust text as needed
                         style: TextStyle(
-                          fontSize: width * 0.025,
+                          fontSize: width * 0.028,
                           color: cardColor ??
                               AppColors.primaryColor,
                         ),

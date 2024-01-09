@@ -82,7 +82,7 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
     print('File extension: ${extension(imageFile.path)}');
 
     // string to uri
-    var uri = Uri.parse("http://ec2-54-146-4-118.compute-1.amazonaws.com/api/fines");
+    var uri = Uri.parse("https://dashboard.karrcompany.co.uk/api/fines");
     var request = http.MultipartRequest("POST", uri);
     request.fields['driver_id'] = userid ?? "1";
     request.fields['user_id'] = adminid ?? '3';

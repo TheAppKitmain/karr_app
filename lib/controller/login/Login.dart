@@ -38,7 +38,7 @@ class _loginScreenState extends State<Login> {
 
     try {
       final response = await dio.post(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/login',
+        'https://dashboard.karrcompany.co.uk/api/login',
         queryParameters: {
 
           'password': _passwordController.text,
@@ -304,7 +304,7 @@ class _loginScreenState extends State<Login> {
                                 Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => WebViewClass(title: "Privacy policy",url: "http://ec2-54-146-4-118.compute-1.amazonaws.com/privacy"),
+                                          builder: (context) => WebViewClass(title: "Privacy policy",url: "https://dashboard.karrcompany.co.uk/privacy"),
                                     ));
 
                               }),
@@ -313,7 +313,7 @@ class _loginScreenState extends State<Login> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => WebViewClass(title: "Terms of Service",url: "http://ec2-54-146-4-118.compute-1.amazonaws.com/terms-conditions"),
+                                      builder: (context) => WebViewClass(title: "Terms of Service",url: "https://dashboard.karrcompany.co.uk/terms-conditions"),
                                     ));
 
                               }),

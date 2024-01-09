@@ -50,7 +50,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
 
     try {
       final response = await dio.post(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/recent/activity',
+        'https://dashboard.karrcompany.co.uk/api/recent/activity',
         queryParameters: {
           "driver_id": userid,
         },

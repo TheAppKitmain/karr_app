@@ -58,12 +58,14 @@ Future<DateTime?> getDatePicker(BuildContext context) async {
     );
 
   }
+  DateTime now = DateTime.now();
+  DateTime lastDate = now;
+  DateTime initialDate = now.isBefore(lastDate) ? now : lastDate;
   pickedDate= await showDatePicker(
-    context:context,
-    initialDate: DateTime.now(),
+    context: context,
+    initialDate: initialDate,
     firstDate: DateTime(1900),
-    //DateTime.now() - not to allow to choose before today.
-    lastDate: DateTime(2024),
+    lastDate: lastDate,
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(

@@ -204,14 +204,17 @@ class Step1Screen extends StatelessWidget {
                         Flexible(
                           // Wrap the text with Flexible
                           flex: 2,
-                          child: CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Colors.white,
-                            child: Image.asset(
-                              'assets/png/mobile_icon.png',
-                              width: 40,
-                              height: 40,
-                              color: AppColors.primaryColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all( 8.0),
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.white,
+                              child: Image.asset(
+                                'assets/png/mobile_icon.png',
+                                width: 40,
+                                height: 40,
+                                color: AppColors.primaryColor,
+                              ),
                             ),
                           ),
                         ),
@@ -278,14 +281,17 @@ class Step1Screen extends StatelessWidget {
                         Flexible(
                           // Wrap the text with Flexible
                           flex: 2,
-                          child: CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Colors.white,
-                            child: Image.asset(
-                              'assets/png/parking_tickets.png',
-                              width: 40,
-                              height: 40,
-                              color: AppColors.primaryColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.white,
+                              child: Image.asset(
+                                'assets/png/parking_tickets.png',
+                                width: 40,
+                                height: 40,
+                                color: AppColors.primaryColor,
+                              ),
                             ),
                           ),
                         ),

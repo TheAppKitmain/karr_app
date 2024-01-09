@@ -44,7 +44,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
     try {
       final response = await dio.post(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/password',
+        'https://dashboard.karrcompany.co.uk/api/password',
         queryParameters: {
           'driver_id': userid,
           'old_password': _oldPasswordController.text,

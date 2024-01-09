@@ -46,7 +46,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
     try {
 
       final response = await dio.get(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/city',
+        'https://dashboard.karrcompany.co.uk/api/city',
       );
 
       final responseData = response.data as Map<String, dynamic>;
@@ -110,7 +110,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
             .toList(),
       };
       final response = await dio.post(
-        'http://ec2-54-146-4-118.compute-1.amazonaws.com/api/driver/city',
+        'https://dashboard.karrcompany.co.uk/api/driver/city',
         data: requestData,
       );
 
