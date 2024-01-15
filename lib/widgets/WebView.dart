@@ -35,7 +35,7 @@ setWebController(){
         },
       ),
     )
-    ..loadRequest(Uri.parse('http://93.188.167.72/balance-admin/'));
+    ..loadRequest(Uri.parse(widget.url!));
 }
 @override
   void initState() {
@@ -50,12 +50,7 @@ setWebController(){
         backgroundColor: AppColors.primaryColor,
         title:  Text(widget.title??""),
       ),
-      body:true?Center(
-        child: Text(
-          'In Progress.......',
-            style: TextStyle(color: AppColors.primaryColor,fontSize: 22)
-        ),
-      ): WebViewWidget(
+      body: WebViewWidget(
         controller: webViewController)
 
     );
