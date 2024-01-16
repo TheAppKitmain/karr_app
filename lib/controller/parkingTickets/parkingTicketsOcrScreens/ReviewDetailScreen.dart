@@ -63,6 +63,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
   Future<Map<String, dynamic>?> addTicket(String? date,String? pcn,String? price,String? issuer) async {
     final dio = Dio();
 
+    print('price is $price');
     try {
       final response = await dio.post(
         'https://dashboard.karrcompany.co.uk/api/ticket',

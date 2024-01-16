@@ -162,7 +162,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                         } );
                       },
                       child:Text(
-                       widget.tickets.price??'' ,
+                       'Price: £${widget.tickets.price}'??'' ,
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
 

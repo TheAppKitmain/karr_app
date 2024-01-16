@@ -61,11 +61,12 @@ class _CameraScreenState extends State<CameraScreen> {
       ,"LEWISHAM","NEWHAM","REDBRIDGE","RICHMOND","SUTTON","TRANSPORT FOR LONDON","TOWER HAMLETS","WALTHAM FOROST","WANDSWORTH","WESTMINSTER"];
 
     // Extract the desired information using regex
+    // print('sacnned text is $scannedText');
     pcnNumber = extractText(keywordsToExtractPcn, scannedText);
     date = extractDate("Date:", scannedText);
     issuerName = extractcompanyname(keywordsToExtractCOMPANYNAME, scannedText);
     charge = extractCharge(scannedText);
-    print("Scanned text is $issuerName");
+
     await SharedStorage().saveStringToLocalStorage('Ticket_number', pcnNumber);
     await SharedStorage().saveStringToLocalStorage('Ticket_date', date);
     await SharedStorage().saveStringToLocalStorage('Ticket_charge', charge);
@@ -77,9 +78,13 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   String extractText(List<String> keywords, String source) {
+
     for (String keyword in keywords) {
+      print("keyword $keyword");
       RegExp regExp = RegExp('$keyword\\s*([^\\s]+)', caseSensitive: false);
+      // RegExp regExp = RegExp('$keyword\\s*:?\\s*([^\\s]+)', caseSensitive: false);
       Match? match = regExp.firstMatch(source);
+
       if (match != null) {
         return match.group(1) ?? "";
       }
@@ -100,7 +105,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   String extractcompanyname(List<String> keywords, String source) {
     for (String keyword in keywords) {
-      print("keyword $keyword");
+
       if (source.toLowerCase().contains(keyword.toLowerCase())) {
         return keyword;
       }
@@ -112,7 +117,7 @@ class _CameraScreenState extends State<CameraScreen> {
     RegExp regExp = RegExp(r'£\s*(\d+(\.\d{1,2})?)', caseSensitive: false);
     Match? match = regExp.firstMatch(source);
     if (match != null) {
-      return   "Price: £${match.group(1)!}";
+      return   "${match.group(1)!}";
     }
     return 'Price';
   }
