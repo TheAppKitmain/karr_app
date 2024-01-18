@@ -304,7 +304,7 @@ class _loginScreenState extends State<Login> {
                                 Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => WebViewClass(title: "Privacy policy",url: "https://dashboard.karrcompany.co.uk/privacy"),
+                                          builder: (context) => WebViewClass(title: "Privacy policy",url: "https://karrcompany.co.uk/privacy-policy/"),
                                     ));
 
                               }),
@@ -313,7 +313,7 @@ class _loginScreenState extends State<Login> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => WebViewClass(title: "Terms of Service",url: "https://dashboard.karrcompany.co.uk/terms-conditions"),
+                                      builder: (context) => WebViewClass(title: "Terms of Service",url: "https://karrcompany.co.uk/privacy-policy/"),
                                     ));
 
                               }),
