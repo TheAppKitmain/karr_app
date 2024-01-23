@@ -126,15 +126,20 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: AppColors.white,
+        appBar: AppBar(
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: AppColors.white,
+        ),
 
-        backgroundColor: Colors.black,
         body: Stack(
           children: <Widget>[
 
             if (isReady) CameraPreview(_controller),
             if (textScanning)
               Container(
-                color: Colors.black,
+                color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +173,7 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
                       style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryColor),
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: Text("Submit Ticket"),
+                        child: Text("Submit Ticket",style: TextStyle(color: AppColors.white),),
                       ),
                     ),
                   ],

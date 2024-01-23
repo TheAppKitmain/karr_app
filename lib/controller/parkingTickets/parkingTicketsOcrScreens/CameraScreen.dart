@@ -53,8 +53,9 @@ class _CameraScreenState extends State<CameraScreen> {
       }
     }
 
+    print('all scanned text is $scannedText');
     textController.text = scannedText;
-    List<String> keywordsToExtractPcn = ["PCN Number :", "Penalty Charge Notice :","Penalty Charge Notice Number :","Notice Number :","(PCN) Number :"];
+    List<String> keywordsToExtractPcn = ["PCN number :","PCN Number","PCN Number :", "Penalty Charge Notice ", "Penalty Charge Notice : ","Penalty Charge Notice (PCN) Number :","Penalty Charge Notice Number :","Notice Number :","Notice Number:","Notice number :","Notice Number","(PCN) Number :","PCN no.: ","PCN No.: ","PCN No : "];
 
     List<String> keywordsToExtractCOMPANYNAME = ["BARNET", "BEXLEY","BROMLEY ","CAMDEN","CITY OF LONDON","CROYDON","EALING","ENFIELD","GREENWICH","HACKNEY COUNCIL"
       ,"HAVERING","HILLINGDON","HOUNSLOW","ISLINGTON","HAMMERRSMITH & FULHAM","HARINGEY","HARROWCOUNCIL","KENSINGTON AND CHELSEA","KINGSTON UPON THAMES","LAMBETH"
