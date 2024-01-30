@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _recent_value1=recent_activities.elementAt(recent_activities.length-1);
         is_recent=true;
       }
-      print('recent activity $recent_activities');
+      print('recent activity   $recent_activities');
     });
   }
 
