@@ -95,7 +95,7 @@ class _AddTollsState extends State<AddTolls> {
     try {
       final Map<String, dynamic> requestData = {
         'driver_id': userid,
-        'date': DateFormat('dd-MM-yyyy').format(_selectedDate??DateTime.now()) ?? DateTime.now().toLocal().toString().split(' ')[0],
+        'date': DateFormat('yyyy-MM-dd').format(_selectedDate??DateTime.now()) ?? DateTime.now().toLocal().toString().split(' ')[0],
         'way': selectedCardIndex + 1,
         'tolls': selectedTolls
             .where((toll) => toll.ischecked!)
@@ -301,6 +301,7 @@ class _AddTollsState extends State<AddTolls> {
                           content: Text(' $message'),
                         ),
                       );
+                      saveRecentActivity('Toll added');
                       CustomDialogBox.show(context, status, "Toll Submitted", "Great! Your toll has been submitted successfully.");
                     } else {
                       setState(() {

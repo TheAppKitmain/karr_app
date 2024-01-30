@@ -79,6 +79,23 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
         context: context
       ))
           .toList();
+    }else if (widget.selectedCategory == "All") {
+      List<dynamic> allItems = [];
+      allItems.addAll(widget.allTolls);
+      allItems.addAll(widget.cityCharges);
+      allItems.addAll(widget.allTickets);
+      noteItems = allItems
+          .map((item) => buildNoteItem(
+        id: item.id.toString(),
+        name: item is Toll ? item.name : (item is Charge ? item.name : item.pcnNumber),
+        date: item.date,
+        note: item.note ?? "",
+        type: item is Toll
+            ? "pd"
+            : (item is Charge ? "cd" : "ticket_id"),
+        context: context,
+      ))
+          .toList();
     }
 
     return Column(
@@ -97,6 +114,7 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
     required BuildContext context,
     Function(String)? updateNoteValue,
   }) {
+
     return Card(
         elevation: 8, // Adjust the elevation value as needed
         shape: RoundedRectangleBorder(
@@ -115,13 +133,13 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
 
           Row(
             children: [
-              Text('${name}',style: TextStyle(color: AppColors.black,fontSize: 18,fontFamily: "Lato"),textAlign: TextAlign.left,),
+              Text('${name}',style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato"),textAlign: TextAlign.left,),
             ],
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 15,),
           Row(
             children: [
-              Text('${date}',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato-Regular")),
+              Text('${date}',style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato-Regular")),
             ],
           ),
           SizedBox(height: 10,),

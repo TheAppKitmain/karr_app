@@ -13,7 +13,13 @@ class EditTicketDialog {
   static void show(BuildContext context, String initial_note, String title, Function(String?) onSave) {
     bool isIOS = defaultTargetPlatform == TargetPlatform.iOS;
     TextEditingController _noteController = TextEditingController();
-    _noteController.text=initial_note;
+    if(initial_note=='Price'||initial_note=='Not Recognized'||initial_note=='Date'||initial_note=='Ticket Issuer'){
+      _noteController.text="";
+
+    }else{
+      _noteController.text=initial_note;
+    }
+
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;

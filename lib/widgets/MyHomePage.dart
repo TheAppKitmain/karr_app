@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kaar/controller/Notes/testnote/TestNoteScreen.dart';
+import 'package:kaar/controller/Notes/testnote/AddNoteScreen.dart';
+import 'package:kaar/controller/Notes/testnote/ViewAllNotesScreen.dart';
 import 'package:kaar/controller/cityCharges/AddCityCharges.dart';
 import 'package:kaar/controller/cityCharges/AllCityCharges.dart';
 import 'package:kaar/controller/home/HomeScreen.dart';
@@ -65,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               // _currentIndex=v??0;
               _pageController.animateToPage(v??0,
-                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+                  duration: Duration(milliseconds: 3), curve: Curves.easeInOut);
             });
           },),
           Step1Screen(onNext: (v) {
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               // _currentIndex=v??0;
               _pageController.animateToPage(v??0,
-                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+                  duration: Duration(milliseconds: 1), curve: Curves.fastEaseInToSlowEaseOut);
             });
           },onPrevious: (v) {
             setState(() {
@@ -159,6 +160,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }),//7
+          ViewAllNotesScreen(onNext: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          },onPrevious: (v) {
+            setState(() {
+
+              // _currentIndex=v??0;
+              _pageController.animateToPage(v??0,
+                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+            });
+          }),//8
     TestNoteScreen(onNext: (v) {
             setState(() {
 
@@ -174,6 +190,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }),//8
+
+
+
 
         ],
         // onPageChanged: (index) {

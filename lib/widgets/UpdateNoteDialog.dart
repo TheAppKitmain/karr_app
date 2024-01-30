@@ -10,9 +10,15 @@ class UpdateNoteDialog {
 
 
   static void show(BuildContext context, String id, String initial_note, String type, Function(String?) onSave) {
+
+
     bool isIOS = defaultTargetPlatform == TargetPlatform.iOS;
     TextEditingController _noteController = TextEditingController();
-    _noteController.text=initial_note;
+    if (initial_note=='{}'){
+      initial_note="";
+    }else{
+      _noteController.text=initial_note;
+    }
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;

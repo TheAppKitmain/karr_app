@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:kaar/controller/Notes/testnote/AllNotesItemView.dart';
+
 import 'package:kaar/controller/Notes/testnote/dataclass.dart';
+import 'package:kaar/controller/Notes/testnote/itemviews/AllNotesItemView.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../tolls/AllTolls.dart';
 
-class TestNoteScreen extends StatefulWidget {
+class ViewAllNotesScreen extends StatefulWidget {
 
 
   Function(int?) onNext;
@@ -15,13 +16,13 @@ class TestNoteScreen extends StatefulWidget {
 
 
 
-  TestNoteScreen( {required this.onNext,required this.onPrevious});
+  ViewAllNotesScreen( {required this.onNext,required this.onPrevious});
 
   @override
-  State<TestNoteScreen> createState() => _TestNoteScreenState();
+  State<ViewAllNotesScreen> createState() => _ViewAllNotesScreenState();
 }
 
-class _TestNoteScreenState extends State<TestNoteScreen> {
+class _ViewAllNotesScreenState extends State<ViewAllNotesScreen> {
   List<Charge> cityCharges = [];
   List<Toll> allTolls = [];
   List<Ticket> allTickets = [];
@@ -66,19 +67,28 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
           final chargeJson = responseData['charges'];
           if (chargeJson != null) {
             chargeJson.forEach((v) {
-              cityCharges.add(Charge.fromJson(v));
+              if (Charge.fromJson(v).note!='{}'){
+                cityCharges.add(Charge.fromJson(v));
+              }
+
             });
           }
           final tollJson = responseData['tolls'];
           if (tollJson != null) {
             tollJson.forEach((v) {
-              allTolls.add(Toll.fromJson(v));
+              if (Toll.fromJson(v).note!='{}'){
+                allTolls.add(Toll.fromJson(v));
+              }
+
             });
           }
           final ticketsJson = responseData['tickets'];
           if (ticketsJson != null) {
             ticketsJson.forEach((v) {
-              allTickets.add(Ticket.fromJson(v));
+              if (Ticket.fromJson(v).note!='{}'){
+                allTickets.add(Ticket.fromJson(v));
+              }
+
             });
           }
 
@@ -110,7 +120,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
         backgroundColor: Colors.grey.shade200,
         appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
           widget.onPrevious(0);
-        },title: 'Notes',),
+        },title: ' All Notes',),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -121,21 +131,21 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                     Spacer(),
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
+                        border: Border.all(color: Colors.black54),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      padding: EdgeInsets.symmetric(horizontal: 15),
                       child: DropdownButton<String>(
                         value: selectedValue,
                         underline: null,
                         hint: Text(
                           "Sort By",
-                          style: TextStyle(color: AppColors.black),
+                          style: TextStyle(color: AppColors.black,fontSize: 13),
                         ),
                         items: gameList.map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value,style: TextStyle(color: AppColors.black,fontSize: 13)),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -156,7 +166,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                   allTolls: allTolls,
                   cityCharges: cityCharges,
                   allTickets: allTickets,
-                  selectedCategory: selectedValue ?? "Tolls",
+                  selectedCategory: selectedValue ?? "All",
                 ),
               )
             ],

@@ -37,10 +37,10 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
     // TODO: implement initState
     super.initState();
     loadUserDetails();
-    checkTicketDetails(context);
+    // checkTicketDetails(context);
 
   }
-  void checkTicketDetails(BuildContext context){
+  Future<void> checkTicketDetails(BuildContext context) async {
     if(widget.ticket.price=='Price'||widget.ticket.pcn=='Not Recognized'||widget.ticket.date=='Date'||widget.ticket.ticketIssuer=='Ticket Issuer'){
 
       Future.delayed(Duration(milliseconds: 500),(){
@@ -50,6 +50,61 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
 
       });
 
+    }else{
+      final response = await addTicket(widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer);
+      if (response != null) {
+        final status =
+        response['status'] as bool;
+        final message =
+        response['message'] as String;
+
+        if (status) {
+          setState(() {
+            _isLoading =
+            false; // Start loading
+          });
+          ScaffoldMessenger.of(context)
+              .showSnackBar(
+            SnackBar(
+              content: Text(' $message'),
+            ),
+          );
+          CustomDialogBox.show(
+              context,
+              status,
+              "Ticket Submitted",
+              "Great! Your ticket has been submitted successfully.");
+          saveRecentActivity('Ticket added');
+        } else {
+          setState(() {
+            _isLoading =
+            false; // Start loading
+          });
+          ScaffoldMessenger.of(context)
+              .showSnackBar(
+            SnackBar(
+              content: Text(' $message'),
+            ),
+          );
+          CustomDialogBox.show(
+              context,
+              status,
+              "Ticket  Not Submitted",
+              "Your ticket has not been submitted .");
+        }
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(
+          SnackBar(
+            content:
+            Text('API request failed'),
+          ),
+        );
+        setState(() {
+          _isLoading =
+          false; // Stop loading
+        });
+      }
     }
   }
 
@@ -171,59 +226,8 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                   Expanded(
                     child: TextButton(
                       onPressed: () async {
-                        final response = await addTicket(widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer);
-                        if (response != null) {
-                          final status =
-                          response['status'] as bool;
-                          final message =
-                          response['message'] as String;
 
-                          if (status) {
-                            setState(() {
-                              _isLoading =
-                              false; // Start loading
-                            });
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(
-                              SnackBar(
-                                content: Text(' $message'),
-                              ),
-                            );
-                            CustomDialogBox.show(
-                                context,
-                                status,
-                                "Ticket Submitted",
-                                "Great! Your ticket has been submitted successfully.");
-                          } else {
-                            setState(() {
-                              _isLoading =
-                              false; // Start loading
-                            });
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(
-                              SnackBar(
-                                content: Text(' $message'),
-                              ),
-                            );
-                            CustomDialogBox.show(
-                                context,
-                                status,
-                                "Ticket  Not Submitted",
-                                "Your ticket has not been submitted .");
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(
-                            SnackBar(
-                              content:
-                              Text('API request failed'),
-                            ),
-                          );
-                          setState(() {
-                            _isLoading =
-                            false; // Stop loading
-                          });
-                        }
+                        checkTicketDetails(context);
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,

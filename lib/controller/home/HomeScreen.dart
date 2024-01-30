@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/TextView.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -8,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 
  Function(int?) onNext;
 
-
+ 
 
 HomeScreen( {required this.onNext});
 
@@ -18,16 +19,31 @@ HomeScreen( {required this.onNext});
 
 class _HomeScreenState extends State<HomeScreen> {
 
-
+  bool is_recent=false;
+  bool is_recent_length1=false;
     String? _username;
+    String? _recent_value2='';
+    String? _recent_value1='';
+     List<String> recent_activities= [];
 
 
-
+    Future<List<String>> getRecentActivities() async {
+      try {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        List<String> activities = prefs.getStringList('recent_activities') ?? [];
+        return activities;
+      } catch (e) {
+        print('Error getting recent activities: $e');
+        return []; // Return an empty list in case of error
+      }
+    }
 
   @override
   void initState() {
     super.initState();
     loadUserDetails();
+
+
 
   }
 
@@ -35,6 +51,22 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _username = prefs.getString('name')!;
+      recent_activities=prefs.getStringList('recent_activities') ?? [];
+      if (recent_activities.length<1){
+        is_recent=false;
+        _recent_value1='';
+      }else{
+        if(recent_activities.length==1){
+          is_recent_length1=false;
+          _recent_value2='';
+        }else{
+          is_recent_length1=true;
+          _recent_value2=recent_activities.elementAt(recent_activities.length-2);
+        }
+        _recent_value1=recent_activities.elementAt(recent_activities.length-1);
+        is_recent=true;
+      }
+      print('recent activity $recent_activities');
     });
   }
 
@@ -55,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child:  Image.asset(
                   'assets/png/kaar_logo.png',
                   // Replace with your image asset path
-                  width: width*0.4,
-                  height: 140,
+                  width: width*0.37,
+                  height: 120,
                 ),
 
             ),
@@ -165,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     builder: (context) => TestNoteScreen(),
                   //   ),
                   // ),
-                  addNew: () => widget.onNext(8),
+                  addNew: () => widget.onNext(9),
                   //     Navigator.push(
                   //   context,
                   //   MaterialPageRoute(
@@ -175,37 +207,48 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               ],
             ),
-          //   Row(
-          //     children:[
-          //       Padding(
-          //         padding: const EdgeInsets.only(left:12.0,top: 12.0),
-          //         child: TextView(
-          //         text: "Recent Activity",
-          //
-          //         onPressed: () {},
-          //     ),
-          //       ),
-          // ]
-          //   ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Card(
-            //     elevation: 4,
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
-            //     ),
-            //     child: Column(children: [
-            //       RecentActivityCard(
-            //         title: 'Profile Ticket Added',
-            //         showDivider: true,
-            //       ),
-            //       RecentActivityCard(
-            //         title: 'Toll Added',
-            //         showDivider: false,
-            //       ),
-            //     ],),
-            //   ),
-            // ),
+            
+            Visibility(
+              visible: is_recent,
+              child: Row(
+                children:[
+                  Padding(
+                    padding: const EdgeInsets.only(left:12.0,top: 12.0),
+                    child: TextView(
+                    text: "Recent Activity",
+              
+                    onPressed: () {},
+                ),
+                  ),
+                        ]
+              ),
+            ),
+            Visibility(
+              visible: is_recent,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                  ),
+                  child: Column(children: [
+                    RecentActivityCard(
+                      title: _recent_value1??'',
+                      showDivider: is_recent_length1,
+                    ),
+
+                    Visibility(
+                      visible: is_recent_length1,
+                      child: RecentActivityCard(
+                        title: _recent_value2??'',
+                        showDivider: false,
+                      ),
+                    ),
+                  ],),
+                ),
+              ),
+            ),
 
           ]),
         ),

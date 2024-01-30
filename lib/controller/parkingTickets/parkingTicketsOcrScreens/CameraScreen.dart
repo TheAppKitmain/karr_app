@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image/image.dart' as img;
 import 'dart:io';
-
+import 'package:intl/intl.dart';
 import 'package:kaar/utils/Constants.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -64,7 +64,7 @@ class _CameraScreenState extends State<CameraScreen> {
     // Extract the desired information using regex
     // print('sacnned text is $scannedText');
     pcnNumber = extractText(keywordsToExtractPcn, scannedText);
-    date = extractDate("Date:", scannedText);
+    date = UniversalformatDate(extractDate("Date:", scannedText));
     issuerName = extractcompanyname(keywordsToExtractCOMPANYNAME, scannedText);
     charge = extractCharge(scannedText);
 
@@ -77,7 +77,33 @@ class _CameraScreenState extends State<CameraScreen> {
       textScanning = true;
     });
   }
+  String UniversalformatDate(String dateString) {
+    // List of possible date formats
+    List<String> possibleFormats = [
+      'dd/MM/yy', // 13/12/09
+      'dd MMM yyyy', // 13 sep 2020
+      'dd MMMM yyyy', // 13 september 2020
+      'yyyy-dd-MM', //
+      'dd-MM-yyyy', //
+      'dd-MM-yy', //
+      // Add more formats as needed
+    ];
 
+    // Iterate through possible formats and try parsing
+    for (String format in possibleFormats) {
+      try {
+        DateTime date = DateFormat(format).parse(dateString);
+        // Format the parsed date into "YYYY-MM-DD" format
+        return DateFormat('yyyy-MM-dd').format(date);
+      } catch (e) {
+        // If parsing fails, continue to the next format
+        continue;
+      }
+    }
+
+    // If none of the formats match, return empty string or handle error as needed
+    return '';
+  }
   String extractText(List<String> keywords, String source) {
 
     for (String keyword in keywords) {
