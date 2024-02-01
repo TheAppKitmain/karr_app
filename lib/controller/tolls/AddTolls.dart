@@ -32,6 +32,7 @@ class _AddTollsState extends State<AddTolls> {
   DateTime? _selectedDate;
   String? userid;
   bool _isLoading = false;
+  bool _isLoadingdata = true;
   List<Toll> selectedTolls = [];
 
   @override
@@ -71,19 +72,26 @@ class _AddTollsState extends State<AddTolls> {
           }
           print('Data fetched successfully: $message');
 
+          _isLoadingdata=false;
           setState(() {});
           // Clear the existing list
         } else {
           // Handle the case where fetching data failed
           print('Data fetch failed: $message');
+          _isLoadingdata=false;
+          setState(() {});
         }
       } else {
         // Handle error status codes (e.g., show an error message)
         print('API request failed with status code ${response.statusCode}');
+        _isLoadingdata=false;
+        setState(() {});
       }
     } catch (e) {
       // Handle network errors or exceptions
       print('API request error: $e');
+      _isLoadingdata=false;
+      setState(() {});
     }
   }
 
@@ -255,19 +263,40 @@ class _AddTollsState extends State<AddTolls> {
               const SizedBox(
                 height: 10,
               ),
-              allTolls.isNotEmpty
-                  ? ListView.builder(
-                itemCount: allTolls.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return AddTollsItemView(
-                    tolls: allTolls[index],
-                    onTollChecked: onTollChecked
-                  );
-                },
-              )
-                  : const CircularProgressIndicator(),
+              // allTolls.isNotEmpty
+              //     ? ListView.builder(
+              //   itemCount: allTolls.length,
+              //   scrollDirection: Axis.vertical,
+              //   shrinkWrap: true,
+              //   itemBuilder: (context, index) {
+              //     return AddTollsItemView(
+              //       tolls: allTolls[index],
+              //       onTollChecked: onTollChecked
+              //     );
+              //   },
+              // )
+              //     : const CircularProgressIndicator(),
+
+              if (allTolls.isEmpty)
+                _isLoadingdata?const CircularProgressIndicator():
+                Text(
+                  "No tolls available",
+                  style: TextStyle(fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),
+                )
+              else
+              // Show the toll list if not empty
+                _isLoadingdata?const CircularProgressIndicator():
+                ListView.builder(
+                  itemCount: allTolls.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return AddTollsItemView(
+                        tolls: allTolls[index],
+                        onTollChecked: onTollChecked
+                    );
+                  },
+                ),
               const Spacer(),
               _isLoading
                   ? const CircularProgressIndicator()

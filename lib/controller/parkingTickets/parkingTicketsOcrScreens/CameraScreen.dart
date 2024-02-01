@@ -146,7 +146,7 @@ class _CameraScreenState extends State<CameraScreen> {
     if (match != null) {
       return   "${match.group(1)!}";
     }
-    return 'Price';
+    return '';
   }
 
   Future<void> initializeCamera() async {

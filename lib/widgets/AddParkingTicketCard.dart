@@ -140,13 +140,14 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                           if (picked != null && picked != _date) {
                             setState(() {
                               _date = picked;
-                              widget.tickets.date = DateFormat('dd-MM-yyyy')
+                              widget.tickets.date = DateFormat('yyyy-MM-dd')
                                   .format(picked); // Format the date as needed
                             });
                           }
                         },
                         child: Text(
-                          widget.tickets.date??"",
+
+                          widget.tickets.date?.isNotEmpty ?? false ? widget.tickets.date! : "Date",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),

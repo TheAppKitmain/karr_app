@@ -29,6 +29,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
   List<Charges> cityCharges = [];
   List<Charges> selectedCityCharges = [];
   bool _isLoading = false;
+  bool _isLoadingdata = true;
   DateTime? _selectedDate;
   String? userid;
 
@@ -65,21 +66,27 @@ class _AddCityChargesState extends State<AddCityCharges> {
           print('Data fetched successfully: $message');
 
 
-          setState(() {
-          });
+          _isLoadingdata=false;
+          setState(() {});
           // Clear the existing list
 
 
         } else {
           // Handle the case where fetching data failed
+          _isLoadingdata=false;
+          setState(() {});
           print('Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
+        _isLoadingdata=false;
+        setState(() {});
         print('API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
+      _isLoadingdata=false;
+      setState(() {});
       print('API request error: $e');
     }
   }
@@ -199,15 +206,22 @@ class _AddCityChargesState extends State<AddCityCharges> {
               ],
             ),
             SizedBox(height: 10,),
-            cityCharges.isNotEmpty
-           ? ListView.builder(
+            if(cityCharges.isEmpty)
+              _isLoadingdata?const CircularProgressIndicator():
+              Text(
+                "No City charge available",
+                style: TextStyle(fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),
+              )
+            else
+              _isLoadingdata?const CircularProgressIndicator():
+              ListView.builder(
               itemCount: cityCharges.length,
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return AddItemView(tolls: cityCharges[index]
                 ,onTollChecked: onTollChecked,);
-              },) :CircularProgressIndicator(),
+              },) ,
 
             const Spacer(),
             _isLoading // Show progress indicator if loading
