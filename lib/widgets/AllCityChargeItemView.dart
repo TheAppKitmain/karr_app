@@ -49,7 +49,7 @@ class AllCityChargeItemView extends StatelessWidget {
                SizedBox(height: 20,),
                Row(
                  children: [
-                   Text('${cityCharge.date}am',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato-Regular")),
+                   Text('${cityCharge.date}',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato-Regular")),
                  ],
                ),
                SizedBox(height: 10,),
