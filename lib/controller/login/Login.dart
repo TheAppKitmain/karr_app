@@ -51,12 +51,13 @@ class _loginScreenState extends State<Login> {
       if (response.statusCode == 200) {
         final status = responseData['status'] as bool;
         final message = responseData['message'] as String;
-        final logo = responseData['logo'] as String;
 
-        print(logo);
+        //
+        // print(logo);
 
 
         if (status) {
+          final logo = responseData['logo'] as String;
           final userJson = responseData['user'] as Map<String, dynamic>;
           final user = User.fromJson(userJson);
           print('Login successful: $message');
@@ -230,12 +231,13 @@ class _loginScreenState extends State<Login> {
                           if (response != null) {
                             final status = response['status'] as bool;
                             final message = response['message'] as String;
-                            final logo = response['logo'] as String;
+
 
 
 
 
                             if (status) {
+                              final logo = response['logo'] as String;
                               final user = response['user'] as User;
                               // final logo = response['logo'] as String;
                               // Login was successful, handle accordingly

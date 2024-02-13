@@ -106,7 +106,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
     try {
       final Map<String, dynamic> requestData = {
         'driver_id': userid,
-        'date': DateFormat('yyyy-MM-dd').format(_selectedDate??DateTime.now())  ?? DateTime.now().toLocal().toString().split(' ')[0],
+        'date': DateFormat('dd-MM-yyyy').format(_selectedDate??DateTime.now())  ?? DateTime.now().toLocal().toString().split(' ')[0],
 
         'cities': selectedCityCharges
             .where((toll) => toll.ischecked!)
