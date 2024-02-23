@@ -53,7 +53,7 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
 
                       Text('${widget.tolls.city}, ${widget.tolls.area}',style: TextStyle(color: AppColors.black,fontSize: width*0.04,fontFamily: "Lato")),
 
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
 
                       Text('EveryDay',style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
 
@@ -65,10 +65,10 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
                           });
                         },
                         child: Row(
-                          children: const [
+                          children:  [
                             Text(
                               'Add Note',
-                              style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
+                              style: TextStyle(fontSize: width*0.033, color: AppColors.primaryColor),
                             ),
                             Icon(
                               Icons.arrow_forward_ios,

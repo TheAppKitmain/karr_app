@@ -29,7 +29,7 @@ class AllTolls extends StatefulWidget {
 class _AllTollsState extends State<AllTolls> {
   List<String> gameList = [ "Date", "City"];
   List<Tolls> allTolls = [];
-
+  bool isLoading = true;
 
   var selectedValue;
   String? userid;
@@ -75,21 +75,28 @@ class _AllTollsState extends State<AllTolls> {
           print(' tolls screen :Data fetched successfully: $message');
 
 
-          setState(() {
-          });
+
+          isLoading = false;
+          setState(() {});
           // Clear the existing list
 
 
         } else {
           // Handle the case where fetching data failed
+          isLoading = false;
+          setState(() {});
           print('tolls screen :Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
+        isLoading = false;
+        setState(() {});
         print('tolls screen :API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
+      isLoading = false;
+      setState(() {});
       print('tolls screen :API request error: $e');
     }
   }
@@ -120,36 +127,50 @@ class _AllTollsState extends State<AllTolls> {
                   fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),),
 
               Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black), // Set the black outline border
-                  borderRadius: BorderRadius.circular(10),
-                  // Set border radius if needed
-                ),
-                padding: EdgeInsets.symmetric(horizontal:25), // Add horizontal padding
-                child: DropdownButton<String>(
-                  value: selectedValue,
-                  underline: null,
-                  hint: Text("Sort By",style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular'),),
+              Card(
+                elevation: 4,
+                color: Colors.white,
+                child: Container(
 
-                  items: gameList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedValue = newValue;
-                    });
-                  },
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                    border: Border.all(color: Colors.white), // Set the black outline border
+                    borderRadius: BorderRadius.circular(10),
+                    // Set border radius if needed
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal:25), // Add horizontal padding
+                  child: DropdownButton<String>(
+                    value: selectedValue,
+                    underline: null,
+                    hint: Padding(
+                      padding:  EdgeInsets.only(right: width*0.09),
+                      child: Text("Sort By",style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),
+                    ),
+
+                    items: gameList.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal)),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedValue = newValue;
+                      });
+                    },
+                  ),
                 ),
               )
 
 
             ],),
           ),
+              isLoading
+                  ? Center(
+                child:
+                CircularProgressIndicator(),
 
+              ):
 
           allTolls.isNotEmpty?
 
@@ -177,7 +198,7 @@ class _AllTollsState extends State<AllTolls> {
               ),
               Center( child: Text("Haven't Added Before?",style: TextStyle(fontSize: width*0.05,fontFamily: "Lato",color: AppColors.black),)),
               SizedBox(height: 20,),
-              Center( child: Text("Click Add Toll and provide us with the details to ",style: TextStyle(fontSize:fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
+              Center( child: Text("Click 'Add Toll' and provide us with the details to ",style: TextStyle(fontSize:fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
               Center( child: Text("add toll for you.",style: TextStyle(fontSize: fontSize,fontFamily: "Lato-Regular",color: AppColors.black),)),
 
               Center(
@@ -204,17 +225,16 @@ class _AllTollsState extends State<AllTolls> {
 
         ]
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            widget.onNext(4);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => AddTolls(onPrevious: (v){},onNext: (v){},)),
-            // );
-          },
-          backgroundColor: AppColors.primaryColor,
-          child: const Icon(Icons.add),
+        floatingActionButton: Visibility(
+          visible: allTolls.isNotEmpty?true:false,
+          child: FloatingActionButton(
+            onPressed: (){
+              widget.onNext(4);
+
+            },
+            backgroundColor: AppColors.primaryColor,
+            child: const Icon(Icons.add),
+          ),
         ),
       ),
     );
@@ -259,5 +279,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(60.0);
+  Size get preferredSize => Size.fromHeight(90.0);
 }

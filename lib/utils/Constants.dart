@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class AppColors {
-  static const Color primaryColor = Color(0xFF8C52FF);
+  static const Color primaryColor = Color(0xFF8c52ff);
   static const Color blue = Color(0xFF5A9FD6);
   static const Color yellow = Color(0xFFFFB400);
   static const Color pink = Color(0xFFFF6F73);
@@ -15,14 +15,31 @@ class AppColors {
   static const Color backgroundColorOvwhite = Color(0xABF1EDED);
   static const Color white = Color(0xFFFFFFFF);
 }
+//*********************************************************************************
 
+
+
+class ToastUtils {
+  static void showToast(BuildContext context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2), // Adjust the duration as needed
+      ),
+    );
+  }
+}
+//*********************************************************************************
 
 Future<void> saveRecentActivity(String activity) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> activities = prefs.getStringList('recent_activities') ?? [];
+    String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     String timestamp = DateFormat('hh:mm a').format(DateTime.now()); // Format current time
-    String activityWithTime = '$activity \n $timestamp'; // Combine activity with time
+    String activityWithTime = '$currentDate:$activity \n $timestamp'; // Combine activity with time
     activities.add(activityWithTime); // Insert at the beginning of the list
     // Keep only the latest 10 activities
     // activities = activities.sublist(0, 10);

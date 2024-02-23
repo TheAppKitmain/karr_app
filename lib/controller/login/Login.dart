@@ -91,6 +91,8 @@ class _loginScreenState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     SharedPreferences.getInstance().then((prefs) {
       final bool rememberMe = prefs.getBool('remember_me') ?? false;
       if (rememberMe) {
@@ -147,6 +149,7 @@ class _loginScreenState extends State<Login> {
 
                 child: CustomTextField(
                   controller: _emailController,
+
                   keyboardType:TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -298,7 +301,7 @@ class _loginScreenState extends State<Login> {
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child:  RichText(
                           text:  TextSpan(
-                            style: TextStyle(color: Colors.black, fontSize: 16),
+                            style: TextStyle(color: Colors.black, fontSize: width*0.04),
                             children: <TextSpan>[
                               TextSpan(text: 'By continuing, you agree to accept our '),
 

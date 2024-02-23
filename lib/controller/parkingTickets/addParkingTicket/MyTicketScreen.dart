@@ -7,7 +7,7 @@ import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/ReviewDe
 
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/CameraScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'dart:io';
 import '../../tolls/AllTolls.dart';
 
 class MyTicketScreen extends StatefulWidget {
@@ -21,6 +21,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
    late String date;
    late String charge;
    late String issuer;
+   late File captureimage;
   final t=Tickets();
   @override
   Widget build(BuildContext context) {
@@ -56,11 +57,14 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
           ),
           Expanded(
             child:  currentStep == 0
-                    ? CameraScreen(onPrevious: () {
+                    ? CameraScreen( image: (image){
+                      captureimage=image;
+            },onPrevious: () {
                         setState(() {
                           currentStep = 0;
                         });
-                      }, onNext: () async {
+                      },
+                onNext: () async {
               final prefs = await SharedPreferences.getInstance();
               // ticket_number = prefs.getString('Ticket_number') ?? '';
               // date = prefs.getString('Ticket_date') ?? '';
@@ -80,7 +84,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
                 currentStep = 1;
               });
                       }):currentStep == 1
-                    ? ReviewDetailScreen(onPrevious: () {
+                    ? ReviewDetailScreen(capturedImage: captureimage,onPrevious: () {
                         setState(() {
                           currentStep = 0;
                         });

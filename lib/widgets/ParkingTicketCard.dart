@@ -7,7 +7,7 @@ import 'package:kaar/utils/Constants.dart';
 
 import 'package:kaar/widgets/flutter_ticket_widget.dart';
 import 'package:dotted_line/dotted_line.dart';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 class ParkingTicketCard extends StatelessWidget {
@@ -38,7 +38,7 @@ class ParkingTicketCard extends StatelessWidget {
     return  FlutterTicketWidget(
 
       width: width*0.9,
-      height: height*0.26,
+      height: height*0.24,
       isCornerRounded: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,7 +63,7 @@ class ParkingTicketCard extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(
                             tickets.pcn??"N/A",
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold ),
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),
 
                           ),
                         ]
@@ -78,7 +78,7 @@ class ParkingTicketCard extends StatelessWidget {
                       ),
                       child: Text(
                         tickets.status == 1 ?"Paid":"Unpaid",
-                        style: const TextStyle(color: Colors.white),
+                        style:  TextStyle(color: Colors.white,fontSize: width*0.03),
                       ),
                     ),
 
@@ -108,7 +108,7 @@ class ParkingTicketCard extends StatelessWidget {
 
                       Text(
                           tickets.ticketIssuer??"" ,
-                          style: const TextStyle(fontSize: 18,color: AppColors.black,fontWeight: FontWeight.bold )
+                          style:  TextStyle(fontSize: width*0.035,color: AppColors.black,fontWeight: FontWeight.bold )
                       ),
                       // Add any other icons or buttons here
                     ],
@@ -121,7 +121,8 @@ class ParkingTicketCard extends StatelessWidget {
                   children: <Widget>[
 
                         Text(
-                          tickets.date??"N/A",
+                          formatWithSuffix(tickets.date!)??"N/A",
+                          // tickets.date??"",
                           style: TextStyle(fontSize: fontsize),
                         ),
 
@@ -143,5 +144,22 @@ class ParkingTicketCard extends StatelessWidget {
       ),
     );
 
+  }
+  String formatWithSuffix(String date) {
+    DateFormat format = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = format.parse(date);
+    String suffix = 'th';
+    int day = dateTime.day;
+    if (day == 1 || day == 21 || day == 31) {
+      suffix = 'st';
+    } else if (day == 2 || day == 22) {
+      suffix = 'nd';
+    } else if (day == 3 || day == 23) {
+      suffix = 'rd';
+    }
+    return DateFormat('dd')  // Format day without suffix
+        .format(dateTime)
+        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
 }

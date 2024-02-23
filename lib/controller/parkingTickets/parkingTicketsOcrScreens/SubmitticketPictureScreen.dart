@@ -9,7 +9,7 @@ import 'package:kaar/utils/Constants.dart';
 import 'dart:convert';
 
 
-import 'package:http/http.dart' as http;
+
 import 'package:http_parser/http_parser.dart';
 import 'package:kaar/widgets/CustomDialoboxTicketPictureUpload.dart';
 import 'package:path/path.dart';

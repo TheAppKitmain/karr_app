@@ -63,10 +63,23 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                   children: <Widget>[
                     Column(
                         children: [
-                          Text(
-                            'PCN Number',
-                            style: TextStyle(fontSize: 14),
+                          Row(
+                            children: [
+                              Text(
+                                'PCN Number',
+                                style: TextStyle(fontSize: 14),
+                                
+                              ),
+                              SizedBox(width: 8,),
+                              GestureDetector(  onTap: (){
+                                EditTicketDialog.show(context, widget.tickets.pcn??"","PCN Number", (p0) =>{
+                                  widget.tickets.pcn=p0,
+                                  setState(() {
 
+                                  })
+                                } );
+                              },child: Icon(Icons.edit,size: 15,))
+                            ],
                           ),
                           SizedBox(height: 8),
                           GestureDetector(
@@ -97,20 +110,32 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                       child: Column(
                         children:[
 
-                          GestureDetector(
-                          onTap: (){
-                            EditTicketDialog.show(context, widget.tickets.ticketIssuer??"","Ticket Issuer", (p0) =>{
-                              widget.tickets.ticketIssuer=p0,
-                              setState(() {
+                          Row(
+                            children:[ GestureDetector(
+                            onTap: (){
+                              EditTicketDialog.show(context, widget.tickets.ticketIssuer??"","Ticket Issuer", (p0) =>{
+                                widget.tickets.ticketIssuer=p0,
+                                setState(() {
 
-                              })
-                            } );
-                          },
-                          child: Text(
-                            widget.tickets.ticketIssuer??"" ,
-                            style: TextStyle(color: Colors.black),
+                                })
+                              } );
+                            },
+                            child: Text(
+                              widget.tickets.ticketIssuer??"" ,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                                                    ),
+                              SizedBox(width: 8,),
+                              GestureDetector(child: Icon(Icons.edit,size: 15,),onTap: (){
+    EditTicketDialog.show(context, widget.tickets.ticketIssuer??"","Ticket Issuer", (p0) =>{
+    widget.tickets.ticketIssuer=p0,
+    setState(() {
+
+    })
+    } );
+    },)
+    ]
                           ),
-                        ),
       ]
                       ),
                     ),
@@ -134,40 +159,67 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                     Column(
                       children:[
 
-                        GestureDetector(
-                        onTap:() async {
-                          final DateTime? picked = await getDatePicker(context);
-                          if (picked != null && picked != _date) {
-                            setState(() {
-                              _date = picked;
-                              widget.tickets.date = DateFormat('dd-MM-yyyy')
-                                  .format(picked); // Format the date as needed
-                            });
-                          }
-                        },
-                        child: Text(
+                        Row(
+                          children:[ GestureDetector(
+                          onTap:() async {
+                            final DateTime? picked = await getDatePicker(context);
+                            if (picked != null && picked != _date) {
+                              setState(() {
+                                _date = picked;
+                                widget.tickets.date = DateFormat('dd-MM-yyyy')
+                                    .format(picked); // Format the date as needed
+                              });
+                            }
+                          },
+                          child: Text(
 
-                          widget.tickets.date?.isNotEmpty ?? false ? widget.tickets.date! : "Date",
-                          style: TextStyle(fontSize: 14),
+                            widget.tickets.date?.isNotEmpty ?? false ? formatWithSuffixString(widget.tickets.date!) : "Date",
+                            style: TextStyle(fontSize: 14),
+                          ),
+
+                                                ),
+                            SizedBox(width: 8,),
+                            GestureDetector( onTap:() async {
+                              final DateTime? picked = await getDatePicker(context);
+                              if (picked != null && picked != _date) {
+                                setState(() {
+                                  _date = picked;
+                                  widget.tickets.date = DateFormat('dd-MM-yyyy')
+                                      .format(picked); // Format the date as needed
+                                });
+                              }
+                            },child: Icon(Icons.edit,size: 15,))
+    ]
                         ),
-                      ),
     ]
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        EditTicketDialog.show(context, widget.tickets.price??"","Ticket Price", (p0) =>{
-                          widget.tickets.price=p0,
-                          setState(() {
+                    Row(
+                      children:[ GestureDetector(
+                        onTap: (){
+                          EditTicketDialog.show(context, widget.tickets.price??"","Ticket Price", (p0) =>{
+                            widget.tickets.price=p0,
+                            setState(() {
 
-                          })
-                        } );
-                      },
-                      child:Text(
-                       'Price: £${widget.tickets.price}'??'' ,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            })
+                          } );
+                        },
+                        child:Text(
+                         'Price: £${widget.tickets.price}'??'' ,
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+
+
                       ),
+                        SizedBox(width: 8,),
+                        GestureDetector( onTap: (){
+                          EditTicketDialog.show(context, widget.tickets.price??"","Ticket Price", (p0) =>{
+                            widget.tickets.price=p0,
+                            setState(() {
 
-
+                            })
+                          } );
+                        },child: Icon(Icons.edit,size: 15,))
+    ]
                     ),
                     // Add any other icons or buttons here
                   ],
@@ -181,5 +233,60 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
       ),
     );
 
+  }
+  String formatWithSuffixString(String date) {
+    DateFormat format = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = format.parse(date);
+    String suffix = 'th';
+    int day = dateTime.day;
+    if (day == 1 || day == 21 || day == 31) {
+      suffix = 'st';
+    } else if (day == 2 || day == 22) {
+      suffix = 'nd';
+    } else if (day == 3 || day == 23) {
+      suffix = 'rd';
+    }
+    return DateFormat('dd')  // Format day without suffix
+        .format(dateTime)
+        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+  }
+  String revertDateFormat(String formattedDate) {
+    // Split the formatted date string by space to separate day, suffix, month, and year
+    List<String> parts = formattedDate.split(' ');
+
+    // Extract day and remove suffix
+    String day = parts[0].replaceAll(RegExp(r'[^\d]'), '');
+
+    // Extract month and year
+    String monthYear = parts[1];
+    String Year = parts[2];
+    if (monthYear=='January')
+      monthYear='01';
+    else if(monthYear=='February')
+      monthYear='02';
+    else if(monthYear=='March')
+      monthYear='03';
+    else if(monthYear=='April')
+      monthYear='04';
+    else if(monthYear=='May')
+      monthYear='05';
+    else if(monthYear=='June')
+      monthYear='06';
+    else if(monthYear=='July')
+      monthYear='07';
+    else if(monthYear=='August')
+      monthYear='08';
+    else if(monthYear=='September')
+      monthYear='09';
+    else if(monthYear=='October')
+      monthYear='10';
+    else if(monthYear=='November')
+      monthYear='11';
+    else if(monthYear=='December')
+      monthYear='12';
+
+    // Return the reverted format
+    return '$day-$monthYear-$Year';
   }
 }

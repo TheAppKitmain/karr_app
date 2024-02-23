@@ -129,30 +129,35 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                 child: Row(
                   children: [
                     Spacer(),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black54),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: DropdownButton<String>(
-                        value: selectedValue,
-                        underline: null,
-                        hint: Text(
-                          "Sort By",
-                          style: TextStyle(color: AppColors.black,fontSize: 13),
+                    Card(
+                      elevation: 4,
+                      color: Colors.white,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        items: gameList.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,style: TextStyle(color: AppColors.black,fontSize: 13)),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedValue = newValue;
-                          });
-                        },
+                        padding: EdgeInsets.symmetric(horizontal: 25),
+                        child: DropdownButton<String>(
+                          value: selectedValue,
+                          underline: null,
+                          hint: Text(
+                            "Sort By",
+                              style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),
+                          ),
+                          items: gameList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value,style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedValue = newValue;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ],

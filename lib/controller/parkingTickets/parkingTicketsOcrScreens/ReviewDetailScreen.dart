@@ -1,25 +1,40 @@
 
 
+import 'dart:convert';
+
 import 'dart:core';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
+
+import 'package:http_parser/http_parser.dart';
+
+import 'package:image/image.dart' as img;
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/SubmitticketPictureScreen.dart';
 import 'package:kaar/utils/Constants.dart';
+
 import 'package:kaar/widgets/AddParkingTicketCard.dart';
+import 'package:kaar/widgets/CustomDialoboxTicketPictureUpload.dart';
 import 'package:kaar/widgets/CustomDialogBox.dart';
-import 'package:kaar/widgets/PrimaryButton.dart';
+
 import 'package:kaar/widgets/TicketNotDetectDialog.dart';
+import 'package:path/path.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ReviewDetailScreen extends StatefulWidget {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
-
+  final File? capturedImage;
   final Tickets ticket;
-  ReviewDetailScreen({required this.onPrevious, required this.onNext,required this.ticket});
+  ReviewDetailScreen({required this.onPrevious, required this.onNext,required this.ticket, required this.capturedImage});
 
   @override
   State<ReviewDetailScreen> createState() => _ReviewDetailScreenState();
@@ -27,6 +42,7 @@ class ReviewDetailScreen extends StatefulWidget {
 
 class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
   String? userid;
+  String? adminid;
 
   bool _isLoading = false;
 
@@ -40,6 +56,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
     // checkTicketDetails(context);
 
   }
+
   Future<void> checkTicketDetails(BuildContext context) async {
     if(widget.ticket.price=='Price'||widget.ticket.pcn=='Not Recognized'||widget.ticket.date=='Date'||widget.ticket.ticketIssuer=='Ticket Issuer'){
 
@@ -51,7 +68,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
       });
 
     }else{
-      final response = await addTicket(widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer);
+      final response = await addTicket(widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer,context);
       if (response != null) {
         final status =
         response['status'] as bool;
@@ -59,22 +76,12 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
         response['message'] as String;
 
         if (status) {
-          setState(() {
-            _isLoading =
-            false; // Start loading
-          });
-          ScaffoldMessenger.of(context)
-              .showSnackBar(
-            SnackBar(
-              content: Text(' $message'),
-            ),
-          );
-          CustomDialogBox.show(
-              context,
-              status,
-              "Ticket Submitted",
-              "Great! Your ticket has been submitted successfully.");
-          saveRecentActivity('Ticket added');
+          upload(widget.capturedImage!, context,message,status);
+          // setState(() {
+          //   _isLoading =
+          //   false; // Start loading
+          // });
+
         } else {
           setState(() {
             _isLoading =
@@ -90,7 +97,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
               context,
               status,
               "Ticket  Not Submitted",
-              "Your ticket has not been submitted .");
+              "Your ticket has not been submitted .\n$message");
         }
       } else {
         ScaffoldMessenger.of(context)
@@ -108,14 +115,70 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
     }
   }
 
+
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userid = prefs.getString('userid');
+      adminid = prefs.getString('adminid');
     });
   }
 
-  Future<Map<String, dynamic>?> addTicket(String? date,String? pcn,String? price,String? issuer) async {
+  Future<void> upload(File imageFile, BuildContext context,String message,bool status) async {
+    // Print the file extension for debugging
+    print('File extension: ${extension(imageFile.path)}');
+
+    // string to uri
+    var uri = Uri.parse("https://dashboard.karrcompany.co.uk/api/fines");
+    var request = http.MultipartRequest("POST", uri);
+    request.fields['driver_id'] = userid ?? "1";
+    request.fields['user_id'] = adminid ?? '3';
+
+    // Print the content type for debugging
+    print('Content type: ${MediaType('image', 'jpg',)}');
+
+    // Print the file size for debugging
+    print('File size: ${await imageFile.length()} bytes');
+
+    // Add the image to the request
+    request.files.add(await http.MultipartFile.fromPath(
+      'image',
+      imageFile.path,
+      contentType: MediaType('image', 'jpg'),
+    ));
+
+    // Send the request
+    request.send().then((response) {
+      if (response.statusCode == 200) {
+        response.stream.transform(utf8.decoder).listen((value) {
+          print(value);
+          setState(() {
+            _isLoading = false;
+          });
+        });
+        ScaffoldMessenger.of(context)
+            .showSnackBar(
+          SnackBar(
+            content: Text(' $message'),
+          ),
+        );
+        CustomDialogBox.show(
+            context,
+            status,
+            "Ticket Submitted",
+            "Great! Your ticket has been submitted successfully.");
+        saveRecentActivity('Ticket added pcn: ${widget.ticket.pcn}');
+
+      } else {
+        setState(() {
+          // _isLoading = false;
+        });
+        // CustomDialoboxTicketPictureUpload.show(context, false, "Ticket not Submitted", "Your Ticket has not been submitted ");
+        // print('Error: ${response.statusCode}');
+      }
+    });
+  }
+  Future<Map<String, dynamic>?> addTicket(String? date,String? pcn,String? price,String? issuer, BuildContext context) async {
     final dio = Dio();
 
     print('price is $price');
@@ -140,6 +203,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
 
         if (status) {
           return response.data;
+
         } else {
           // Handle the case where login failed
           print('Login failed: $message');
@@ -191,7 +255,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
 
               AddParkingTicketCard(tickets: widget.ticket,isEdit: true),
               const Spacer(),
-              _isLoading?CircularProgressIndicator():
+              _isLoading?Center(child: CircularProgressIndicator()):
               Row(
                 children: [
                   Expanded(
@@ -228,6 +292,10 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                       onPressed: () async {
 
                         checkTicketDetails(context);
+                        _isLoading=true;
+                        setState(() {
+
+                        });
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
@@ -278,7 +346,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
 
-                      "Ticket not recognized? Submit picture of the ticket",
+                      "Ticket not recognised? Submit picture of the ticket",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.primaryColor,

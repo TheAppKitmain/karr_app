@@ -23,7 +23,7 @@ class CityCharges extends StatefulWidget {
 class _CityChargesState extends State<CityCharges> {
   List<String> gameList = ["Date", "City"];
   List<Charges> cityCharges = [];
-
+  bool isLoading = true;
   var selectedValue;
 
   String? userid;
@@ -67,19 +67,25 @@ class _CityChargesState extends State<CityCharges> {
             });
           }
           print('Data fetched successfully: $message');
-
+          isLoading = false;
           setState(() {});
           // Clear the existing list
         } else {
           // Handle the case where fetching data failed
+          isLoading = false;
+          setState(() {});
           print('Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
+        isLoading = false;
+        setState(() {});
         print('API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
+      isLoading = false;
+      setState(() {});
       print('API request error: $e');
     }
   }
@@ -109,41 +115,48 @@ class _CityChargesState extends State<CityCharges> {
                       color: AppColors.black),
                 ),
                 const Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    // Set the black outline border
-                    borderRadius: BorderRadius.circular(10),
-                    // Set border radius if needed
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  // Add horizontal padding
-                  child: DropdownButton<String>(
-                    value: selectedValue,
-                    underline: null,
-                    hint: Text(
-                      "Sort By",
-                      style: TextStyle(
-                          color: AppColors.black,
-                          fontFamily: 'Lato-Regular',
-                          fontSize: fontSize),
+                Card(
+                  elevation: 4,
+                  color: Colors.white,
+                  child: Container(
+
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white), // Set the black outline border
+                      borderRadius: BorderRadius.circular(10),
+                      // Set border radius if needed
                     ),
-                    items: gameList.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedValue = newValue;
-                      });
-                    },
+                    padding: EdgeInsets.symmetric(horizontal:25), // Add horizontal padding
+                    child: DropdownButton<String>(
+                      value: selectedValue,
+                      underline: null,
+                      hint: Padding(
+                        padding:  EdgeInsets.only(right: width*0.09),
+                        child: Text("Sort By",style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),
+                      ),
+
+                      items: gameList.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value,style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal)),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue = newValue;
+                        });
+                      },
+                    ),
                   ),
                 )
               ],
             ),
-          ),
+          ), isLoading
+              ? Center(
+            child:
+            CircularProgressIndicator(),
+
+          ):
           cityCharges.isNotEmpty
               ? Expanded(
                   child: ListView.builder(
@@ -214,16 +227,19 @@ class _CityChargesState extends State<CityCharges> {
                   ],
                 ),
         ]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            widget.onNext(7);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => AddCityCharges()),
-            // );
-          },
-          backgroundColor: AppColors.primaryColor,
-          child: const Icon(Icons.add),
+        floatingActionButton: Visibility(
+          visible: cityCharges.isEmpty?false:true,
+          child: FloatingActionButton(
+            onPressed: () {
+              widget.onNext(7);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => AddCityCharges()),
+              // );
+            },
+            backgroundColor: AppColors.primaryColor,
+            child: const Icon(Icons.add),
+          ),
         ),
       ),
     );

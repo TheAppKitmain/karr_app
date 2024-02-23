@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 
 import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
+import 'package:kaar/controller/parkingTickets/editTicket/EditTicketScreen.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:kaar/widgets/AppLoading.dart';
+import 'package:kaar/widgets/DeleteDialog.dart';
 import 'package:kaar/widgets/ParkingTicketCard.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,6 +81,49 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
       setState(() {});
     }
   }
+  Future<void> deleteTickets(int ticket_id) async {
+
+    final dio = Dio();
+
+    try {
+      final response = await dio.delete(
+        'https://dashboard.karrcompany.co.uk/api/deleteTicket',
+        queryParameters: {
+          "ticket_id": ticket_id,
+        },
+      );
+
+      final responseData = response.data as Map<String, dynamic>;
+
+      print(response);
+      if (response.statusCode == 200) {
+        final status = responseData['status'] as bool;
+        final message = responseData['message'] as String;
+
+        if (status) {
+          allTickets.removeWhere((ticket) => ticket.id == ticket_id);
+          isLoading = true;
+          setState(() {
+            fetchallTickets();
+          });
+          Navigator.pop(context);
+          ToastUtils.showToast(context, message);
+
+           // Set loading to true before fetching tickets
+
+        } else {
+          Navigator.pop(context); // Close the dialog
+          ToastUtils.showToast(context, message);
+        }
+      } else {
+        Navigator.pop(context); // Close the dialog
+        ToastUtils.showToast(context, "else");
+      }
+    } catch (e) {
+      Navigator.pop(context); // Close the dialog
+      ToastUtils.showToast(context, "catch");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +144,45 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           itemBuilder: (context, index) {
-            return ParkingTicketCard(tickets: allTickets[index]);
+            return Slidable(
+                key: ValueKey(0),
+            // The end action pane is the one at the right or the bottom side.
+            endActionPane:  ActionPane(
+            motion: ScrollMotion(),
+            children: [
+            SlidableAction(
+            flex: 1,
+            padding: const EdgeInsets.all(10),
+            onPressed:(context) {
+             DeleteDialog.show(context);
+              deleteTickets(allTickets[index].id!);
+
+            },
+            backgroundColor: Colors.red,
+            borderRadius: BorderRadius.circular(5),
+
+            foregroundColor: AppColors.white,
+            spacing: 10,
+            icon: Icons.delete,
+            label: "delete",
+            ),
+              SlidableAction(
+                onPressed: (context){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditTicketScreen(ticket: allTickets[index])),
+                  );
+                },
+                borderRadius: BorderRadius.only(topRight: Radius.circular(25),bottomRight: Radius.circular(25)),
+                backgroundColor: Color(0xFF21B7CA),
+                foregroundColor: Colors.white,
+                icon: Icons.edit,
+                label: 'edit',
+              ),
+            ],
+            ),
+            child:ParkingTicketCard(tickets: allTickets[index]));
           },
         ),
       )

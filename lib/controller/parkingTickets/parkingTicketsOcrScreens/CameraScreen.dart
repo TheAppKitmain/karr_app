@@ -5,12 +5,17 @@ import 'package:image/image.dart' as img;
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:kaar/utils/Constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
+import 'dart:convert';
 
 class CameraScreen extends StatefulWidget {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
-
-  CameraScreen({required this.onPrevious, required this.onNext});
+  final Function(File)? image;
+  CameraScreen({required this.onPrevious, required this.onNext, required this.image});
 
   @override
   _CameraScreenState createState() =>
@@ -28,7 +33,8 @@ class _CameraScreenState extends State<CameraScreen> {
   bool textScanning = false;
   TextEditingController textController = TextEditingController();
   File? capturedImage;
-
+  String? userid;
+  String? adminid;
   String scannedText = "";
   String pcnNumber = "PCN Number: ";
   String date = "Date: ";
@@ -39,6 +45,15 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     initializeCamera();
+    loadUserDetails();
+  }
+
+  void loadUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userid = prefs.getString('userid');
+      adminid = prefs.getString('adminid');
+    });
   }
 
   void getRecognisedText(XFile image) async {
@@ -72,6 +87,7 @@ class _CameraScreenState extends State<CameraScreen> {
     await SharedStorage().saveStringToLocalStorage('Ticket_date', date);
     await SharedStorage().saveStringToLocalStorage('Ticket_charge', charge);
     await SharedStorage().saveStringToLocalStorage('Issuer_name', issuerName);
+    widget.image!(capturedImage!);
     onNext();
     setState(() {
       textScanning = true;
@@ -175,6 +191,7 @@ class _CameraScreenState extends State<CameraScreen> {
       File(image.path).writeAsBytesSync(img.encodeJpg(rawImage));
 
       capturedImage = File(image.path);
+
       getRecognisedText(XFile(image.path));
     } catch (e) {
       print(e);

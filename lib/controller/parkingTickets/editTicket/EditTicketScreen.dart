@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/CustomDialogBox.dart';
 import 'package:kaar/widgets/CustomTextField.dart';
@@ -13,14 +14,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import '../../../widgets/date_picker.dart';
 
-class AddTicketManually extends StatefulWidget {
-  const AddTicketManually({super.key});
+class EditTicketScreen extends StatefulWidget {
+  const EditTicketScreen({super.key,required this.ticket});
+  final Tickets ticket;
 
   @override
-  State<AddTicketManually> createState() => _AddTicketManuallyState();
+  State<EditTicketScreen> createState() => _EditTicketScreenState();
 }
 
-class _AddTicketManuallyState extends State<AddTicketManually> {
+class _EditTicketScreenState extends State<EditTicketScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _pcnNumberController = TextEditingController();
   TextEditingController _amountController = TextEditingController();
@@ -32,8 +34,13 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
     ,"LEWISHAM","NEWHAM","REDBRIDGE","RICHMOND","SUTTON","TRANSPORT FOR LONDON","TOWER HAMLETS","WALTHAM FOROST","WANDSWORTH","WESTMINSTER"];
   var controller = new MaskedTextController(mask: '00000');
   String? userid;
+  String? pcn;
+  String? amount;
+  String? date;
+  String? notes;
   bool _isLoading = false;
   DateTime? _date;
+
 
   @override
   void initState() {
@@ -44,25 +51,34 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('ticket is ${widget.ticket.date
+    }');
     setState(() {
       userid = prefs.getString('userid');
+      _selectedIssuer=widget.ticket.ticketIssuer;
+      _dateController.text=formatWithSuffixString(widget.ticket.date!);
+      _pcnNumberController.text=widget.ticket.pcn??"";
+      _amountController.text=widget.ticket.price??"";
+      notes=widget.ticket.notes;
+
     });
   }
 
-  Future<Map<String, dynamic>?> addTicket() async {
+  Future<Map<String, dynamic>?> updateTicket() async {
     final dio = Dio();
 
     try {
-      print(revertDateFormat(_dateController.text).toString());
-      final response = await dio.post(
-        'https://dashboard.karrcompany.co.uk/api/ticket',
+      final response = await dio.put(
+        'https://dashboard.karrcompany.co.uk/api/updateTicket',
         queryParameters: {
+          'ticket_id': widget.ticket.id,
           'driver_id': userid,
-          'date': revertDateFormat(_dateController.text).toString(),
+          'date': _dateController.text,
           'pcn': _pcnNumberController.text,
           // 'price': double.parse(_amountController.text),
           'price': double.parse(_amountController.text),
           'ticket_issuer': _selectedIssuer,
+          'notes': _selectedIssuer,
         },
       );
       print(response.data);
@@ -106,7 +122,23 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
       });
     }
   }
-
+  String formatWithSuffixString(String date) {
+    DateFormat format = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = format.parse(date);
+    String suffix = 'th';
+    int day = dateTime.day;
+    if (day == 1 || day == 21 || day == 31) {
+      suffix = 'st';
+    } else if (day == 2 || day == 22) {
+      suffix = 'nd';
+    } else if (day == 3 || day == 23) {
+      suffix = 'rd';
+    }
+    return DateFormat('dd')  // Format day without suffix
+        .format(dateTime)
+        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+  }
   String formatWithSuffix(DateTime date) {
     String suffix = 'th';
     int day = date.day;
@@ -122,44 +154,6 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
         .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
         suffix + ' ' + DateFormat('MMMM yyyy').format(date);
   }
-  String revertDateFormat(String formattedDate) {
-    // Split the formatted date string by space to separate day, suffix, month, and year
-    List<String> parts = formattedDate.split(' ');
-
-    // Extract day and remove suffix
-    String day = parts[0].replaceAll(RegExp(r'[^\d]'), '');
-
-    // Extract month and year
-    String monthYear = parts[1];
-    String Year = parts[2];
-    if (monthYear=='January')
-      monthYear='01';
-    else if(monthYear=='February')
-      monthYear='02';
-    else if(monthYear=='March')
-      monthYear='03';
-    else if(monthYear=='April')
-      monthYear='04';
-    else if(monthYear=='May')
-      monthYear='05';
-    else if(monthYear=='June')
-      monthYear='06';
-    else if(monthYear=='July')
-      monthYear='07';
-    else if(monthYear=='August')
-      monthYear='08';
-    else if(monthYear=='September')
-      monthYear='09';
-    else if(monthYear=='October')
-      monthYear='10';
-    else if(monthYear=='November')
-      monthYear='11';
-    else if(monthYear=='December')
-      monthYear='12';
-
-    // Return the reverted format
-    return '$day-$monthYear-$Year';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +164,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
       appBar: AppBar(
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
-
+        backgroundColor: AppColors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -180,30 +174,23 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Manual Input",
-                    style: TextStyle(
-                      color: AppColors.black,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.bold,
-                      fontSize: width * 0.06,
-                    ),
+                Text(
+                  "Update Ticket",
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontFamily: "Lato",
+                    fontSize: width * 0.07,
                   ),
                 ),
                 SizedBox(
-                  height: height * 0.01,
+                  height: height * 0.02,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Enter the details of your ticket manually.",
-                    style: TextStyle(
-                      color: AppColors.black,
-                      fontFamily: "Lato-Regular",
-                      fontSize: width * 0.035,
-                    ),
+                Text(
+                  "update the details of your ticket manually.",
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontFamily: "Lato-Regular",
+                    fontSize: width * 0.04,
                   ),
                 ),
                 SizedBox(
@@ -216,13 +203,13 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                     children: [
                       TextView(
                         text: "PCN",
-
                         onPressed: () {},
                       ),
 
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _pcnNumberController,
+
                         keyboardType: TextInputType.text,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -243,6 +230,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                       const SizedBox(height: 10),
                       CustomTextField(
                         controller: _amountController,
+
                         onChanged: (v){
 
                         },
@@ -257,74 +245,11 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
 
 
                         keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        TextInputType.numberWithOptions(decimal: true),
                       ),
                       const SizedBox(height: 20),
-
                       TextView(
-                        text: "Date",
-                        onPressed: () {},
-                      ),
-
-                      const SizedBox(height: 10),
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextFormField(
-                      controller: _dateController,
-                      onTap: () {
-                        _selectDate(context);
-                      },
-
-
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'This field is required';
-                        }
-                        return null;
-                      },
-                      readOnly: true,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Adjust padding as needed
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.date_range),
-                          // Icon for selecting date range
-                          onPressed: () {
-                            _selectDate(context); // Function to open date picker
-                          },
-                        ),
-
-
-                      ),
-                      onTapOutside: (v) => FocusManager.instance.primaryFocus?.unfocus(),
-                    ),
-                  ),
-                      // CustomTextField(
-                      //   controller: _dateController,
-                      //   onTap: () {
-                      //     _selectDate(context);
-                      //   },
-                      //   focusKeypad: true,
-                      //
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'This field is required';
-                      //     }
-                      //     return null;
-                      //   },
-                      //   keyboardType: TextInputType.text, // Change this to text
-                      // ),
-                      const SizedBox(height: 20),
-                      TextView(
-                        text: "Ticket Issuer",
+                        text: "Issuer Name",
                         onPressed: () {},
                       ),
 
@@ -371,71 +296,93 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                       // ),
 
                       const SizedBox(height: 20),
+                      TextView(
+                        text: "Date",
+                        onPressed: () {},
+                      ),
+
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: _dateController,
+
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        focusKeypad: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'This field is required';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.text, // Change this to text
+                      ),
+
                       Center(
                           child:
-                              _isLoading // Show progress indicator if loading
-                                  ? CircularProgressIndicator()
-                                  : PrimaryButton(
-                                      text: 'Submit Ticket',
-                                      onPressed: () async {
-                                        if (_formKey.currentState!.validate()) {
-                                          setState(() {
-                                            _isLoading = true; // Start loading
-                                          });
-                                          final response = await addTicket();
-                                          if (response != null) {
-                                            final status =
-                                                response['status'] as bool;
-                                            final message =
-                                                response['message'] as String;
+                          _isLoading // Show progress indicator if loading
+                              ? CircularProgressIndicator()
+                              : PrimaryButton(
+                            text: 'Update Ticket',
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _isLoading = true; // Start loading
+                                });
+                                final response = await updateTicket();
+                                if (response != null) {
+                                  final status =
+                                  response['status'] as bool;
+                                  final message =
+                                  response['message'] as String;
 
-                                            if (status) {
-                                              setState(() {
-                                                _isLoading =
-                                                    false; // Start loading
-                                              });
-                                             /* ScaffoldMessenger.of(context)
+                                  if (status) {
+                                    setState(() {
+                                      _isLoading =
+                                      false; // Start loading
+                                    });
+                                    /* ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(' $message'),
                                                 ),
                                               );*/
-                                              saveRecentActivity('Ticket added pcn: ${_pcnNumberController.text}');
-                                              CustomDialogBox.show(
-                                                  context,
-                                                  status,
-                                                  "Ticket Submitted",
-                                                  "Great! Your ticket has been submitted successfully.");
-                                            } else {
-                                              setState(() {
-                                                _isLoading =
-                                                    false; // Start loading
-                                              });
+                                    saveRecentActivity('Ticket updated pcn: ${widget.ticket.pcn}');
+                                    CustomDialogBox.show(
+                                        context,
+                                        status,
+                                        "Ticket Updated",
+                                        "Great! $message");
+                                  } else {
+                                    setState(() {
+                                      _isLoading =
+                                      false; // Start loading
+                                    });
 
-                                              CustomDialogBox.show(
-                                                  context,
-                                                  status,
-                                                  "Ticket  Not Submitted",
-                                                  "Your ticket has not been submitted successfully.\n$message");
-                                            }
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content:
-                                                    Text('API request failed'),
-                                              ),
-                                            );
-                                            setState(() {
-                                              _isLoading =
-                                                  false; // Stop loading
-                                            });
-                                          }
-                                        }
+                                    CustomDialogBox.show(
+                                        context,
+                                        status,
+                                        "Ticket  Not Submitted",
+                                        "Your ticket has not been submitted successfully.\n$message");
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(
+                                    SnackBar(
+                                      content:
+                                      Text('API request failed'),
+                                    ),
+                                  );
+                                  setState(() {
+                                    _isLoading =
+                                    false; // Stop loading
+                                  });
+                                }
+                              }
 
-                                        // Perform sign-up logic
-                                      },
-                                    )),
+                              // Perform sign-up logic
+                            },
+                          )),
                     ],
                   ),
                 ),
@@ -446,4 +393,5 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
       ),
     );
   }
+
 }

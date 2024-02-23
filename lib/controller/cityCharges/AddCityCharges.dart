@@ -180,7 +180,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
           children:[
 
              Text("Select Days", style: TextStyle(
-                fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                fontSize: fontSize, fontFamily: "Lato", color: AppColors.black,fontWeight: FontWeight.normal),textAlign: TextAlign.start,),
              SizedBox(height: height*0.01,),
             DatePicker(
 
@@ -202,7 +202,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
             Row(
               children: [
                 Text("Select Charge", style: TextStyle(
-                    fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),textAlign: TextAlign.start,),
+                    fontSize: fontSize, fontFamily: "Lato", color: AppColors.black,fontWeight: FontWeight.normal),textAlign: TextAlign.start,),
               ],
             ),
             SizedBox(height: 10,),
@@ -210,7 +210,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
               _isLoadingdata?const CircularProgressIndicator():
               Text(
                 "No City charge available",
-                style: TextStyle(fontSize: fontSize, fontFamily: "Lato", color: AppColors.black),
+                style: TextStyle(fontSize: fontSize, fontFamily: "Lato", color: AppColors.black,fontWeight: FontWeight.normal),
               )
             else
               _isLoadingdata?const CircularProgressIndicator():

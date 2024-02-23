@@ -8,6 +8,7 @@ import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/UpdateNoteDialog.dart';
 import 'package:kaar/widgets/flutter_ticket_widget.dart';
 import 'package:dotted_line/dotted_line.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,8 @@ class AllCityChargeItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return
       Card(
           elevation: 8,
@@ -32,7 +35,7 @@ class AllCityChargeItemView extends StatelessWidget {
           ),
          child:
     Padding(
-    padding: EdgeInsets.all(20.0),
+    padding: EdgeInsets.all(10.0),
         child: SizedBox(
     // Set margin of 20 from right and left
            width: double.infinity,
@@ -43,13 +46,13 @@ class AllCityChargeItemView extends StatelessWidget {
 
                Row(
                  children: [
-                   Text('${cityCharge.name}',style: TextStyle(color: AppColors.black,fontSize: 18,fontFamily: "Lato"),textAlign: TextAlign.left,),
+                   Text('${cityCharge.name}',style: TextStyle(color: AppColors.black,fontSize: width*0.04,fontFamily: "Lato"),textAlign: TextAlign.left,),
                  ],
                ),
-               SizedBox(height: 20,),
+               SizedBox(height: 10,),
                Row(
                  children: [
-                   Text('${cityCharge.date}',style: TextStyle(color: AppColors.black,fontSize: 16,fontFamily: "Lato-Regular")),
+                   Text(formatWithSuffix(cityCharge.date!),style: TextStyle(color: AppColors.black,fontSize: width*0.035,fontFamily: "Lato-Regular")),
                  ],
                ),
                SizedBox(height: 10,),
@@ -60,10 +63,10 @@ class AllCityChargeItemView extends StatelessWidget {
                    });
                  },
                  child: Row(
-                   children: const [
+                   children:  [
                      Text(
                        'See Note',
-                       style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
+                       style: TextStyle(fontSize: width*0.033, color: AppColors.primaryColor),
                      ),
                      Icon(
                        Icons.arrow_forward_ios,
@@ -82,5 +85,22 @@ class AllCityChargeItemView extends StatelessWidget {
 
       );
 
+  }
+  String formatWithSuffix(String date) {
+    DateFormat format = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = format.parse(date);
+    String suffix = 'th';
+    int day = dateTime.day;
+    if (day == 1 || day == 21 || day == 31) {
+      suffix = 'st';
+    } else if (day == 2 || day == 22) {
+      suffix = 'nd';
+    } else if (day == 3 || day == 23) {
+      suffix = 'rd';
+    }
+    return DateFormat('dd')  // Format day without suffix
+        .format(dateTime)
+        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 
 import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
@@ -90,13 +91,14 @@ class _TicketHistoryState extends State<TicketHistory> {
           : allTickets.isNotEmpty
           ? Padding(
         padding: EdgeInsets.all(10.0),
-        child: ListView.builder(
-          itemCount: allTickets.length,
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return ParkingTicketCard(tickets: allTickets[index]);
-          },
+        child: Expanded(
+          child: ListView.builder(
+            itemCount: allTickets.length,
+
+            itemBuilder: (BuildContext context, int index) {
+              return  ParkingTicketCard(tickets: allTickets[index]);
+            },
+          ),
         ),
       ) : Column(
         children: [

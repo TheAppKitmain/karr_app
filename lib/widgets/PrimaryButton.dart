@@ -10,7 +10,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container( width: double.infinity, // Match parent width
-      padding: const EdgeInsets.symmetric(vertical:40,horizontal: 30),
+      padding: const EdgeInsets.symmetric(vertical:50,horizontal: 40),
     child:TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
