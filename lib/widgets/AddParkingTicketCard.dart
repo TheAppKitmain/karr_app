@@ -33,7 +33,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
     "LEWISHAM", "NEWHAM", "REDBRIDGE", "RICHMOND", "SUTTON", "TRANSPORT FOR LONDON", "TOWER HAMLETS", "WALTHAM FOROST", "WANDSWORTH", "WESTMINSTER"
   ];
   late String? selectedIssuer;
-
+  bool isDateChanged = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -47,6 +47,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
     return FlutterTicketWidget(
       width: width * 0.9,
       height: height * 0.26,
@@ -157,12 +158,16 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                                 if (picked != null) {
                                   setState(() {
                                     widget.tickets.date = DateFormat('dd-MM-yyyy').format(picked);
+                                    isDateChanged = true;
                                   });
                                 }
                               },
                               child: Text(
                                 widget.tickets.date?.isNotEmpty ?? false ? formatWithSuffixString(widget.tickets.date!) : "Date",
-                                  style:  TextStyle(fontSize: width*0.04, fontWeight: FontWeight.bold),
+                                   style: TextStyle(
+                                fontSize: width * 0.04,
+                                fontWeight: isDateChanged ? FontWeight.normal : FontWeight.bold,
+                              ),
                               ),
                             ),
                             const SizedBox(width: 8,),
