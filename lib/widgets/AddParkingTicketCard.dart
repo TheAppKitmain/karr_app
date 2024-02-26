@@ -16,19 +16,7 @@ class AddParkingTicketCard extends StatefulWidget {
   final Tickets tickets;
   final bool isEdit;
 
-
-
-
-
-  // final String pcnNumber;
-  // final String status;
-  // final String date;
-  // final String price;
-
   const AddParkingTicketCard({
-    // required this.pcnNumber,
-    // required this.status,
-    // required this.date,
     required this.isEdit,
     required this.tickets,
   });
@@ -38,103 +26,112 @@ class AddParkingTicketCard extends StatefulWidget {
 }
 
 class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
+  List<String> _ticketsIssuerList = [
+    "Select Issuer",
+    "BARNET", "BEXLEY", "BROMLEY", "CAMDEN", "CITY OF LONDON", "CROYDON", "EALING", "ENFIELD", "GREENWICH", "HACKNEY COUNCIL",
+    "HAVERING", "HILLINGDON", "HOUNSLOW", "ISLINGTON", "HAMMERRSMITH & FULHAM", "HARINGEY", "HARROWCOUNCIL", "KENSINGTON AND CHELSEA", "KINGSTON UPON THAMES", "LAMBETH",
+    "LEWISHAM", "NEWHAM", "REDBRIDGE", "RICHMOND", "SUTTON", "TRANSPORT FOR LONDON", "TOWER HAMLETS", "WALTHAM FOROST", "WANDSWORTH", "WESTMINSTER"
+  ];
+  late String? selectedIssuer;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // if(widget.tickets.ticketIssuer=='Ticket Issuer')
+    //   selectedIssuer='Select Issuer';
+    // else
+      selectedIssuer=widget.tickets.ticketIssuer;
+  }
   @override
   Widget build(BuildContext context) {
-    DateTime? _date;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return  FlutterTicketWidget(
-
-      width: width*0.9,
-      height: height*0.26,
+    return FlutterTicketWidget(
+      width: width * 0.9,
+      height: height * 0.26,
       isCornerRounded: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
 
-                SizedBox(height: 16),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Column(
+                    Flexible(
+                      flex: 1,
+                      child: Column(
                         children: [
                           Row(
                             children: [
-                              Text(
+                               Text(
                                 'PCN Number',
-                                style: TextStyle(fontSize: 14),
-                                
+                                style:  TextStyle(fontSize: width*0.05, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(width: 8,),
-                              GestureDetector(  onTap: (){
-                                EditTicketDialog.show(context, widget.tickets.pcn??"","PCN Number", (p0) =>{
-                                  widget.tickets.pcn=p0,
-                                  setState(() {
-
-                                  })
-                                } );
-                              },child: Icon(Icons.edit,size: 15,))
+                              const SizedBox(width: 8,),
+                              GestureDetector(
+                                onTap: () {
+                                  EditTicketDialog.show(context, widget.tickets.pcn ?? "", "PCN Number", (p0) {
+                                    setState(() {
+                                      widget.tickets.pcn = p0;
+                                    });
+                                  });
+                                },
+                                child: const Icon(Icons.edit, size: 15),
+                              )
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           GestureDetector(
-                            onTap: (){
-                              EditTicketDialog.show(context, widget.tickets.pcn??"","PCN Number", (p0) =>{
-                                widget.tickets.pcn=p0,
-                              setState(() {
-
-                              })
-                              } );
+                            onTap: () {
+                              EditTicketDialog.show(context, widget.tickets.pcn ?? "", "PCN Number", (p0) {
+                                setState(() {
+                                  widget.tickets.pcn = p0;
+                                });
+                              });
                             },
                             child: Text(
-                              widget.tickets.pcn??"",
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold ),
-
+                              widget.tickets.pcn ?? "",
+                              style:  TextStyle(fontSize: width*0.039),
                             ),
                           ),
-                        ]
-
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-
-                        borderRadius: BorderRadius.circular(16),
+                        ],
                       ),
+                    ),
+                    const SizedBox(width: 30),
+                    Flexible(
+
                       child: Column(
-                        children:[
+                        children:[ DropdownButton<String>(
+                          underline: Offstage(),
+                          menuMaxHeight: height*0.5,
 
-                          Row(
-                            children:[ GestureDetector(
-                            onTap: (){
-                              EditTicketDialog.show(context, widget.tickets.ticketIssuer??"","Ticket Issuer", (p0) =>{
-                                widget.tickets.ticketIssuer=p0,
-                                setState(() {
+                          isExpanded: true,
+                          value: selectedIssuer,
+                          hint: const Text('Select Issuer'),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedIssuer = newValue;
+                              widget.tickets.ticketIssuer = newValue;
+                            });
+                          },
+                          items: _ticketsIssuerList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
 
-                                })
-                              } );
-                            },
-                            child: Text(
-                              widget.tickets.ticketIssuer??"" ,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                                                    ),
-                              SizedBox(width: 8,),
-                              GestureDetector(child: Icon(Icons.edit,size: 15,),onTap: (){
-    EditTicketDialog.show(context, widget.tickets.ticketIssuer??"","Ticket Issuer", (p0) =>{
-    widget.tickets.ticketIssuer=p0,
-    setState(() {
+                              child: Text(value, style: TextStyle(fontSize: width * 0.04)),
+                            );
+                          }).toList(),
+                        ),
 
-    })
-    } );
-    },)
-    ]
+                          Text(
+                            "",
+                            style:  TextStyle(fontSize: width*0.04),
                           ),
       ]
                       ),
@@ -142,98 +139,86 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
 
                   ],
                 ),
-
-                SizedBox(height: 20),
-                // Container(
-                //   height: 1,
-                //   color: Colors.grey,
-                //   margin: EdgeInsets.symmetric(horizontal: 16),
-                // ),
-                DottedLine(
+                const SizedBox(height: 20),
+                const DottedLine(
                   dashColor: Colors.black,
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Column(
-                      children:[
-
+                      children: [
                         Row(
-                          children:[ GestureDetector(
-                          onTap:() async {
-                            final DateTime? picked = await getDatePicker(context);
-                            if (picked != null && picked != _date) {
-                              setState(() {
-                                _date = picked;
-                                widget.tickets.date = DateFormat('dd-MM-yyyy')
-                                    .format(picked); // Format the date as needed
-                              });
-                            }
-                          },
-                          child: Text(
-
-                            widget.tickets.date?.isNotEmpty ?? false ? formatWithSuffixString(widget.tickets.date!) : "Date",
-                            style: TextStyle(fontSize: 14),
-                          ),
-
-                                                ),
-                            SizedBox(width: 8,),
-                            GestureDetector( onTap:() async {
-                              final DateTime? picked = await getDatePicker(context);
-                              if (picked != null && picked != _date) {
-                                setState(() {
-                                  _date = picked;
-                                  widget.tickets.date = DateFormat('dd-MM-yyyy')
-                                      .format(picked); // Format the date as needed
-                                });
-                              }
-                            },child: Icon(Icons.edit,size: 15,))
-    ]
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                final DateTime? picked = await getDatePicker(context);
+                                if (picked != null) {
+                                  setState(() {
+                                    widget.tickets.date = DateFormat('dd-MM-yyyy').format(picked);
+                                  });
+                                }
+                              },
+                              child: Text(
+                                widget.tickets.date?.isNotEmpty ?? false ? formatWithSuffixString(widget.tickets.date!) : "Date",
+                                  style:  TextStyle(fontSize: width*0.04, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const SizedBox(width: 8,),
+                            GestureDetector(
+                              onTap: () async {
+                                final DateTime? picked = await getDatePicker(context);
+                                if (picked != null) {
+                                  setState(() {
+                                    widget.tickets.date = DateFormat('dd-MM-yyyy').format(picked);
+                                  });
+                                }
+                              },
+                              child: const Icon(Icons.edit, size: 15),
+                            )
+                          ],
                         ),
-    ]
+                      ],
                     ),
                     Row(
-                      children:[ GestureDetector(
-                        onTap: (){
-                          EditTicketDialog.show(context, widget.tickets.price??"","Ticket Price", (p0) =>{
-                            widget.tickets.price=p0,
-                            setState(() {
-
-                            })
-                          } );
-                        },
-                        child:Text(
-                         'Price: £${widget.tickets.price}'??'' ,
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            EditTicketDialog.show(context, widget.tickets.price ?? "", "Ticket Price", (p0) {
+                              setState(() {
+                                widget.tickets.price = p0;
+                              });
+                            });
+                          },
+                          child: Text(
+                            'Price: £${widget.tickets.price ?? ""}',
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
-
-
-                      ),
-                        SizedBox(width: 8,),
-                        GestureDetector( onTap: (){
-                          EditTicketDialog.show(context, widget.tickets.price??"","Ticket Price", (p0) =>{
-                            widget.tickets.price=p0,
-                            setState(() {
-
-                            })
-                          } );
-                        },child: Icon(Icons.edit,size: 15,))
-    ]
+                        const SizedBox(width: 8,),
+                        GestureDetector(
+                          onTap: () {
+                            EditTicketDialog.show(context, widget.tickets.price ?? "", "Ticket Price", (p0) {
+                              setState(() {
+                                widget.tickets.price = p0;
+                              });
+                            });
+                          },
+                          child: const Icon(Icons.edit, size: 15),
+                        )
+                      ],
                     ),
-                    // Add any other icons or buttons here
                   ],
                 ),
               ],
             ),
           ),
-
-          // Add more widgets or custom designs below the line
         ],
       ),
     );
-
   }
+
   String formatWithSuffixString(String date) {
     DateFormat format = DateFormat('dd-MM-yyyy');
     DateTime dateTime = format.parse(date);
@@ -246,47 +231,10 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
+    return DateFormat('dd')
         .format(dateTime)
         .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
         suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
-  String revertDateFormat(String formattedDate) {
-    // Split the formatted date string by space to separate day, suffix, month, and year
-    List<String> parts = formattedDate.split(' ');
-
-    // Extract day and remove suffix
-    String day = parts[0].replaceAll(RegExp(r'[^\d]'), '');
-
-    // Extract month and year
-    String monthYear = parts[1];
-    String Year = parts[2];
-    if (monthYear=='January')
-      monthYear='01';
-    else if(monthYear=='February')
-      monthYear='02';
-    else if(monthYear=='March')
-      monthYear='03';
-    else if(monthYear=='April')
-      monthYear='04';
-    else if(monthYear=='May')
-      monthYear='05';
-    else if(monthYear=='June')
-      monthYear='06';
-    else if(monthYear=='July')
-      monthYear='07';
-    else if(monthYear=='August')
-      monthYear='08';
-    else if(monthYear=='September')
-      monthYear='09';
-    else if(monthYear=='October')
-      monthYear='10';
-    else if(monthYear=='November')
-      monthYear='11';
-    else if(monthYear=='December')
-      monthYear='12';
-
-    // Return the reverted format
-    return '$day-$monthYear-$Year';
-  }
 }
+

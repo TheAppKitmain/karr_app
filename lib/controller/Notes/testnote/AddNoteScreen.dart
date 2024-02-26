@@ -141,7 +141,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 25),
                         child: DropdownButton<String>(
                           value: selectedValue,
-                          underline: null,
+                          underline: Offstage(),
                           hint: Text(
                             "Sort By",
                               style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),

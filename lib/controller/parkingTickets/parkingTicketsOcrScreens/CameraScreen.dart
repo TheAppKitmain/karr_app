@@ -70,7 +70,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     print('all scanned text is $scannedText');
     textController.text = scannedText;
-    List<String> keywordsToExtractPcn = ["PCN number :","PCN number:","PCN Number","PCN Number :","PCN Number:", "Penalty Charge Notice ", "Penalty Charge Notice : ", "Penalty Charge Notice: ","Penalty Charge Notice (PCN) Number :","Penalty Charge Notice (PCN) Number:","Penalty Charge Notice Number :","Penalty Charge Notice Number:","Notice Number :","Notice Number:","Notice number :","Notice number:","Notice Number","(PCN) Number :""(PCN) Number:","PCN no.: ","PCN no. : ","PCN No.: ","PCN No. : ","PCN No : ""PCN No: "];
+    List<String> keywordsToExtractPcn = ["PCN number :","PCN number:","PCN Number","PCN Number :","PCN Number:", "Penalty Charge Notice ", "Penalty Charge Notice : ", "Penalty Charge Notice: ","Penalty Charge Notice (PCN) Number :","Penalty Charge Notice (PCN) Number:","Penalty Charge Notice Number :","Penalty Charge Notice Number:","Notice Number :","Notice Number:","Notice number :","Notice number:","Notice Number","(PCN) Number :","(PCN) Number:","PCN no.: ","PCN no. : ","PCN No.: ","PCN No. : ","PCN No : ","PCN No: "];
 
     List<String> keywordsToExtractCOMPANYNAME = ["BARNET", "BEXLEY","BROMLEY ","CAMDEN","CITY OF LONDON","CROYDON","EALING","ENFIELD","GREENWICH","HACKNEY COUNCIL"
       ,"HAVERING","HILLINGDON","HOUNSLOW","ISLINGTON","HAMMERRSMITH & FULHAM","HARINGEY","HARROWCOUNCIL","KENSINGTON AND CHELSEA","KINGSTON UPON THAMES","LAMBETH"
@@ -121,11 +121,9 @@ class _CameraScreenState extends State<CameraScreen> {
     return '';
   }
   String extractText(List<String> keywords, String source) {
-
     for (String keyword in keywords) {
-      print("keyword $keyword");
+      print('keyword$keyword');
       RegExp regExp = RegExp('$keyword\\s*([^\\s]+)', caseSensitive: false);
-      // RegExp regExp = RegExp('$keyword\\s*:?\\s*([^\\s]+)', caseSensitive: false);
       Match? match = regExp.firstMatch(source);
 
       if (match != null) {
@@ -134,6 +132,22 @@ class _CameraScreenState extends State<CameraScreen> {
     }
     return "Not Recognized";
   }
+
+  // String extractText(List<String> keywords, String source) {
+  //
+  //   for (String keyword in keywords) {
+  //     print("keyword $keyword$source");
+  //     RegExp regExp = RegExp('$keyword \\s*([^\\s]+)', caseSensitive: false);
+  //     // RegExp regExp = RegExp('$keyword\\s*:?\\s*([^\\s]+)', caseSensitive: false);
+  //     Match? match = regExp.firstMatch(source);
+  //
+  //     if (match != null) {
+  //       return match.group(1) ?? "";
+  //     }
+  //   }
+  //   return "Not Recognized";
+  // }
+
 
 
   String extractDate(String keyword,String source) {
@@ -153,7 +167,7 @@ class _CameraScreenState extends State<CameraScreen> {
         return keyword;
       }
     }
-    return "Ticket Issuer";
+    return "Select Issuer";
   }
 
   String extractCharge(String source) {

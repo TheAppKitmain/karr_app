@@ -141,7 +141,7 @@ class _AllTollsState extends State<AllTolls> {
                   padding: EdgeInsets.symmetric(horizontal:25), // Add horizontal padding
                   child: DropdownButton<String>(
                     value: selectedValue,
-                    underline: null,
+                    underline: Offstage(),
                     hint: Padding(
                       padding:  EdgeInsets.only(right: width*0.09),
                       child: Text("Sort By",style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),

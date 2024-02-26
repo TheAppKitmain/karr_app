@@ -246,7 +246,8 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                         onChanged: (v){
 
                         },
-                        prefix: "£ ",
+                        prefixicon:true,
+
 
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -338,6 +339,10 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                           padding: const EdgeInsets.all(8.0),
                           child: DropdownButtonFormField<String>(
                             value: _selectedIssuer,
+
+                            menuMaxHeight: height*0.5,
+                            padding: EdgeInsets.zero,
+                            isExpanded: true,
                             onChanged: (String? newValue) {
                               setState(() {
                                 _selectedIssuer = newValue;
@@ -352,6 +357,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                             items: _ticketsIssuerList.map((String issuer) {
                               return DropdownMenuItem<String>(
                                 value: issuer,
+
                                 child: Text(issuer),
                               );
                             }).toList(),
@@ -412,11 +418,19 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                     false; // Start loading
                                               });
 
-                                              CustomDialogBox.show(
-                                                  context,
-                                                  status,
-                                                  "Ticket  Not Submitted",
-                                                  "Your ticket has not been submitted successfully.\n$message");
+                                              if(message=='The pcn has already been taken.')
+                                                CustomDialogBox.show(
+                                                    context,
+                                                    status,
+                                                    "Ticket Already Submitted",
+                                                    "This PCN number has already been submitted");
+                                              else
+                                                CustomDialogBox.show(
+                                                    context,
+                                                    status,
+                                                    "Ticket Not Submitted",
+                                                    "Your ticket has not been submitted .\n$message");
+
                                             }
                                           } else {
                                             ScaffoldMessenger.of(context)

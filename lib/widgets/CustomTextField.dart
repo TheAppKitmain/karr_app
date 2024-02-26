@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool? obscureText;
+  final bool? prefixicon;
   final String? prefix;
   final bool? focusKeypad;
   final VoidCallback? onTogglePasswordStatus;
@@ -31,7 +32,7 @@ class CustomTextField extends StatelessWidget {
     this.onTogglePasswordStatus,
     this.onTap,
     this.focusKeypad,
-    this.onChanged, this.icon, this.icon2,
+    this.onChanged, this.icon, this.icon2, this.prefixicon,
   });
 
   @override
@@ -59,6 +60,7 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           prefixText: prefix,
+          prefixIcon: prefixicon!=null?IconButton(icon: Icon(Icons.currency_pound,size: 15,), onPressed: () {  },):null,
           suffixIcon: obscureText != null
               ? IconButton(
             icon: Icon(

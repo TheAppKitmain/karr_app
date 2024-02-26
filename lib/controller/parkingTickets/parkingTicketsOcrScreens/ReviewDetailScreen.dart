@@ -93,11 +93,19 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
               content: Text(' $message'),
             ),
           );
-          CustomDialogBox.show(
+          if(message=='The pcn has already been taken.')
+            CustomDialogBox.show(
               context,
               status,
-              "Ticket  Not Submitted",
-              "Your ticket has not been submitted .\n$message");
+              "Ticket Already Submitted",
+              "This PCN number has already been submitted");
+          else
+            CustomDialogBox.show(
+                context,
+                status,
+                "Ticket Not Submitted",
+                "Your ticket has not been submitted .\n$message");
+
         }
       } else {
         ScaffoldMessenger.of(context)
@@ -346,7 +354,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
 
-                      "Ticket not recognised? Submit picture of the ticket",
+                      "Ticket not recognised? Submit a picture of the ticket",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.primaryColor,
