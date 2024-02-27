@@ -339,8 +339,9 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                           padding: const EdgeInsets.all(8.0),
                           child: DropdownButtonFormField<String>(
                             value: _selectedIssuer,
-
-                            menuMaxHeight: height*0.5,
+                            decoration: InputDecoration(border: InputBorder.none),
+                            borderRadius: BorderRadius.circular(20),
+                            menuMaxHeight: height*0.3,
                             padding: EdgeInsets.zero,
                             isExpanded: true,
                             onChanged: (String? newValue) {

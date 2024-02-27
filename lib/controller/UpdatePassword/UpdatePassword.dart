@@ -141,7 +141,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
-                  text: "New password",
+                  text: "New Password",
                   onPressed: () {},
                 ),
               ),
@@ -168,7 +168,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: TextView(
-                  text: "Confirm password",
+                  text: "Confirm Password",
                   onPressed: () {},
                 ),
               ),

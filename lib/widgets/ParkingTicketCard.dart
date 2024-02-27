@@ -30,6 +30,7 @@ class ParkingTicketCard extends StatelessWidget {
     required this.tickets,
   });
 
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -62,7 +63,7 @@ class ParkingTicketCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            tickets.pcn??"N/A",
+                          CapitalWOrd.capitalizeWithNumbers(tickets.pcn!)??"N/A",
                             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold ),
 
                           ),
@@ -107,7 +108,7 @@ class ParkingTicketCard extends StatelessWidget {
 
 
                       Text(
-                          tickets.ticketIssuer??"" ,
+                          CapitalWOrd.capitalizeWords(tickets.ticketIssuer!)??"" ,
                           style:  TextStyle(fontSize: width*0.035,color: AppColors.black,fontWeight: FontWeight.bold )
                       ),
                       // Add any other icons or buttons here
@@ -128,7 +129,7 @@ class ParkingTicketCard extends StatelessWidget {
 
 
                     Text(
-                     " Price: ${double.tryParse(tickets.price??"0")?.toStringAsFixed(2)}",
+                     " Price: £${double.tryParse(tickets.price??"0")?.toStringAsFixed(2)}",
                       // " ${tickets.price}"??"N/A",
                       style: TextStyle(fontSize: fontsize, fontWeight: FontWeight.bold),
                     ),
@@ -162,4 +163,5 @@ class ParkingTicketCard extends StatelessWidget {
         .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
         suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
+
 }

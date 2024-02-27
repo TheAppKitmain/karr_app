@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 import 'package:kaar/controller/parkingTickets/addParkingTicket/AddTicketManually.dart';
 
@@ -170,7 +171,7 @@ class Step1Screen extends StatelessWidget {
               // Align text to the start
               children: [
                 Text(
-                  "How would you like to Submit your Tickets?",
+                  "How would you like to submit your tickets?",
                   style: TextStyle(
                     color: AppColors.black,
                     fontFamily: "Lato",
@@ -213,10 +214,17 @@ class Step1Screen extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 60,
                               backgroundColor: Colors.white,
-                              child: Image.asset(
-                                'assets/png/mobile_icon.png',
-                                width: 40,
-                                height: 40,
+                              child:
+                              // Image.asset(
+                              //   'assets/png/mobile_icon.png',
+                              //   width: 40,
+                              //   height: 40,
+                              //   color: AppColors.primaryColor,
+                              // ),
+                              SvgPicture.asset(
+                                width: 35,
+                                height: 35,
+                                'assets/svg/submitticket1.svg',
                                 color: AppColors.primaryColor,
                               ),
                             ),
@@ -290,12 +298,13 @@ class Step1Screen extends StatelessWidget {
                             child: CircleAvatar(
                               radius: 60,
                               backgroundColor: Colors.white,
-                              child: Image.asset(
-                                'assets/png/parking_tickets.png',
-                                width: 40,
-                                height: 40,
+                              child:  SvgPicture.asset(
+                                width: 32,
+                                height: 32,
+                              'assets/svg/submitticket2.svg',
                                 color: AppColors.primaryColor,
-                              ),
+
+                            ),
                             ),
                           ),
                         ),

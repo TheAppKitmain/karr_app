@@ -31,17 +31,17 @@ class ParkingTickets extends StatelessWidget {
 
             appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
               onPrevious(0);
-            },title: 'parking fines',
+            },title: 'Parking Fines',
 
               tabBar: TabBar(
               indicatorColor: AppColors.primaryColor,
               tabs: [
                 Tab(
-                  child: Text('pending tickets',style: TextStyle(color: Colors.black),),
+                  child: Text('Pending Tickets',style: TextStyle(color: Colors.black),),
 
                 ),
                 Tab(
-                  child: Text('paid tickets',style: TextStyle(color: Colors.black),),
+                  child: Text('Paid Tickets',style: TextStyle(color: Colors.black),),
 
                 ),
 

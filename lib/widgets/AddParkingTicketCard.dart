@@ -111,7 +111,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                         children:[ DropdownButton<String>(
                           underline: Offstage(),
                           menuMaxHeight: height*0.5,
-
+                          borderRadius: BorderRadius.circular(20),
                           isExpanded: true,
                           value: selectedIssuer,
                           hint: const Text('Select Issuer'),

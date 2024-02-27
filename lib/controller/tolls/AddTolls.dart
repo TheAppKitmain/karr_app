@@ -220,7 +220,7 @@ class _AddTollsState extends State<AddTolls> {
                       backgroundColor: AppColors.primaryColor,
                       textColor: Colors.white,
                       iconColor: Colors.white,
-                      icon: 'assets/png/one_way.png',
+                      icon: 'assets/svg/arrow1.svg',
                       selected: selectedCardIndex == 0,
                       onSelected: (selected) {
                         setState(() {
@@ -237,7 +237,7 @@ class _AddTollsState extends State<AddTolls> {
                       backgroundColor: AppColors.primaryColor,
                       textColor: Colors.white,
                       iconColor: Colors.white,
-                      icon: 'assets/png/two_way.png',
+                      icon: 'assets/svg/arrow2.svg',
                       selected: selectedCardIndex == 1,
                       onSelected: (selected) {
                         setState(() {

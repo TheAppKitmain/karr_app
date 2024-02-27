@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SelectableCard extends StatelessWidget {
   final String title;
@@ -41,10 +42,17 @@ class SelectableCard extends StatelessWidget {
           padding: EdgeInsets.all(10.0),
           child: Row(
             children: [
-              Image.asset(
-                icon,
-                width: iconSize,
-                height: iconSize,
+              // Image.asset(
+              //   icon,
+              //   width: iconSize,
+              //   height: iconSize,
+              //   color: selected ? iconColor : Colors.black,
+              // ),
+              SvgPicture.asset(
+                icon ??'assets/svg/ticket.svg',
+                semanticsLabel: 'otp logo',
+                // height: iconSize,
+                // width: iconSize,
                 color: selected ? iconColor : Colors.black,
               ),
               SizedBox(width: 10),
