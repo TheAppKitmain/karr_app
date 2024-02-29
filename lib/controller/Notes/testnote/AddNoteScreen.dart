@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:kaar/controller/Notes/testnote/dataclass.dart';
 import 'package:kaar/controller/Notes/testnote/itemviews/AddNotesItemView.dart';
+import 'package:kaar/controller/Notes/testnote/newNotesScreenItemview.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,6 +32,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
   List<String> gameList = ["Tolls", "City charges", "Tickets"];
   var selectedValue;
   String? userid;
+  String? totalNotesCount='0';
 
   @override
   void initState() {
@@ -91,7 +93,8 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
 
             });
           }
-
+          totalNotesCount=(allTolls.length+allTickets.length+cityCharges.length).toString();
+          print('total notes count$totalNotesCount');
           isLoading = false;
           setState(() {});
         } else {
@@ -128,6 +131,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
                   children: [
+                    Text('$totalNotesCount Total Notes',style: TextStyle(fontFamily: 'Lato'),),
                     Spacer(),
                     Card(
                       elevation: 4,
@@ -167,7 +171,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                   ? CircularProgressIndicator()
                   : Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: AddNotesItemView(
+                child: newAllNotesItemView(
                   allTolls: allTolls,
                   cityCharges: cityCharges,
                   allTickets: allTickets,

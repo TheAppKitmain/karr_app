@@ -14,7 +14,7 @@ import 'dart:convert';
 class CameraScreen extends StatefulWidget {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
-  final Function(File)? image;
+  final Function(File) image;
   CameraScreen({required this.onPrevious, required this.onNext, required this.image});
 
   @override

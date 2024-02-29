@@ -32,7 +32,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ReviewDetailScreen extends StatefulWidget {
   final VoidCallback onPrevious;
   final VoidCallback onNext;
-  final File? capturedImage;
+  final File capturedImage;
   final Tickets ticket;
   ReviewDetailScreen({required this.onPrevious, required this.onNext,required this.ticket, required this.capturedImage});
 
@@ -68,7 +68,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
       });
 
     }else{
-      final response = await addTicket(widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer,context);
+      final response = await addTicket(widget.capturedImage,widget.ticket.date,widget.ticket.pcn,widget.ticket.price,widget.ticket.ticketIssuer,context);
       if (response != null) {
         final status =
         response['status'] as bool;
@@ -76,11 +76,23 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
         response['message'] as String;
 
         if (status) {
-          upload(widget.capturedImage!, context,message,status);
-          // setState(() {
-          //   _isLoading =
-          //   false; // Start loading
-          // });
+          // upload(widget.capturedImage!, context,message,status);
+          ScaffoldMessenger.of(context)
+              .showSnackBar(
+            SnackBar(
+              content: Text(' $message'),
+            ),
+          );
+          CustomDialogBox.show(
+              context,
+              status,
+              "Ticket Submitted",
+              "Great! Your ticket has been submitted successfully.");
+          saveRecentActivity('Ticket added pcn: ${widget.ticket.pcn}');
+          setState(() {
+            _isLoading =
+            false; // Start loading
+          });
 
         } else {
           setState(() {
@@ -186,20 +198,29 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
       }
     });
   }
-  Future<Map<String, dynamic>?> addTicket(String? date,String? pcn,String? price,String? issuer, BuildContext context) async {
+  Future<Map<String, dynamic>?> addTicket(File imageFile,String? date,String? pcn,String? price,String? issuer, BuildContext context) async {
     final dio = Dio();
 
-    print('price is $price');
+    print('price is ${widget.capturedImage.runtimeType}');
     try {
+      final formData = FormData.fromMap({
+        'driver_id': userid,
+        'date': date??"",
+        'pcn': pcn??"",
+        'price': double.tryParse(price??'0'),
+        'ticket_issuer': issuer??"",
+        'image':await MultipartFile.fromFile(imageFile.path),
+      });
       final response = await dio.post(
-        'https://dashboard.karrcompany.co.uk/api/ticket',
-        queryParameters: {
-          'driver_id': userid,
-          'date': date??"",
-          'pcn': pcn??"",
-          'price': double.tryParse(price??'0'),
-          'ticket_issuer': issuer??"",
-        },
+        'https://dashboard.karrcompany.co.uk/api/ticket',data:formData
+        // queryParameters: {
+        //   'driver_id': userid,
+        //   'date': date??"",
+        //   'pcn': pcn??"",
+        //   'price': double.tryParse(price??'0'),
+        //   'ticket_issuer': issuer??"",
+        //   'image':await MultipartFile.fromFile(imageFile.path),
+        // },
       );
       print(response.data);
 

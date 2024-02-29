@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:kaar/controller/Notes/testnote/dataclass.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/UpdateNoteDialog.dart';
@@ -42,10 +43,12 @@ class _AllNotesItemViewState extends State<newAllNotesItemView> {
   @override
   Widget build(BuildContext context) {
     List<Widget> noteItems = [];
-
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     if (widget.selectedCategory == "Tolls") {
       noteItems = widget.allTolls
-          .map((toll) => buildNoteItem(
+          .map((toll) =>
+          buildNoteItem(
           id: toll.id.toString(),
           name: toll.name,
           date: toll.date,
@@ -144,22 +147,69 @@ class _AllNotesItemViewState extends State<newAllNotesItemView> {
           width: double.infinity,
 
           child:
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Center(
+                child: SvgPicture.asset(
+                  width: 32,
+                  height: 32,
+                  'assets/svg/vector.svg',
+                  color: Colors.grey,
 
-              Row(
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 18.0),
+                height: 60,
+                width: 1,
+                color: Colors.grey, // Color of the vertical line
+              ),
+              Column(
+
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${name}',style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato"),textAlign: TextAlign.left,),
+                  Row(
+                    children: [
+                      Text(formatWithSuffix(date),style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato-Regular")),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text('${name}',style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato"),textAlign: TextAlign.left,),
+                    ],
+                  ),
+
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     UpdateNoteDialog.show(context, id,note.toString(),type, (v) {
+                  //       note = v!;
+                  //       if(updateNoteValue!=null) updateNoteValue(v);
+                  //       setState(() {
+                  //
+                  //       });
+                  //       //note added for this item
+                  //     });
+                  //   },
+                  //   child: Row(
+                  //     children: const [
+                  //       Text(
+                  //         'See Note',
+                  //         style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
+                  //       ),
+                  //       Icon(
+                  //         Icons.arrow_forward_ios,
+                  //         color: AppColors.primaryColor,
+                  //         size: 15,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+
                 ],
               ),
-              SizedBox(height: 15,),
-              Row(
-                children: [
-                  Text(formatWithSuffix(date),style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato-Regular")),
-                ],
-              ),
-              SizedBox(height: 10,),
+              Spacer(),
               GestureDetector(
                 onTap: () {
                   UpdateNoteDialog.show(context, id,note.toString(),type, (v) {
@@ -171,21 +221,15 @@ class _AllNotesItemViewState extends State<newAllNotesItemView> {
                     //note added for this item
                   });
                 },
-                child: Row(
-                  children: const [
-                    Text(
-                      'See Note',
-                      style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: AppColors.primaryColor,
-                      size: 15,
-                    ),
-                  ],
+                child: SvgPicture.asset(
+
+                  width: 15,
+                  height: 15,
+                  'assets/svg/edit_svg.svg',
+                  color: AppColors.primaryColor,
+
                 ),
               ),
-
             ],
           ),
         ),

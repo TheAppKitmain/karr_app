@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 
 import 'package:kaar/controller/parkingTickets/addParkingTicket/MyTicketScreen.dart';
@@ -8,7 +9,7 @@ import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/PrimaryButton.dart';
 import 'package:kaar/widgets/ParkingTicketCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 class TicketHistory extends StatefulWidget {
   @override
   _TicketHistoryState createState() => _TicketHistoryState();
@@ -91,15 +92,33 @@ class _TicketHistoryState extends State<TicketHistory> {
           : allTickets.isNotEmpty
           ? Padding(
         padding: EdgeInsets.all(10.0),
-        child: Expanded(
-          child: ListView.builder(
-            itemCount: allTickets.length,
-
-            itemBuilder: (BuildContext context, int index) {
-              return  ParkingTicketCard(tickets: allTickets[index]);
-            },
-          ),
-        ),
+        child:   Expanded(
+          child: GroupedListView(elements: allTickets, groupBy:  (element) => element.date!, groupComparator: (value1, value2) => value2.compareTo(value1),
+            itemComparator: (item1, item2) =>
+                item1.id.toString().compareTo(item2.id.toString()),
+            order: GroupedListOrder.ASC,
+            useStickyGroupSeparators: true,
+            groupSeparatorBuilder: (String value) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextWithLines(text: formatDate(value)),
+              // Text(
+              //
+              //   textAlign: TextAlign.center,
+              //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              // ),
+            ),itemBuilder: (c, element) {
+              return  Center(child: ParkingTicketCard(tickets: element));
+            },),
+        )
+        // Expanded(
+        //   child: ListView.builder(
+        //     itemCount: allTickets.length,
+        //
+        //     itemBuilder: (BuildContext context, int index) {
+        //       return  ParkingTicketCard(tickets: allTickets[index]);
+        //     },
+        //   ),
+        // ),
       ) : Column(
         children: [
           SizedBox(height: 90),
@@ -163,6 +182,84 @@ class _TicketHistoryState extends State<TicketHistory> {
           ),
         ],
       ),
+    );
+  }
+  String formatDate(String dateString) {
+    // Parse the input date string
+    DateTime date = DateFormat('dd-MM-yyyy').parse(dateString);
+
+    // Get the current date
+    DateTime now = DateTime.now();
+
+    // Compare the input date with the current date
+    if (date.year == now.year && date.month == now.month && date.day == now.day) {
+      return 'Today';
+    } else if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day - 1) {
+      return 'Yesterday';
+    } else if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day + 1) {
+      return 'Tomorrow';
+    } else {
+      // If the date is not today, yesterday, or tomorrow, format it using a date formatter
+      return formatWithSuffix(dateString);
+    }
+  }
+  String formatWithSuffix(String date) {
+    DateFormat format = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = format.parse(date);
+    String suffix = 'th';
+    int day = dateTime.day;
+    if (day == 1 || day == 21 || day == 31) {
+      suffix = 'st';
+    } else if (day == 2 || day == 22) {
+      suffix = 'nd';
+    } else if (day == 3 || day == 23) {
+      suffix = 'rd';
+    }
+    return DateFormat('dd')  // Format day without suffix
+        .format(dateTime)
+        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+  }
+
+
+
+}
+class TextWithLines extends StatelessWidget {
+  final String text;
+
+  const TextWithLines({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Divider(
+            color: Colors.black38,
+            height: 1,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: width*0.03),
+          ),
+        ),
+        Expanded(
+          child: Divider(
+            color: Colors.black38,
+            height: 1,
+          ),
+        ),
+      ],
     );
   }
 }

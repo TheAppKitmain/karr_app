@@ -272,18 +272,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
               SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    SizedBox(height: height*0.15,),
+                    SizedBox(height: height*0.08,),
 
                     Stack(
                       children: [
 
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(left: 18.0,right: 18),
@@ -611,7 +612,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       cityCharge: cityCharges[index]);
                                                 },
                                               ),
-                                            ):Text("No city charges found")),
+                                            ):Container(height: 300,child: Text("No city charges found"))),
                                         Visibility(
                                           visible: _isSelectedtoll!,
                                             child: allTolls.isNotEmpty?Container(
@@ -625,7 +626,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   return AllTollsItemView(tolls: allTolls[index]);
                                                 },
                                               ),
-                                            ):Text("No tolls found")),
+                                            ):Container(height: 300,child: Text("No tolls found"))),
                                         Visibility(
                                           visible: _isSelectedparking!,
                                             child:allTickets.isNotEmpty? Container(
@@ -639,7 +640,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   return ParkingTicketCard(tickets: allTickets[index]);
                                                 },
                                               ),
-                                            ):Text("No Tickets found")),
+                                            ):Container(height: 300,child: Text("No Tickets found"))),
                                       ],
                                     )
 
@@ -689,7 +690,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
 
-                    SizedBox(height: height*0.15,),
+
 
 
 
