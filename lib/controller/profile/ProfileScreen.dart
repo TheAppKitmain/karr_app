@@ -259,6 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     double width = MediaQuery.of(context).size.width;
     final fontSize = width * 0.03;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primaryColor,
 
       body: Center(
@@ -601,7 +602,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         Visibility(
                                           visible: _isSelectedcity!,
                                             child:cityCharges.isNotEmpty? Container(
-                                              height: 300,
+                                              height: 160,
                                               padding: EdgeInsets.only(left:16.0,right:16,top:0),
                                               child: ListView.builder(
                                                 itemCount: cityCharges.length,
@@ -612,11 +613,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       cityCharge: cityCharges[index]);
                                                 },
                                               ),
-                                            ):Container(height: 300,child: Text("No city charges found"))),
+                                            ):Container(height: 160,child: Text("No city charges found"))),
                                         Visibility(
                                           visible: _isSelectedtoll!,
                                             child: allTolls.isNotEmpty?Container(
-                                              height: 300,
+                                              height: 160,
                                               padding: EdgeInsets.only(left:16.0,right:16,top:0),
                                               child: ListView.builder(
                                                 itemCount: allTolls.length,
@@ -626,11 +627,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   return AllTollsItemView(tolls: allTolls[index]);
                                                 },
                                               ),
-                                            ):Container(height: 300,child: Text("No tolls found"))),
+                                            ):Container(height: 160,child: Text("No tolls found"))),
                                         Visibility(
                                           visible: _isSelectedparking!,
                                             child:allTickets.isNotEmpty? Container(
-                                              height: 300,
+                                              height: 160,
                                               padding: EdgeInsets.only(left:16.0,right:16,top:0),
                                               child: ListView.builder(
                                                 itemCount: allTickets.length,
@@ -640,7 +641,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   return ParkingTicketCard(tickets: allTickets[index]);
                                                 },
                                               ),
-                                            ):Container(height: 300,child: Text("No Tickets found"))),
+                                            ):Container(height: 160,child: Text("No Tickets found"))),
                                       ],
                                     )
 

@@ -132,6 +132,7 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
     double width=MediaQuery.of(context).size.width;
 
     return Scaffold(
+
       backgroundColor: Colors.grey.shade200,
       body: isLoading // ßShow a circular progress indicator while loading
           ? Center(

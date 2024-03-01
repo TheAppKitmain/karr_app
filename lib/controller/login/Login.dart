@@ -113,6 +113,7 @@ class _loginScreenState extends State<Login> {
     });
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child:
 

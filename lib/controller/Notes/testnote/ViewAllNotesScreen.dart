@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 import 'package:kaar/controller/Notes/testnote/dataclass.dart';
 import 'package:kaar/controller/Notes/testnote/itemviews/AllNotesItemView.dart';
+import 'package:kaar/controller/Notes/testnote/itemviews/newDataClass.dart';
 import 'package:kaar/controller/Notes/testnote/newNotesScreenItemview.dart';
 import 'package:kaar/utils/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
 import '../../tolls/AllTolls.dart';
 
 class ViewAllNotesScreen extends StatefulWidget {
@@ -24,10 +26,10 @@ class ViewAllNotesScreen extends StatefulWidget {
 }
 
 class _ViewAllNotesScreenState extends State<ViewAllNotesScreen> {
-  List<Charge> cityCharges = [];
-  List<Toll> allTolls = [];
-  List<Ticket> allTickets = [];
-
+  List<Note> cityCharges = [];
+  List<Note> allTolls = [];
+  List<Note> allTickets = [];
+  List<Note> notes = [];
   bool isLoading = true;
   List<String> gameList = ["Tolls", "City charges", "Tickets"];
   var selectedValue;
@@ -43,18 +45,20 @@ class _ViewAllNotesScreenState extends State<ViewAllNotesScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userid = prefs.getString('userid');
-      fetchallData();
+
+      fetchallNotes();
     });
   }
 
-  Future<void> fetchallData() async {
+
+  Future<void> fetchallNotes() async {
     final dio = Dio();
 
     try {
-      final response = await dio.post(
-        'https://dashboard.karrcompany.co.uk/api/recent/activity',
+      final response = await dio.get(
+        'https://dashboard.karrcompany.co.uk/api/driver/data',
         queryParameters: {
-          "driver_id": userid,
+          "id": userid,
         },
       );
 
@@ -65,34 +69,27 @@ class _ViewAllNotesScreenState extends State<ViewAllNotesScreen> {
         final status = responseData['status'] as bool;
 
         if (status) {
-          final chargeJson = responseData['charges'];
-          if (chargeJson != null) {
-            chargeJson.forEach((v) {
-              if (Charge.fromJson(v).note!='{}'){
-                cityCharges.add(Charge.fromJson(v));
+          final notesJson = responseData['notes'];
+          if (notesJson != null) {
+            notesJson.forEach((v) {
+              if (Note.fromJson(v).notes!=null){
+                notes.add(Note.fromJson(v));
+                if(Note.fromJson(v).type=='ticket'){
+                  allTickets.add(Note.fromJson(v));
+                }
+                if(Note.fromJson(v).type=='toll'){
+                  allTolls.add(Note.fromJson(v));
+                }
+                if(Note.fromJson(v).type=='city charges'){
+                  cityCharges.add(Note.fromJson(v));
+                }
               }
 
             });
           }
-          final tollJson = responseData['tolls'];
-          if (tollJson != null) {
-            tollJson.forEach((v) {
-              if (Toll.fromJson(v).note!='{}'){
-                allTolls.add(Toll.fromJson(v));
-              }
 
-            });
-          }
-          final ticketsJson = responseData['tickets'];
-          if (ticketsJson != null) {
-            ticketsJson.forEach((v) {
-              if (Ticket.fromJson(v).note!='{}'){
-                allTickets.add(Ticket.fromJson(v));
-              }
-
-            });
-          }
-          totalNotesCount=(allTolls.length+allTickets.length+cityCharges.length).toString();
+          totalNotesCount=(notes.length).toString();
+          print('total notes count$totalNotesCount');
           isLoading = false;
           setState(() {});
         } else {
@@ -108,7 +105,6 @@ class _ViewAllNotesScreenState extends State<ViewAllNotesScreen> {
       setState(() {});
     }
   }
-
   @override
   Widget build(BuildContext context) {
     double height=MediaQuery.of(context).size.height;
@@ -118,69 +114,201 @@ class _ViewAllNotesScreenState extends State<ViewAllNotesScreen> {
       onWillPop: () =>widget.onPrevious(0),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Colors.white,
         appBar: CustomAppBar(fontSize: fontSize,onBackClick: () {
           widget.onPrevious(0);
         },title: ' All Notes',),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  children: [
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                children: [
 
-                    Text('$totalNotesCount Total Notes',style: TextStyle(fontFamily: 'Lato'),),
-                    Spacer(),
-                    Card(
-                      elevation: 4,
-                      color: Colors.white,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(10),
+                  Text('$totalNotesCount Total Notes',style: TextStyle(fontFamily: 'Lato'),),
+                  Spacer(),
+                  Card(
+                    elevation: 4,
+                    color: Colors.white,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: DropdownButton<String>(
+                        value: selectedValue,
+                        underline: Offstage(),
+                        hint: Text(
+                          "Sort By",
+                          style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 25),
-                        child: DropdownButton<String>(
-                          value: selectedValue,
-                          underline: Offstage(),
-                          hint: Text(
-                            "Sort By",
-                            style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),
-                          ),
-                          items: gameList.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value,style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedValue = newValue;
-                            });
-                          },
-                        ),
+                        items: gameList.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValue = newValue;
+                            if(selectedValue=='Tolls'){
+                              notes=allTolls;
+                            }else if(selectedValue=='City charges'){
+                              notes=cityCharges;
+                            }else if(selectedValue=='Tickets'){
+                              notes=allTickets;
+                            }
+                          });
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              isLoading
-                  ? CircularProgressIndicator()
-                  : Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: newAllNotesItemView(
-                  allTolls: allTolls,
-                  cityCharges: cityCharges,
-                  allTickets: allTickets,
-                  selectedCategory: selectedValue ?? "All",
-                ),
-              )
-            ],
-          ),
+            ),
+            isLoading
+                ? CircularProgressIndicator()
+                :notes.isNotEmpty?
+            Expanded(
+              flex: 1,
+              child: GroupedListView(elements: notes, groupBy:  (element) => UniversalformatDate(element.date), groupComparator: (value1, value2) => value2.compareTo(value1),
+                itemComparator: (item1, item2) =>
+                    item1.noteId.toString().compareTo(item2.noteId.toString()),
+                order: GroupedListOrder.ASC,
+                useStickyGroupSeparators: true,
+                groupSeparatorBuilder: (String value) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextWithLines(text: formatDate(value)),
+                  // Text(
+                  //
+                  //   textAlign: TextAlign.center,
+                  //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  // ),
+                ),itemBuilder: (c, element) {
+                  return NotesItemView(notes: element
+                  );
+                },),
+            ): Text('no data found')
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child:   ListView.builder(
+            //     itemCount: cityCharges.length,
+            //     scrollDirection: Axis.vertical,
+            //     shrinkWrap: true,
+            //     itemBuilder: (context, index) {
+            //       return NotesItemView(notes: notes[index]
+            //       );
+            //     },) ,
+            // )
+          ],
         ),
       ),
+    );
+  }
+  String formatDate(String dateString) {
+    // Parse the input date string
+    DateTime date = DateFormat('dd-MM-yyyy').parse(dateString);
+
+    // Get the current date
+    DateTime now = DateTime.now();
+
+    // Compare the input date with the current date
+    if (date.year == now.year && date.month == now.month && date.day == now.day) {
+      return 'Today';
+    } else if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day - 1) {
+      return 'Yesterday';
+    } else if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day + 1) {
+      return 'Tomorrow';
+    } else {
+      // If the date is not today, yesterday, or tomorrow, format it using a date formatter
+      return formatWithSuffix(dateString);
+    }
+  }
+  String formatWithSuffix(String date) {
+    DateFormat format = DateFormat('dd-MM-yyyy');
+    DateTime dateTime = format.parse(date);
+    String suffix = 'th';
+    int day = dateTime.day;
+    if (day == 1 || day == 21 || day == 31) {
+      suffix = 'st';
+    } else if (day == 2 || day == 22) {
+      suffix = 'nd';
+    } else if (day == 3 || day == 23) {
+      suffix = 'rd';
+    }
+    return DateFormat('dd')  // Format day without suffix
+        .format(dateTime)
+        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+  }
+
+
+  String UniversalformatDate(String dateString) {
+    // List of possible date formats
+    List<String> possibleFormats = [
+      'dd/MM/yy', // 13/12/09
+      'dd MMM yyyy', // 13 sep 2020
+      'dd MMMM yyyy', // 13 september 2020
+      'yyyy-dd-MM', //
+      'dd-MM-yyyy', //
+      'dd-MM-yy', //
+      // Add more formats as needed
+    ];
+
+    // Iterate through possible formats and try parsing
+    for (String format in possibleFormats) {
+      try {
+        DateTime date = DateFormat(format).parse(dateString);
+        // Format the parsed date into "YYYY-MM-DD" format
+        return DateFormat('dd-MM-yyyy').format(date);
+      } catch (e) {
+        // If parsing fails, continue to the next format
+        continue;
+      }
+    }
+
+    // If none of the formats match, return empty string or handle error as needed
+    return '';
+  }
+}
+class TextWithLines extends StatelessWidget {
+  final String text;
+
+  const TextWithLines({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Divider(
+            color: Colors.black38,
+            height: 1,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: width*0.03),
+          ),
+        ),
+        Expanded(
+          child: Divider(
+            color: Colors.black38,
+            height: 1,
+          ),
+        ),
+      ],
     );
   }
 }

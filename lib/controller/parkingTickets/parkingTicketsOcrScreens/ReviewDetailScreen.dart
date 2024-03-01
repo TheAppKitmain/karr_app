@@ -259,6 +259,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+
       resizeToAvoidBottomInset: false,
       body: Container(
         color: AppColors.backgroundColorOvwhite,

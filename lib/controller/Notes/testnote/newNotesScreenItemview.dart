@@ -1,28 +1,20 @@
-import 'package:dio/dio.dart';
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:kaar/controller/Notes/testnote/dataclass.dart';
+import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
+import 'package:kaar/controller/Notes/testnote/itemviews/newDataClass.dart';
+
+
 import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/UpdateNoteDialog.dart';
 import 'package:intl/intl.dart';
-class newAllNotesItemView extends StatefulWidget {
-  final List<Toll> allTolls;
-  final List<Charge> cityCharges;
-  final List<Ticket> allTickets;
-  final String selectedCategory;
 
-  newAllNotesItemView({
-    required this.allTolls,
-    required this.cityCharges,
-    required this.allTickets,
-    required this.selectedCategory,
-  });
+class NotesItemView extends StatelessWidget {
+  final Note notes;
 
-  @override
-  State<newAllNotesItemView> createState() => _AllNotesItemViewState();
-}
 
-class _AllNotesItemViewState extends State<newAllNotesItemView> {
   String formatWithSuffix(String date) {
     DateFormat format = DateFormat('dd-MM-yyyy');
     DateTime dateTime = format.parse(date);
@@ -40,200 +32,138 @@ class _AllNotesItemViewState extends State<newAllNotesItemView> {
         .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
         suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
+
+  const NotesItemView({super.key,
+    required this.notes,
+  });
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> noteItems = [];
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    if (widget.selectedCategory == "Tolls") {
-      noteItems = widget.allTolls
-          .map((toll) =>
-          buildNoteItem(
-          id: toll.id.toString(),
-          name: toll.name,
-          date: toll.date,
-          note: toll.note??"",
-          updateNoteValue: (value) {
-            toll.note=value;
-            setState(() {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
 
-            });
-          },
-          type: "pd",
-
-          context: context
-
-      ))
-          .toList();
-    } else if (widget.selectedCategory == "City charges") {
-      noteItems = widget.cityCharges
-          .map((charge) => buildNoteItem(
-          id: charge.id.toString(),
-          name: charge.name,
-          date: charge.date,
-          note: charge.note??"",
-          type: "cd",
-          updateNoteValue: (value) {
-            charge.note=value;
-            setState(() {
-
-            });
-          },
-          context: context
-      ))
-          .toList();
-    } else if (widget.selectedCategory == "Tickets") {
-      noteItems = widget.allTickets
-          .map((ticket) => buildNoteItem(
-          id: ticket.id.toString(),
-          name: ticket.pcnNumber,
-          date: ticket.date,
-          note: ticket.note??"",
-          type: "ticket_id",
-          updateNoteValue: (value) {
-            ticket.note=value;
-            setState(() {
-
-            });
-          },
-          context: context
-      ))
-          .toList();
-    }else if (widget.selectedCategory == "All") {
-      List<dynamic> allItems = [];
-      allItems.addAll(widget.allTolls);
-      allItems.addAll(widget.cityCharges);
-      allItems.addAll(widget.allTickets);
-      noteItems = allItems
-          .map((item) => buildNoteItem(
-        id: item.id.toString(),
-        name: item is Toll ? item.name : (item is Charge ? item.name : item.pcnNumber),
-        date: item.date,
-        note: item.note ?? "",
-        type: item is Toll
-            ? "pd"
-            : (item is Charge ? "cd" : "ticket_id"),
-        context: context,
-      ))
-          .toList();
+    String? type;
+    String? id;
+    if(notes.notes==null){
+      notes.notes='';
     }
 
-    return Column(
-      children: noteItems.isEmpty
-          ? [Text("${widget.selectedCategory} list is empty")]
-          : noteItems,
-    );
-  }
+    if(notes.type=="toll"){
 
-  Widget buildNoteItem({
-    required String id,
-    required String name,
-    required String date,
-    required String note,
-    required String type,
-    required BuildContext context,
-    Function(String)? updateNoteValue,
-  }) {
+      type='pd';
 
-    return Card(
-      elevation: 8, // Adjust the elevation value as needed
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
-      ),
-      child:  Padding(
-        padding: EdgeInsets.all(20.0),
-        child: SizedBox(
-          // Set margin of 20 from right and left
-          width: double.infinity,
+    }else if(notes.type=='ticket'){
+      type='ticket_id';
 
-          child:
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: SvgPicture.asset(
-                  width: 32,
-                  height: 32,
-                  'assets/svg/vector.svg',
+    }else{
+      type='cd';
+
+    }
+    return
+      Card(
+        elevation: 8,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                    'assets/svg/vector.svg',
+                    width: 32,
+                    height: 32,
+                    color: Colors.grey,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 18.0),
+                  height: 60,
+                  width: 1,
                   color: Colors.grey,
-
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 18.0),
-                height: 60,
-                width: 1,
-                color: Colors.grey, // Color of the vertical line
-              ),
-              Column(
-
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(formatWithSuffix(date),style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato-Regular")),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text('${name}',style: TextStyle(color: AppColors.black,fontSize: 13,fontFamily: "Lato"),textAlign: TextAlign.left,),
-                    ],
-                  ),
-
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     UpdateNoteDialog.show(context, id,note.toString(),type, (v) {
-                  //       note = v!;
-                  //       if(updateNoteValue!=null) updateNoteValue(v);
-                  //       setState(() {
-                  //
-                  //       });
-                  //       //note added for this item
-                  //     });
-                  //   },
-                  //   child: Row(
-                  //     children: const [
-                  //       Text(
-                  //         'See Note',
-                  //         style: TextStyle(fontSize: 14, color: AppColors.primaryColor),
-                  //       ),
-                  //       Icon(
-                  //         Icons.arrow_forward_ios,
-                  //         color: AppColors.primaryColor,
-                  //         size: 15,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-
-                ],
-              ),
-              Spacer(),
-              GestureDetector(
-                onTap: () {
-                  UpdateNoteDialog.show(context, id,note.toString(),type, (v) {
-                    note = v!;
-                    if(updateNoteValue!=null) updateNoteValue(v);
-                    setState(() {
-
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          formatWithSuffix((notes.date)),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontFamily: "Lato-Regular",
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '${notes.name}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontFamily: "Lato",
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    UpdateNoteDialog.show(context, notes.noteId.toString(),notes.notes.toString(),type!, (v) {
+                      notes.notes = v; //note added for this item
                     });
-                    //note added for this item
-                  });
-                },
-                child: SvgPicture.asset(
-
-                  width: 15,
-                  height: 15,
-                  'assets/svg/edit_svg.svg',
-                  color: AppColors.primaryColor,
-
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/edit_svg.svg',
+                    width: 15,
+                    height: 15,
+                    color: AppColors.primaryColor, // Change the color as needed
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+
   }
+  String UniversalformatDate(String dateString) {
+    // List of possible date formats
+    List<String> possibleFormats = [
+      'dd/MM/yy', // 13/12/09
+      'dd MMM yyyy', // 13 sep 2020
+      'dd MMMM yyyy', // 13 september 2020
+      'yyyy-dd-MM', //
+      'dd-MM-yyyy', //
+      'dd-MM-yy', //
+      // Add more formats as needed
+    ];
+
+    // Iterate through possible formats and try parsing
+    for (String format in possibleFormats) {
+      try {
+        DateTime date = DateFormat(format).parse(dateString);
+        // Format the parsed date into "YYYY-MM-DD" format
+        return DateFormat('dd-MM-yyyy').format(date);
+      } catch (e) {
+        // If parsing fails, continue to the next format
+        continue;
+      }
+    }
+
+    // If none of the formats match, return empty string or handle error as needed
+    return '';
+  }
+
 }
