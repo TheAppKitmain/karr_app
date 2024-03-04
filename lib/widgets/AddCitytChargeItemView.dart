@@ -27,7 +27,8 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
     double width=MediaQuery.of(context).size.width;
     return
       Card(
-        elevation: 8, // Adjust the elevation value as needed
+        elevation: 0,
+        color: Colors.white,// Adjust the elevation value as needed
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
         ),

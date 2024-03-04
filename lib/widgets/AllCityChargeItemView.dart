@@ -28,7 +28,8 @@ class AllCityChargeItemView extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return
       Card(
-          elevation: 8,
+          elevation: 1,
+        color: Colors.white,
           margin: EdgeInsets.all(10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
@@ -98,9 +99,10 @@ class AllCityChargeItemView extends StatelessWidget {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
-        .format(dateTime)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+    return
+      // DateFormat('dd')  // Format day without suffix
+      //   .format(dateTime)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+      '${dateTime.day}'+ suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
 }

@@ -53,13 +53,13 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
     final dio = Dio();
 
     try {
-      print(revertDateFormat(_dateController.text).toString());
+      print(' date iss${revertDateFormat(_dateController.text).toString()}');
       final response = await dio.post(
         'https://dashboard.karrcompany.co.uk/api/ticket',
         queryParameters: {
           'driver_id': userid,
           'date': revertDateFormat(_dateController.text).toString(),
-          'pcn': _pcnNumberController.text,
+          'pcn':  CapitalWOrd.capitalizeWithNumbers(_pcnNumberController.text),
           // 'price': double.parse(_amountController.text),
           'price': double.parse(_amountController.text),
           'ticket_issuer': _selectedIssuer,
@@ -117,10 +117,11 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
-        .format(date)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(date);
+    return
+      // DateFormat('dd')  // Format day without suffix
+      //   .format(date)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+        '${date.day}'+ suffix + ' ' + DateFormat('MMMM yyyy').format(date);
   }
   String revertDateFormat(String formattedDate) {
     // Split the formatted date string by space to separate day, suffix, month, and year

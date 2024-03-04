@@ -236,10 +236,11 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')
-        .format(dateTime)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+    return
+      // DateFormat('dd')
+      //   .format(dateTime)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+      '${dateTime.day}'+ suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
 }
 

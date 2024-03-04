@@ -206,7 +206,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
       final formData = FormData.fromMap({
         'driver_id': userid,
         'date': date??"",
-        'pcn': pcn??"",
+        'pcn': CapitalWOrd.capitalizeWithNumbers(pcn!)??"",
         'price': double.tryParse(price??'0'),
         'ticket_issuer': issuer??"",
         'image':await MultipartFile.fromFile(imageFile.path),

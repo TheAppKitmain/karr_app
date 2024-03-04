@@ -134,10 +134,11 @@ class _EditTicketScreenState extends State<EditTicketScreen> {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
-        .format(dateTime)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+    return
+      // DateFormat('dd')  // Format day without suffix
+      //   .format(dateTime)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+      '${dateTime.day}'+suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
   String formatWithSuffix(DateTime date) {
     String suffix = 'th';
@@ -149,10 +150,11 @@ class _EditTicketScreenState extends State<EditTicketScreen> {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
-        .format(date)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(date);
+    return
+      // DateFormat('dd')  // Format day without suffix
+      //   .format(date)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+      '${date.day}'+suffix + ' ' + DateFormat('MMMM yyyy').format(date);
   }
 
   @override

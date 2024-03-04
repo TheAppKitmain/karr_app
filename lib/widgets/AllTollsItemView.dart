@@ -25,10 +25,11 @@ class AllTollsItemView extends StatelessWidget {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
-        .format(dateTime)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+    return
+      // DateFormat('dd')  // Format day without suffix
+      //   .format(dateTime)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+      '${dateTime.day}'+ suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
 
   const AllTollsItemView({super.key,
@@ -42,7 +43,8 @@ class AllTollsItemView extends StatelessWidget {
 
     return
       Card(
-        elevation: 8,
+        elevation: 1,
+        color: Colors.white,
         // Adjust the elevation value as needed
          margin: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
         shape: RoundedRectangleBorder(

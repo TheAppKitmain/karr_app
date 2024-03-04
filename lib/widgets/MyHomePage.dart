@@ -40,13 +40,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _onItemTapped(int index) async {
-    setState(() {
-      _currentIndex = index;
-    });
-    _pageController.jumpToPage((index ?? 0)-1);
-    await  _pageController.animateToPage(index??0,
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut);
+    if(_currentIndex==index){
+
+    }else{
+      setState(() {
+        _currentIndex = index;
+      });
+      _pageController.jumpToPage((index ?? 0)-1);
+      await  _pageController.animateToPage(index??0,
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut);
+    }
+
   }
 
   @override
@@ -60,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
           HomeScreen(
             onNext: (v) {
               setState(() async {
-                // _currentIndex=v??0;
+                _currentIndex=v??0;
 
                 // _pageController.jumpToPage(v ?? 0,
                 // );
@@ -84,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -98,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -111,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -124,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -137,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -150,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -163,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -176,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }, onPrevious: (v) {
             setState(() {
-              // _currentIndex=v??0;
+              _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });

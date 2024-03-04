@@ -192,6 +192,7 @@ class _AddTollsState extends State<AddTolls> {
                 onDateChange: (date) {
                   setState(() {
                     _selectedDate = date;
+                    print('selected date is $_selectedDate');
                   });
                 },
               ),

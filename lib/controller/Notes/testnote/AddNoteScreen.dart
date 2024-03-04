@@ -141,6 +141,9 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 25),
                       child: DropdownButton<String>(
+                        // decoration: InputDecoration(border: InputBorder.none),
+                        borderRadius: BorderRadius.circular(20),
+
                         value: selectedValue,
                         underline: Offstage(),
                         hint: Text(
@@ -179,8 +182,8 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
               child: GroupedListView(elements: notes, groupBy:  (element) => (element.date), groupComparator: (value1, value2) => value2.compareTo(value1),
                 itemComparator: (item1, item2) =>
                     item1.noteId.toString().compareTo(item2.noteId.toString()),
-                order: GroupedListOrder.ASC,
-                useStickyGroupSeparators: true,
+                order: GroupedListOrder.DESC,
+
                 groupSeparatorBuilder: (String value) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextWithLines(text: formatDate(value)),
@@ -193,7 +196,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                   return NotesItemView(notes: element
                               );
                 },),
-            ):Text("NO data found")
+            ):Text("no data found")
 
             // :Padding(
             //   padding: const EdgeInsets.all(8.0),
@@ -240,47 +243,32 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
     DateTime dateTime = format.parse(date);
     String suffix = 'th';
     int day = dateTime.day;
-    if (day == 1 || day == 21 || day == 31) {
-      suffix = 'st';
-    } else if (day == 2 || day == 22) {
-      suffix = 'nd';
-    } else if (day == 3 || day == 23) {
-      suffix = 'rd';
-    }
-    return DateFormat('dd')  // Format day without suffix
-        .format(dateTime)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
-  }
 
-
-  String UniversalformatDate(String dateString) {
-    // List of possible date formats
-    List<String> possibleFormats = [
-      'dd/MM/yy', // 13/12/09
-      'dd MMM yyyy', // 13 sep 2020
-      'dd MMMM yyyy', // 13 september 2020
-      'yyyy-dd-MM', //
-      'dd-MM-yyyy', //
-      'dd-MM-yy', //
-      // Add more formats as needed
-    ];
-
-    // Iterate through possible formats and try parsing
-    for (String format in possibleFormats) {
-      try {
-        DateTime date = DateFormat(format).parse(dateString);
-        // Format the parsed date into "YYYY-MM-DD" format
-        return DateFormat('dd-MM-yyyy').format(date);
-      } catch (e) {
-        // If parsing fails, continue to the next format
-        continue;
+    // Check if the day is between 11 and 19
+    if (day % 100 >= 11 && day % 100 <= 13) {
+      suffix = 'th';
+    } else {
+      switch (day % 10) {
+        case 1:
+          suffix = 'st';
+          break;
+        case 2:
+          suffix = 'nd';
+          break;
+        case 3:
+          suffix = 'rd';
+          break;
+        default:
+          suffix = 'th';
       }
     }
 
-    // If none of the formats match, return empty string or handle error as needed
-    return '';
+    return '${dateTime.day}$suffix ${DateFormat('MMMM ').format(dateTime)}';
   }
+
+
+
+
 }
 class TextWithLines extends StatelessWidget {
   final String text;
@@ -292,14 +280,9 @@ class TextWithLines extends StatelessWidget {
     double height=MediaQuery.of(context).size.height;
     double width=MediaQuery.of(context).size.width;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          child: Divider(
-            color: Colors.black38,
-            height: 1,
-          ),
-        ),
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
@@ -307,12 +290,7 @@ class TextWithLines extends StatelessWidget {
             style: TextStyle(fontSize: width*0.03),
           ),
         ),
-        Expanded(
-          child: Divider(
-            color: Colors.black38,
-            height: 1,
-          ),
-        ),
+
       ],
     );
   }

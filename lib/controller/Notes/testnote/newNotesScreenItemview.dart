@@ -27,10 +27,11 @@ class NotesItemView extends StatelessWidget {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
-        .format(dateTime)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+    return
+      // DateFormat('dd')  // Format day without suffix
+      //   .format(dateTime)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+      '${dateTime.day}'+ suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
 
   const NotesItemView({super.key,
@@ -60,110 +61,89 @@ class NotesItemView extends StatelessWidget {
 
     }
     return
-      Card(
-        elevation: 8,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: SizedBox(
-            width: double.infinity,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: SvgPicture.asset(
-                    'assets/svg/vector.svg',
-                    width: 32,
-                    height: 32,
+      Padding(
+        padding: const EdgeInsets.only(left:8.0,right: 8.0),
+        child: Card(
+          elevation: 1,
+          color: Colors.white,
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      'assets/svg/vector.svg',
+                      width: 32,
+                      height: 32,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 18.0),
+                    height: 60,
+                    width: 1,
                     color: Colors.grey,
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 18.0),
-                  height: 60,
-                  width: 1,
-                  color: Colors.grey,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          formatWithSuffix((notes.date)),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: "Lato-Regular",
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            formatWithSuffix((notes.date)),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 13,
+                              fontFamily: "Lato-Regular",
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          '${notes.name}',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontFamily: "Lato",
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '${notes.name}',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 13,
+                              fontFamily: "Lato",
+                            ),
+                            textAlign: TextAlign.left,
                           ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    UpdateNoteDialog.show(context, notes.noteId.toString(),notes.notes.toString(),type!, (v) {
-                      notes.notes = v; //note added for this item
-                    });
-                  },
-                  child: SvgPicture.asset(
-                    'assets/svg/edit_svg.svg',
-                    width: 15,
-                    height: 15,
-                    color: AppColors.primaryColor, // Change the color as needed
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      UpdateNoteDialog.show(context, notes.noteId.toString(),notes.notes.toString(),type!, (v) {
+                        notes.notes = v; //note added for this item
+                      });
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svg/edit_svg.svg',
+                      width: 15,
+                      height: 15,
+                      color: AppColors.primaryColor, // Change the color as needed
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       );
 
   }
-  String UniversalformatDate(String dateString) {
-    // List of possible date formats
-    List<String> possibleFormats = [
-      'dd/MM/yy', // 13/12/09
-      'dd MMM yyyy', // 13 sep 2020
-      'dd MMMM yyyy', // 13 september 2020
-      'yyyy-dd-MM', //
-      'dd-MM-yyyy', //
-      'dd-MM-yy', //
-      // Add more formats as needed
-    ];
 
-    // Iterate through possible formats and try parsing
-    for (String format in possibleFormats) {
-      try {
-        DateTime date = DateFormat(format).parse(dateString);
-        // Format the parsed date into "YYYY-MM-DD" format
-        return DateFormat('dd-MM-yyyy').format(date);
-      } catch (e) {
-        // If parsing fails, continue to the next format
-        continue;
-      }
-    }
-
-    // If none of the formats match, return empty string or handle error as needed
-    return '';
-  }
 
 }

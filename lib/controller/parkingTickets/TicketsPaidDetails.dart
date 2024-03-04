@@ -143,8 +143,8 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
       GroupedListView(elements: allTickets, groupBy:  (element) => element.date!, groupComparator: (value1, value2) => value2.compareTo(value1),
         itemComparator: (item1, item2) =>
             item1.id.toString().compareTo(item2.id.toString()),
-        order: GroupedListOrder.ASC,
-        useStickyGroupSeparators: true,
+        order: GroupedListOrder.DESC,
+
         groupSeparatorBuilder: (String value) => Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextWithLines(text: formatDate(value)),
@@ -323,10 +323,11 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
     } else if (day == 3 || day == 23) {
       suffix = 'rd';
     }
-    return DateFormat('dd')  // Format day without suffix
-        .format(dateTime)
-        .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
-        suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
+    return
+      // DateFormat('dd')  // Format day without suffix
+      //   .format(dateTime)
+      //   .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match match) => '${match[1]},') +
+          '${dateTime.day}'+suffix + ' ' + DateFormat('MMMM yyyy').format(dateTime);
   }
 
 

@@ -194,7 +194,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
               onDateChange: (date) {
                 // New date selected
                 setState(() {
-                  // _selectedValue = date;
+                  _selectedDate = date;
                 });
               },
             ),
