@@ -57,6 +57,8 @@ dependencies:
   flutter_masked_text2: ^0.9.1
   flutter_slidable: ^3.0.1
   grouped_list: ^5.1.2
+  dropdown_button2: ^2.3.9
+
 
 
 

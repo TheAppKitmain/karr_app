@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
@@ -130,46 +131,125 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                 children: [
                   Text('$totalNotesCount Total Notes',style: TextStyle(fontFamily: 'Lato'),),
                   Spacer(),
-                  Card(
-                    elevation: 4,
-                    color: Colors.white,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: DropdownButton<String>(
-                        // decoration: InputDecoration(border: InputBorder.none),
-                        borderRadius: BorderRadius.circular(20),
+                  Container(
+                    decoration: BoxDecoration(
 
-                        value: selectedValue,
-                        underline: Offstage(),
-                        hint: Text(
-                          "Sort By",
-                            style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.only(right: 5),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Expanded(
+                          child: Text(
+                            'Sort By',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'Lato-Regular',
+                              color: Colors.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        items: gameList.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value,style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
+                        items: gameList
+                            .map((String item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontFamily: 'Lato-Regular'
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ))
+                            .toList(),
+                        value: selectedValue,
+                        onChanged: (String? value) {
                           setState(() {
-                            selectedValue = newValue;
+                            selectedValue = value;
                             if(selectedValue=='Tolls'){
-                              notes=allTolls;
-                            }else if(selectedValue=='City charges'){
-                              notes=cityCharges;
-                            }else if(selectedValue=='Tickets'){
-                              notes=allTickets;
-                            }
+                                      notes=allTolls;
+                                    }else if(selectedValue=='City charges'){
+                                      notes=cityCharges;
+                                    }else if(selectedValue=='Tickets'){
+                                      notes=allTickets;
+                                    }
                           });
                         },
+                        buttonStyleData: ButtonStyleData(
+                          height: 50,
+                          width: 160,
+                          padding: const EdgeInsets.only(left: 14, right: 14),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            color: Colors.white,
+                          ),
+
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                          ),
+                          iconSize: 18,
+                          // iconEnabledColor: Colors.yellow,
+                          // iconDisabledColor: Colors.grey,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white,
+                          ),
+                          offset: const Offset(-20, 0),
+                          scrollbarTheme: ScrollbarThemeData(
+                            radius: const Radius.circular(40),
+                            thickness: MaterialStateProperty.all<double>(6),
+                            thumbVisibility: MaterialStateProperty.all<bool>(true),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          height: 40,
+                          padding: EdgeInsets.only(left: 14, right: 14),
+                        ),
                       ),
                     ),
+                    // DropdownButton<String>(
+                    //   // decoration: InputDecoration(border: InputBorder.none),
+                    //   borderRadius: BorderRadius.circular(20),
+                    //
+                    //   value: selectedValue,
+                    //   underline: Offstage(),
+                    //   hint: Text(
+                    //     "Sort By",
+                    //       style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),
+                    //   ),
+                    //   items: gameList.map<DropdownMenuItem<String>>((String value) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: value,
+                    //       child: Text(value,style: TextStyle(color: AppColors.black,fontSize: fontSize,fontFamily: 'Lato-Regular',fontWeight: FontWeight.normal),),
+                    //     );
+                    //   }).toList(),
+                    //   onChanged: (String? newValue) {
+                    //     setState(() {
+                    //       selectedValue = newValue;
+                    //       if(selectedValue=='Tolls'){
+                    //         notes=allTolls;
+                    //       }else if(selectedValue=='City charges'){
+                    //         notes=cityCharges;
+                    //       }else if(selectedValue=='Tickets'){
+                    //         notes=allTickets;
+                    //       }
+                    //     });
+                    //   },
+                    // ),
                   ),
                 ],
               ),
@@ -238,33 +318,40 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
       return formatWithSuffix(dateString);
     }
   }
-  String formatWithSuffix(String date) {
-    DateFormat format = DateFormat('dd-MM-yyyy');
-    DateTime dateTime = format.parse(date);
-    String suffix = 'th';
-    int day = dateTime.day;
 
-    // Check if the day is between 11 and 19
-    if (day % 100 >= 11 && day % 100 <= 13) {
-      suffix = 'th';
-    } else {
-      switch (day % 10) {
-        case 1:
-          suffix = 'st';
-          break;
-        case 2:
-          suffix = 'nd';
-          break;
-        case 3:
-          suffix = 'rd';
-          break;
-        default:
-          suffix = 'th';
+    String formatWithSuffix(String date) {
+      DateFormat format = DateFormat('dd-MM-yyyy');
+      DateTime dateTime = format.parse(date);
+      String suffix = 'th';
+      int day = dateTime.day;
+
+      // Check if the day is between 11 and 19
+      if (day % 100 >= 11 && day % 100 <= 13) {
+        suffix = 'th';
+      } else {
+        switch (day % 10) {
+          case 1:
+            suffix = 'st';
+            break;
+          case 2:
+            suffix = 'nd';
+            break;
+          case 3:
+            suffix = 'rd';
+            break;
+          default:
+            suffix = 'th';
+        }
+      }
+      DateFormat monthYearFormat = DateFormat('MMMM yyyy');
+      DateFormat monthFormat = DateFormat('MMMM');
+      if (dateTime.year == DateTime.now().year) {
+        return '${dateTime.day}$suffix ${monthFormat.format(dateTime)}';
+      } else {
+        return '${dateTime.day}$suffix ${monthYearFormat.format(dateTime)}';
       }
     }
 
-    return '${dateTime.day}$suffix ${DateFormat('MMMM ').format(dateTime)}';
-  }
 
 
 

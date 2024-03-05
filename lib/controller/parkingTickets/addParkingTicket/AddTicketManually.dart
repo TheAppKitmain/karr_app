@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaar/utils/Constants.dart';
@@ -334,39 +335,119 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                       const SizedBox(height: 10),
                       Card(
                         elevation: 4, // Adjust the elevation value as needed
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
-                        ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                          ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: DropdownButtonFormField<String>(
-                            value: _selectedIssuer,
-                            decoration: InputDecoration(border: InputBorder.none),
-                            borderRadius: BorderRadius.circular(20),
-                            menuMaxHeight: height*0.3,
-                            padding: EdgeInsets.zero,
-                            isExpanded: true,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedIssuer = newValue;
-                              });
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select an issuer';
-                              }
-                              return null;
-                            },
-                            items: _ticketsIssuerList.map((String issuer) {
-                              return DropdownMenuItem<String>(
-                                value: issuer,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: Expanded(
+                                child: Text(
+                                  'Select Issuer',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'Lato-Regular',
+                                    color: Colors.black38,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              items: _ticketsIssuerList
+                                  .map((String item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                      fontFamily: 'Lato-Regular'
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ))
+                                  .toList(),
+                              value: _selectedIssuer,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _selectedIssuer = value;
 
-                                child: Text(issuer),
-                              );
-                            }).toList(),
+                                });
+                              },
+                              buttonStyleData: ButtonStyleData(
+                                height: 50,
+                                width: width*0.9,
+
+                                // padding: const EdgeInsets.only(left: 14, right: 14),
+
+
+                              ),
+                              iconStyleData: const IconStyleData(
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_outlined,
+                                ),
+                                iconSize: 18,
+                                // iconEnabledColor: Colors.yellow,
+                                // iconDisabledColor: Colors.grey,
+                              ),
+                              dropdownStyleData: DropdownStyleData(
+                                maxHeight: 200,
+                                width: width*0.9,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Colors.white,
+                                ),
+                                offset: const Offset(-20, 0),
+                                scrollbarTheme: ScrollbarThemeData(
+                                  radius: const Radius.circular(40),
+                                  thickness: MaterialStateProperty.all<double>(6),
+                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                ),
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                                padding: EdgeInsets.only(left: 14, right: 14),
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      // Card(
+                      //   elevation: 4, // Adjust the elevation value as needed
+                      //   shape: RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+                      //   ),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: DropdownButtonFormField<String>(
+                      //       value: _selectedIssuer,
+                      //       decoration: InputDecoration(border: InputBorder.none),
+                      //       borderRadius: BorderRadius.circular(20),
+                      //       menuMaxHeight: height*0.3,
+                      //       padding: EdgeInsets.zero,
+                      //       isExpanded: true,
+                      //       onChanged: (String? newValue) {
+                      //         setState(() {
+                      //           _selectedIssuer = newValue;
+                      //         });
+                      //       },
+                      //       validator: (value) {
+                      //         if (value == null || value.isEmpty) {
+                      //           return 'Please select an issuer';
+                      //         }
+                      //         return null;
+                      //       },
+                      //       items: _ticketsIssuerList.map((String issuer) {
+                      //         return DropdownMenuItem<String>(
+                      //           value: issuer,
+                      //
+                      //           child: Text(issuer),
+                      //         );
+                      //       }).toList(),
+                      //     ),
+                      //   ),
+                      // ),
                       // CustomTextField(
                       //   controller: _issuerController,
                       //   validator: (value) {
