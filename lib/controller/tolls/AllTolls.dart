@@ -34,6 +34,7 @@ class _AllTollsState extends State<AllTolls> {
   bool isLoading = true;
 
   var selectedValue;
+  bool isdateSelected = true;
   String? userid;
   @override
   void initState() {
@@ -169,6 +170,10 @@ class _AllTollsState extends State<AllTolls> {
                   onChanged: (String? value) {
                     setState(() {
                       selectedValue = value;
+                      if(value=='Date')
+                        isdateSelected=true;
+                      else if(value=='City')
+                        isdateSelected=false;
 
                     });
                   },
@@ -260,6 +265,7 @@ class _AllTollsState extends State<AllTolls> {
               ):
 
           allTolls.isNotEmpty?
+              isdateSelected?
           Expanded(
             child: GroupedListView(elements: allTolls, groupBy:  (element) => element.date!, groupComparator: (value1, value2) => value2.compareTo(value1),
               itemComparator: (item1, item2) =>
@@ -277,7 +283,24 @@ class _AllTollsState extends State<AllTolls> {
               ),itemBuilder: (c, element) {
                 return AllTollsItemView(tolls: element);
               },),
-          )
+          ):Expanded(
+                child: GroupedListView(elements: allTolls, groupBy:  (element) => element.name!, groupComparator: (value1, value2) => value2.compareTo(value1),
+                  itemComparator: (item1, item2) =>
+                      item1.id.toString().compareTo(item2.id.toString()),
+                  order: GroupedListOrder.DESC,
+
+                  groupSeparatorBuilder: (String value) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextWithLines(text: (value)),
+                    // Text(
+                    //
+                    //   textAlign: TextAlign.center,
+                    //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    // ),
+                  ),itemBuilder: (c, element) {
+                    return AllTollsItemView(tolls: element);
+                  },),
+              )
 
           // Expanded(
           //   child: ListView.builder(

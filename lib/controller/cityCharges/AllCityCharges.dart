@@ -26,6 +26,7 @@ class _CityChargesState extends State<CityCharges> {
   List<String> gameList = ["Date", "City"];
   List<Charges> cityCharges = [];
   bool isLoading = true;
+  bool isdateSelected = true;
   var selectedValue;
 
   String? userid;
@@ -157,6 +158,10 @@ class _CityChargesState extends State<CityCharges> {
                       onChanged: (String? value) {
                         setState(() {
                           selectedValue = value;
+                          if(value=='Date')
+                            isdateSelected=true;
+                          else if(value=='City')
+                            isdateSelected=false;
 
                         });
                       },
@@ -211,7 +216,7 @@ class _CityChargesState extends State<CityCharges> {
 
           ):
           cityCharges.isNotEmpty
-              ?
+              ?isdateSelected?
               Expanded(
                 child: GroupedListView(elements: cityCharges, groupBy:  (element) => element.date!, groupComparator: (value1, value2) => value2.compareTo(value1),
                   itemComparator: (item1, item2) =>
@@ -230,7 +235,25 @@ class _CityChargesState extends State<CityCharges> {
                   return AllCityChargeItemView(
                                       cityCharge: element);
                 },),
-              )
+              ):Expanded(
+            child: GroupedListView(elements: cityCharges, groupBy:  (element) => element.name!, groupComparator: (value1, value2) => value2.compareTo(value1),
+              itemComparator: (item1, item2) =>
+                  item1.id.toString().compareTo(item2.id.toString()),
+              order: GroupedListOrder.DESC,
+
+              groupSeparatorBuilder: (String value) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextWithLines(text: value),
+                // Text(
+                //
+                //   textAlign: TextAlign.center,
+                //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                // ),
+              ),itemBuilder: (c, element) {
+                return AllCityChargeItemView(
+                    cityCharge: element);
+              },),
+          )
           // Expanded(
           //         child: ListView.builder(
           //           itemCount: cityCharges.length,
