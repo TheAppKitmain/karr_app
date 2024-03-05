@@ -86,7 +86,7 @@ class ParkingTicketCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 // Container(
                 //   height: 1,
                 //   color: Colors.grey,
@@ -116,7 +116,7 @@ class ParkingTicketCard extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[

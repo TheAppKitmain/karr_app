@@ -40,9 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _onItemTapped(int index) async {
-    if(_currentIndex==index){
-
-    }else{
+    // if(_currentIndex==index){
+    //
+    // }else{
       setState(() {
         _currentIndex = index;
       });
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
       await  _pageController.animateToPage(index??0,
           duration: Duration(milliseconds: 200),
           curve: Curves.easeInOut);
-    }
+    // }
 
   }
 
