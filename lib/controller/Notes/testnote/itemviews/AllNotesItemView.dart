@@ -52,7 +52,7 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
         note: toll.note??"",
         updateNoteValue: (value) {
           toll.note=value;
-          setState(() {
+          if (mounted)setState(() {
 
           });
         },
@@ -72,7 +72,7 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
           type: "cd",
           updateNoteValue: (value) {
             charge.note=value;
-            setState(() {
+            if (mounted)setState(() {
 
             });
           },
@@ -89,7 +89,7 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
           type: "ticket_id",
           updateNoteValue: (value) {
             ticket.note=value;
-            setState(() {
+            if (mounted)setState(() {
 
             });
           },
@@ -165,7 +165,7 @@ class _AllNotesItemViewState extends State<AllNotesItemView> {
               UpdateNoteDialog.show(context, id,note.toString(),type, (v) {
                 note = v!;
                if(updateNoteValue!=null) updateNoteValue(v);
-                setState(() {
+                if (mounted)setState(() {
 
                 });
                 //note added for this item

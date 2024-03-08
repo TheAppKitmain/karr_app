@@ -44,14 +44,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
 
 
 
   }
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       _username = prefs.getString('name')!;
       recent_activities = prefs.getStringList('recent_activities') ?? [];
 

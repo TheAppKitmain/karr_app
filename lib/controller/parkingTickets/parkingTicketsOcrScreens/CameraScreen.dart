@@ -44,13 +44,16 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void initState() {
     super.initState();
-    initializeCamera();
-    loadUserDetails();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+      initializeCamera();
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
       adminid = prefs.getString('adminid');
     });
@@ -89,7 +92,7 @@ class _CameraScreenState extends State<CameraScreen> {
     await SharedStorage().saveStringToLocalStorage('Issuer_name', issuerName);
     widget.image!(capturedImage!);
     onNext();
-    setState(() {
+    if (mounted)setState(() {
       textScanning = true;
     });
   }
@@ -186,7 +189,7 @@ class _CameraScreenState extends State<CameraScreen> {
     if (!mounted) {
       return;
     }
-    setState(() {
+    if (mounted)setState(() {
       isReady = true;
     });
   }
@@ -274,7 +277,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       // ...
 
                       // Reset the UI for capturing the next image
-                      setState(() {
+                      if (mounted)setState(() {
                         textScanning = false;
                         textController.clear();
                       });

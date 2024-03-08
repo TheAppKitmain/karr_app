@@ -27,7 +27,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
   TextEditingController _amountController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
   TextEditingController _issuerController = TextEditingController();
-  String? _selectedIssuer;
+  String? _selectedIssuer="BARNET";
   List<String> _ticketsIssuerList = ["BARNET", "BEXLEY","BROMLEY ","CAMDEN","CITY OF LONDON","CROYDON","EALING","ENFIELD","GREENWICH","HACKNEY COUNCIL"
     ,"HAVERING","HILLINGDON","HOUNSLOW","ISLINGTON","HAMMERRSMITH & FULHAM","HARINGEY","HARROWCOUNCIL","KENSINGTON AND CHELSEA","KINGSTON UPON THAMES","LAMBETH"
     ,"LEWISHAM","NEWHAM","REDBRIDGE","RICHMOND","SUTTON","TRANSPORT FOR LONDON","TOWER HAMLETS","WALTHAM FOROST","WANDSWORTH","WESTMINSTER"];
@@ -38,14 +38,16 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
     });
   }
@@ -99,7 +101,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await getDatePicker(context);
     if (picked != null && picked != _date) {
-      setState(() {
+      if (mounted)setState(() {
         _date = picked;
         // _dateController.text = DateFormat('dd-MM-yyyy')
         _dateController.text =
@@ -343,17 +345,18 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton2<String>(
                               isExpanded: true,
-                              hint: Expanded(
-                                child: Text(
-                                  'Select Issuer',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Lato-Regular',
-                                    color: Colors.black38,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
+
+                              // hint: Expanded(
+                              //   child: Text(
+                              //     'Select Issuer',
+                              //     style: TextStyle(
+                              //       fontSize: 14,
+                              //       fontFamily: 'Lato-Regular',
+                              //       color: Colors.black38,
+                              //     ),
+                              //     overflow: TextOverflow.ellipsis,
+                              //   ),
+                              // ),
                               items: _ticketsIssuerList
                                   .map((String item) => DropdownMenuItem<String>(
                                 value: item,
@@ -370,7 +373,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                   .toList(),
                               value: _selectedIssuer,
                               onChanged: (String? value) {
-                                setState(() {
+                                if (mounted)setState(() {
                                   _selectedIssuer = value;
 
                                 });
@@ -428,7 +431,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                       //       padding: EdgeInsets.zero,
                       //       isExpanded: true,
                       //       onChanged: (String? newValue) {
-                      //         setState(() {
+                      //         if (mounted)setState(() {
                       //           _selectedIssuer = newValue;
                       //         });
                       //       },
@@ -469,7 +472,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                       text: 'Submit Ticket',
                                       onPressed: () async {
                                         if (_formKey.currentState!.validate()) {
-                                          setState(() {
+                                          if (mounted)setState(() {
                                             _isLoading = true; // Start loading
                                           });
                                           final response = await addTicket();
@@ -480,7 +483,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                 response['message'] as String;
 
                                             if (status) {
-                                              setState(() {
+                                              if (mounted)setState(() {
                                                 _isLoading =
                                                     false; // Start loading
                                               });
@@ -497,7 +500,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                   "Ticket Submitted",
                                                   "Great! Your ticket has been submitted successfully.");
                                             } else {
-                                              setState(() {
+                                              if (mounted)setState(() {
                                                 _isLoading =
                                                     false; // Start loading
                                               });
@@ -524,7 +527,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                     Text('API request failed'),
                                               ),
                                             );
-                                            setState(() {
+                                            if (mounted)setState(() {
                                               _isLoading =
                                                   false; // Stop loading
                                             });

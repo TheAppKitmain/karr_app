@@ -29,22 +29,25 @@ class AllTolls extends StatefulWidget {
 }
 
 class _AllTollsState extends State<AllTolls> {
-  List<String> gameList = [ "Date", "City"];
+  List<String> gameList = ["All","Date", "City"];
   List<Tolls> allTolls = [];
   bool isLoading = true;
 
-  var selectedValue;
+  var selectedValue='All';
   bool isdateSelected = true;
   String? userid;
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
       fetchallTolls();
     });
@@ -80,26 +83,26 @@ class _AllTollsState extends State<AllTolls> {
 
 
           isLoading = false;
-          setState(() {});
+          if (mounted)setState(() {});
           // Clear the existing list
 
 
         } else {
           // Handle the case where fetching data failed
           isLoading = false;
-          setState(() {});
+          if (mounted)setState(() {});
           print('tolls screen :Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
         isLoading = false;
-        setState(() {});
+        if (mounted)setState(() {});
         print('tolls screen :API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
       isLoading = false;
-      setState(() {});
+      if (mounted)setState(() {});
       print('tolls screen :API request error: $e');
     }
   }
@@ -141,17 +144,17 @@ class _AllTollsState extends State<AllTolls> {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2<String>(
                   isExpanded: true,
-                  hint: Expanded(
-                    child: Text(
-                      'Sort By',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Lato-Regular',
-                        color: Colors.black,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                  // hint: Expanded(
+                  //   child: Text(
+                  //     'Sort By',
+                  //     style: TextStyle(
+                  //       fontSize: 14,
+                  //       fontFamily: 'Lato-Regular',
+                  //       color: Colors.black,
+                  //     ),
+                  //     overflow: TextOverflow.ellipsis,
+                  //   ),
+                  // ),
                   items: gameList
                       .map((String item) => DropdownMenuItem<String>(
                     value: item,
@@ -168,8 +171,8 @@ class _AllTollsState extends State<AllTolls> {
                       .toList(),
                   value: selectedValue,
                   onChanged: (String? value) {
-                    setState(() {
-                      selectedValue = value;
+                    if (mounted)setState(() {
+                      selectedValue = value!;
                       if(value=='Date')
                         isdateSelected=true;
                       else if(value=='City')
@@ -353,17 +356,17 @@ class _AllTollsState extends State<AllTolls> {
 
         ]
         ),
-        floatingActionButton: Visibility(
-          visible: allTolls.isNotEmpty?true:false,
-          child: FloatingActionButton(
-            onPressed: (){
-              widget.onNext(4);
-
-            },
-            backgroundColor: AppColors.primaryColor,
-            child: const Icon(Icons.add),
-          ),
-        ),
+        // floatingActionButton: Visibility(
+        //   visible: allTolls.isNotEmpty?true:false,
+        //   child: FloatingActionButton(
+        //     onPressed: (){
+        //       widget.onNext(4);
+        //
+        //     },
+        //     backgroundColor: AppColors.primaryColor,
+        //     child: const Icon(Icons.add),
+        //   ),
+        // ),
       ),
     );
   }

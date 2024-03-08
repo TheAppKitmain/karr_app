@@ -80,7 +80,7 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
                   child: Checkbox(
                     value: _rememberMe,
                     onChanged: (bool? value) {
-                      setState(() {
+                      if (mounted)setState(() {
                         _rememberMe =
                             value ?? false; // Update the _rememberMe variable
                       });

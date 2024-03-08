@@ -106,7 +106,7 @@ class _loginScreenState extends State<Login> {
 
 
         // Update the _rememberMe state
-        setState(() {
+        if (mounted)setState(() {
           _rememberMe = true;
         });
       }
@@ -186,7 +186,7 @@ class _loginScreenState extends State<Login> {
                   obscureText: _isObscure,
                   onTogglePasswordStatus: (){
                     _isObscure=!_isObscure;
-                    setState(() {
+                    if (mounted) setState(() {
                     });
                   },
                 ),
@@ -199,7 +199,7 @@ class _loginScreenState extends State<Login> {
                     Checkbox(
                       value: _rememberMe,
                       onChanged: (bool? value) {
-                        setState(() {
+                        if (mounted)setState(() {
                           _rememberMe =
                               value ?? false; // Update the _rememberMe variable
                         });
@@ -221,7 +221,7 @@ class _loginScreenState extends State<Login> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
 
-                          setState(() {
+                          if (mounted)setState(() {
                             _isLoading = true; // Start loading
                           });
                           // Validation successful, navigate to the next screen
@@ -263,7 +263,7 @@ class _loginScreenState extends State<Login> {
 
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(),), (route) => false);
 
-                              setState(() {
+                              if (mounted) setState(() {
                                 _isLoading = false; // Stop loading
                               });
                               // You can also use the 'user' object here if needed
@@ -275,7 +275,7 @@ class _loginScreenState extends State<Login> {
                                 ),
 
                               );
-                              setState(() {
+                              if (mounted)setState(() {
                                 _isLoading = false; // Stop loading
                               });
                             }
@@ -286,7 +286,7 @@ class _loginScreenState extends State<Login> {
                                 content: Text('API request failed'),
                               ),
                             );
-                            setState(() {
+                            if (mounted) setState(() {
                               _isLoading = false; // Stop loading
                             });
                           }

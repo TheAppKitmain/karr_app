@@ -43,7 +43,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
 
     return InkWell(
       onTap: () {
-        setState(() {
+        if (mounted)setState(() {
           selectedIndex = index; // Update the selected index
         });
         onTap(); // Call the provided onTap callback

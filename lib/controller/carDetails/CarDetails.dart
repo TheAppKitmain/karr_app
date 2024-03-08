@@ -14,11 +14,12 @@ class _CarDetailsState extends State<CarDetails> {
   String? param_name;
   String? param_value;
   String? licensePlate;
+  bool is_loading=true;
   CarDetailDataClass? cardetailResponse;
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
 
       licensePlate = prefs.getString('license_number');
     });
@@ -42,30 +43,39 @@ class _CarDetailsState extends State<CarDetails> {
 
 
         final cardetailresponse=CarDetailDataClass.fromJson(responseData);
-        setState(() {
-
+        if (mounted)setState(() {
+          is_loading=false;
         });
         cardetailResponse=CarDetailDataClass.fromJson(responseData);
         return cardetailresponse;
 
 
       } else {
+        if (mounted)setState(() {
+          is_loading=false;
+        });
         // Handle error status codes (e.g., show an error message)
-        print('tolls screen :API request failed with status code ${response.statusCode}');
+        print('API request failed with status code ${response.statusCode}');
         return null;
       }
     } catch (e) {
       // Handle network errors or exceptions
-      print('tolls screen :API request error: $e');
+      print('API request error: $e');
+      if (mounted)setState(() {
+        is_loading=false;
+      });
       return null;
     }
   }
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
-    loadUserDetails();
-    fetchCarDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+      fetchCarDetails();
+    });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -88,7 +98,7 @@ class _CarDetailsState extends State<CarDetails> {
           // Center the title horizontally,
           backgroundColor: AppColors.white,
         ),
-        body: SingleChildScrollView(
+        body: is_loading?Center(child: CircularProgressIndicator()):SingleChildScrollView(
             child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Center(
@@ -113,9 +123,9 @@ class _CarDetailsState extends State<CarDetails> {
               ),
               SizedBox(height: 30),
               Text(
-                licensePlate??"N/A",
+                CapitalWOrd.capitalizeWithNumbers(licensePlate!)??"N/A",
                 style: TextStyle(
-                    color: AppColors.primaryColor,
+                    color: AppColors.black,
                     fontSize: height*0.03,
                     fontFamily: "Lato",
                 fontWeight: FontWeight.bold),

@@ -36,7 +36,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
     });
   }
@@ -67,36 +67,39 @@ class _AddCityChargesState extends State<AddCityCharges> {
 
 
           _isLoadingdata=false;
-          setState(() {});
+          if (mounted) setState(() {});
           // Clear the existing list
 
 
         } else {
           // Handle the case where fetching data failed
           _isLoadingdata=false;
-          setState(() {});
+          if (mounted)  setState(() {});
           print('Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
         _isLoadingdata=false;
-        setState(() {});
+        if (mounted) setState(() {});
         print('API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
       _isLoadingdata=false;
-      setState(() {});
+      if (mounted)  setState(() {});
       print('API request error: $e');
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
-    loadUserDetails();
-    fetchallCityCharges();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+      fetchallCityCharges();
+    });
+
   }
 
 
@@ -151,7 +154,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
   }
 
   void onTollChecked(Charges city, bool isSelected) {
-    setState(() {
+    if (mounted) setState(() {
       if (isSelected) {
         selectedCityCharges.add(city);
       } else {
@@ -193,7 +196,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
               height: height*0.12 ,
               onDateChange: (date) {
                 // New date selected
-                setState(() {
+                if (mounted)  setState(() {
                   _selectedDate = date;
                 });
               },
@@ -238,7 +241,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
                     );
                     return; // Return to prevent further execution
                   }
-                  setState(() {
+                  if (mounted) setState(() {
                     _isLoading = true; // Start loading
                   });
                   final response = await addCityCharge();
@@ -247,7 +250,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
                     final message = response['message'] as String;
 
                     if (status) {
-                      setState(() {
+                      if (mounted) setState(() {
                         _isLoading = false; // Start loading
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -260,7 +263,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
                       CustomDialogBox.show(context, status, "City Charge Submitted", "Great! Your city charge has been submitted successfully.");
 
                     }else{
-                      setState(() {
+                      if (mounted)  setState(() {
                         _isLoading = false; // Start loading
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -277,7 +280,7 @@ class _AddCityChargesState extends State<AddCityCharges> {
                         content: Text('API request failed'),
                       ),
                     );
-                    setState(() {
+                    if (mounted)  setState(() {
                       _isLoading = false; // Stop loading
                     });
                   }

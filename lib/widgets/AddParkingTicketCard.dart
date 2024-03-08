@@ -36,12 +36,15 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
   bool isDateChanged = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // if(widget.tickets.ticketIssuer=='Ticket Issuer')
     //   selectedIssuer='Select Issuer';
     // else
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       selectedIssuer=widget.tickets.ticketIssuer;
+
+    });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                               GestureDetector(
                                 onTap: () {
                                   EditTicketDialog.show(context, widget.tickets.pcn ?? "", "PCN Number", (p0) {
-                                    setState(() {
+                                    if (mounted)setState(() {
                                       widget.tickets.pcn = p0;
                                     });
                                   });
@@ -91,7 +94,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                           GestureDetector(
                             onTap: () {
                               EditTicketDialog.show(context, widget.tickets.pcn ?? "", "PCN Number", (p0) {
-                                setState(() {
+                                if (mounted) setState(() {
                                   widget.tickets.pcn = p0;
                                 });
                               });
@@ -116,7 +119,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                           value: selectedIssuer,
                           hint: const Text('Select Issuer'),
                           onChanged: (String? newValue) {
-                            setState(() {
+                            if (mounted)setState(() {
                               selectedIssuer = newValue;
                               widget.tickets.ticketIssuer = newValue;
                             });
@@ -156,7 +159,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                               onTap: () async {
                                 final DateTime? picked = await getDatePicker(context);
                                 if (picked != null) {
-                                  setState(() {
+                                  if (mounted) setState(() {
                                     widget.tickets.date = DateFormat('dd-MM-yyyy').format(picked);
                                     isDateChanged = true;
                                   });
@@ -175,7 +178,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                               onTap: () async {
                                 final DateTime? picked = await getDatePicker(context);
                                 if (picked != null) {
-                                  setState(() {
+                                  if (mounted)setState(() {
                                     widget.tickets.date = DateFormat('dd-MM-yyyy').format(picked);
                                   });
                                 }
@@ -191,7 +194,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                         GestureDetector(
                           onTap: () {
                             EditTicketDialog.show(context, widget.tickets.price ?? "", "Ticket Price", (p0) {
-                              setState(() {
+                              if (mounted)setState(() {
                                 widget.tickets.price = p0;
                               });
                             });
@@ -205,7 +208,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                         GestureDetector(
                           onTap: () {
                             EditTicketDialog.show(context, widget.tickets.price ?? "", "Ticket Price", (p0) {
-                              setState(() {
+                              if (mounted)setState(() {
                                 widget.tickets.price = p0;
                               });
                             });

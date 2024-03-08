@@ -50,9 +50,11 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
     // checkTicketDetails(context);
 
   }
@@ -89,13 +91,13 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
               "Ticket Submitted",
               "Great! Your ticket has been submitted successfully.");
           saveRecentActivity('Ticket added pcn: ${widget.ticket.pcn}');
-          setState(() {
+          if (mounted)setState(() {
             _isLoading =
             false; // Start loading
           });
 
         } else {
-          setState(() {
+          if (mounted)setState(() {
             _isLoading =
             false; // Start loading
           });
@@ -127,7 +129,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
             Text('API request failed'),
           ),
         );
-        setState(() {
+        if (mounted)setState(() {
           _isLoading =
           false; // Stop loading
         });
@@ -138,7 +140,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
       adminid = prefs.getString('adminid');
     });
@@ -172,7 +174,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
       if (response.statusCode == 200) {
         response.stream.transform(utf8.decoder).listen((value) {
           print(value);
-          setState(() {
+          if (mounted)setState(() {
             _isLoading = false;
           });
         });
@@ -190,7 +192,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
         saveRecentActivity('Ticket added pcn: ${widget.ticket.pcn}');
 
       } else {
-        setState(() {
+        if (mounted)setState(() {
           // _isLoading = false;
         });
         // CustomDialoboxTicketPictureUpload.show(context, false, "Ticket not Submitted", "Your Ticket has not been submitted ");
@@ -323,7 +325,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
 
                         checkTicketDetails(context);
                         _isLoading=true;
-                        setState(() {
+                        if (mounted)setState(() {
 
                         });
                       },

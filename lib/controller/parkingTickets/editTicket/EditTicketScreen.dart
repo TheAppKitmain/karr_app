@@ -46,7 +46,9 @@ class _EditTicketScreenState extends State<EditTicketScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
     loadUserDetails();
+    });
   }
 
   void loadUserDetails() async {

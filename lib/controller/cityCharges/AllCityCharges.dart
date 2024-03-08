@@ -23,23 +23,25 @@ class CityCharges extends StatefulWidget {
 }
 
 class _CityChargesState extends State<CityCharges> {
-  List<String> gameList = ["Date", "City"];
+  List<String> gameList = ["All","Date", "City"];
   List<Charges> cityCharges = [];
   bool isLoading = true;
   bool isdateSelected = true;
-  var selectedValue;
+  var selectedValue='All';
 
   String? userid;
 
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
       fetchCityCharges();
     });
@@ -71,24 +73,24 @@ class _CityChargesState extends State<CityCharges> {
           }
           print('Data fetched successfully: $message');
           isLoading = false;
-          setState(() {});
+          if (mounted)setState(() {});
           // Clear the existing list
         } else {
           // Handle the case where fetching data failed
           isLoading = false;
-          setState(() {});
+          if (mounted)setState(() {});
           print('Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
         isLoading = false;
-        setState(() {});
+        if (mounted)setState(() {});
         print('API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
       isLoading = false;
-      setState(() {});
+      if (mounted)setState(() {});
       print('API request error: $e');
     }
   }
@@ -129,17 +131,17 @@ class _CityChargesState extends State<CityCharges> {
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton2<String>(
                       isExpanded: true,
-                      hint: Expanded(
-                        child: Text(
-                          'Sort By',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Lato-Regular',
-                            color: Colors.black,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                      // hint: Expanded(
+                      //   child: Text(
+                      //     'Sort By',
+                      //     style: TextStyle(
+                      //       fontSize: 14,
+                      //       fontFamily: 'Lato-Regular',
+                      //       color: Colors.black,
+                      //     ),
+                      //     overflow: TextOverflow.ellipsis,
+                      //   ),
+                      // ),
                       items: gameList
                           .map((String item) => DropdownMenuItem<String>(
                         value: item,
@@ -156,8 +158,8 @@ class _CityChargesState extends State<CityCharges> {
                           .toList(),
                       value: selectedValue,
                       onChanged: (String? value) {
-                        setState(() {
-                          selectedValue = value;
+                        if (mounted)setState(() {
+                          selectedValue = value!;
                           if(value=='Date')
                             isdateSelected=true;
                           else if(value=='City')
@@ -323,20 +325,20 @@ class _CityChargesState extends State<CityCharges> {
                   ],
                 ),
         ]),
-        floatingActionButton: Visibility(
-          visible: cityCharges.isEmpty?false:true,
-          child: FloatingActionButton(
-            onPressed: () {
-              widget.onNext(7);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => AddCityCharges()),
-              // );
-            },
-            backgroundColor: AppColors.primaryColor,
-            child: const Icon(Icons.add),
-          ),
-        ),
+        // floatingActionButton: Visibility(
+        //   visible: cityCharges.isEmpty?false:true,
+        //   child: FloatingActionButton(
+        //     onPressed: () {
+        //       widget.onNext(7);
+        //       // Navigator.push(
+        //       //   context,
+        //       //   MaterialPageRoute(builder: (context) => AddCityCharges()),
+        //       // );
+        //     },
+        //     backgroundColor: AppColors.primaryColor,
+        //     child: const Icon(Icons.add),
+        //   ),
+        // ),
       ),
     );
   }

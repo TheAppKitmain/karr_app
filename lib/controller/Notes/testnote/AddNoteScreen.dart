@@ -29,25 +29,29 @@ class TestNoteScreen extends StatefulWidget {
 class _TestNoteScreenState extends State<TestNoteScreen> {
 
   List<Note> notes = [];
+  List<Note> allnotes = [];
   List<Note> cityCharges = [];
   List<Note> allTolls = [];
   List<Note> allTickets = [];
 
   bool isLoading = true;
-  List<String> gameList = ["Tolls", "City charges", "Tickets"];
-  var selectedValue;
+  List<String> gameList = ["All","Tolls", "City charges", "Tickets"];
+  var selectedValue='All';
   String? userid;
   String? totalNotesCount='0';
 
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)
+      setState(() {
       userid = prefs.getString('userid');
 
       fetchallNotes();
@@ -78,6 +82,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
             notesJson.forEach((v) {
               if (Note.fromJson(v).notes==null){
                 notes.add(Note.fromJson(v));
+                allnotes.add(Note.fromJson(v));
                 if(Note.fromJson(v).type=='ticket'){
                   allTickets.add(Note.fromJson(v));
                 }
@@ -95,18 +100,19 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
           totalNotesCount=(notes.length).toString();
           print('total notes count$totalNotesCount');
           isLoading = false;
-          setState(() {});
+          if (mounted)
+            setState(() {});
         } else {
           isLoading = false;
-          setState(() {});
+          if (mounted)setState(() {});
         }
       } else {
         isLoading = false;
-        setState(() {});
+        if (mounted)setState(() {});
       }
     } catch (e) {
       isLoading = false;
-      setState(() {});
+      if (mounted)setState(() {});
     }
   }
 
@@ -142,17 +148,17 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton2<String>(
                         isExpanded: true,
-                        hint: Expanded(
-                          child: Text(
-                            'Sort By',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Lato-Regular',
-                              color: Colors.black,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                        // hint: Expanded(
+                        //   child: Text(
+                        //     'Sort By',
+                        //     style: TextStyle(
+                        //       fontSize: 14,
+                        //       fontFamily: 'Lato-Regular',
+                        //       color: Colors.black,
+                        //     ),
+                        //     overflow: TextOverflow.ellipsis,
+                        //   ),
+                        // ),
                         items: gameList
                             .map((String item) => DropdownMenuItem<String>(
                           value: item,
@@ -169,14 +175,16 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
                             .toList(),
                         value: selectedValue,
                         onChanged: (String? value) {
-                          setState(() {
-                            selectedValue = value;
+                          if (mounted)setState(() {
+                            selectedValue = value!;
                             if(selectedValue=='Tolls'){
                                       notes=allTolls;
                                     }else if(selectedValue=='City charges'){
                                       notes=cityCharges;
                                     }else if(selectedValue=='Tickets'){
                                       notes=allTickets;
+                                    }else if(selectedValue=='All'){
+                                      notes=allnotes;
                                     }
                           });
                         },

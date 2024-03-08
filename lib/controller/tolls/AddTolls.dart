@@ -38,13 +38,16 @@ class _AddTollsState extends State<AddTolls> {
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
-    fetchallTolls();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+     loadUserDetails();
+      fetchallTolls();
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if(mounted)
+      setState(() {
       userid = prefs.getString('userid');
     });
   }
@@ -73,25 +76,25 @@ class _AddTollsState extends State<AddTolls> {
           print('Data fetched successfully: $message');
 
           _isLoadingdata=false;
-          setState(() {});
+          if (mounted)setState(() {});
           // Clear the existing list
         } else {
           // Handle the case where fetching data failed
           print('Data fetch failed: $message');
           _isLoadingdata=false;
-          setState(() {});
+          if (mounted)setState(() {});
         }
       } else {
         // Handle error status codes (e.g., show an error message)
         print('API request failed with status code ${response.statusCode}');
         _isLoadingdata=false;
-        setState(() {});
+        if (mounted)setState(() {});
       }
     } catch (e) {
       // Handle network errors or exceptions
       print('API request error: $e');
       _isLoadingdata=false;
-      setState(() {});
+      if (mounted)setState(() {});
     }
   }
 
@@ -143,7 +146,7 @@ class _AddTollsState extends State<AddTolls> {
     }
   }
   void onTollChecked(Toll toll, bool isSelected) {
-    setState(() {
+    if (mounted)setState(() {
       if (isSelected) {
         selectedTolls.add(toll);
       } else {
@@ -190,7 +193,7 @@ class _AddTollsState extends State<AddTolls> {
                 height: height * 0.12,
 
                 onDateChange: (date) {
-                  setState(() {
+                  if (mounted)setState(() {
                     _selectedDate = date;
                     print('selected date is $_selectedDate');
                   });
@@ -224,7 +227,7 @@ class _AddTollsState extends State<AddTolls> {
                       icon: 'assets/svg/arrow1.svg',
                       selected: selectedCardIndex == 0,
                       onSelected: (selected) {
-                        setState(() {
+                        if (mounted)setState(() {
                           selectedCardIndex = selected ? 0 : -1;
                         });
                       },
@@ -241,7 +244,7 @@ class _AddTollsState extends State<AddTolls> {
                       icon: 'assets/svg/arrow2.svg',
                       selected: selectedCardIndex == 1,
                       onSelected: (selected) {
-                        setState(() {
+                        if (mounted)setState(() {
                           selectedCardIndex = selected ? 1 : -1;
                         });
                       },
@@ -314,7 +317,7 @@ class _AddTollsState extends State<AddTolls> {
                     );
                     return; // Return to prevent further execution
                   }
-                  setState(() {
+                  if (mounted)setState(() {
                     _isLoading = true;
                   });
                   final response = await addToll();
@@ -323,7 +326,7 @@ class _AddTollsState extends State<AddTolls> {
                     final message = response['message'] as String;
 
                     if (status) {
-                      setState(() {
+                      if (mounted)setState(() {
                         _isLoading = false;
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -334,7 +337,7 @@ class _AddTollsState extends State<AddTolls> {
                       saveRecentActivity('Toll added');
                       CustomDialogBox.show(context, status, "Toll Submitted", "Great! Your toll has been submitted successfully.");
                     } else {
-                      setState(() {
+                      if (mounted)setState(() {
                         _isLoading = false;
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -350,7 +353,7 @@ class _AddTollsState extends State<AddTolls> {
                         content: Text('API request failed'),
                       ),
                     );
-                    setState(() {
+                    if (mounted)setState(() {
                       _isLoading = false;
                     });
                   }

@@ -28,29 +28,32 @@ class _MyHomePageState extends State<MyHomePage> {
     BottomNavigationBarItem(
       icon: Icon(Icons.person),
       label: 'Profile',
+
     ),
   ];
   int _currentIndex = 0;
+  int _currentbottomIndex = 0;
   PageController _pageController = PageController();
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  //
+  // @override
+  // void dispose() {
+  //   _pageController.dispose();
+  //   super.dispose();
+  // }
 
   Future<void> _onItemTapped(int index) async {
-    // if(_currentIndex==index){
-    //
-    // }else{
-      setState(() {
+    if(_currentIndex==index){
+
+    }else{
+    if (mounted)setState(() {
         _currentIndex = index;
+        _currentbottomIndex=index;
       });
       _pageController.jumpToPage((index ?? 0)-1);
       await  _pageController.animateToPage(index??0,
           duration: Duration(milliseconds: 200),
           curve: Curves.easeInOut);
-    // }
+    }
 
   }
 
@@ -63,8 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
         controller: _pageController,
         children: [
           HomeScreen(
-            onNext: (v) {
-              setState(() async {
+            onNext: (v) async {
+
+              print('next from home $v');
                 _currentIndex=v??0;
 
                 // _pageController.jumpToPage(v ?? 0,
@@ -74,21 +78,22 @@ class _MyHomePageState extends State<MyHomePage> {
               await  _pageController.animateToPage(v??0,
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeInOut);
-
+                if (mounted) setState(()  {
 
               });
             },
           ),
-          Step1Screen(onNext: (v) {
-            setState(() async {
+          Step1Screen(onNext: (v) async {
+
               // _currentIndex=v??0;
               _pageController.jumpToPage((v ?? 0)-1);
               await  _pageController.animateToPage(v??0,
                   duration: Duration(milliseconds: 200),
                   curve: Curves.easeInOut);
-            });
+              if (mounted)setState(()  { });
           }, onPrevious: (v) {
-            setState(() {
+            if (mounted)setState(() {
+              print('page index $v');
               _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
@@ -96,92 +101,98 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
           ProfileScreen(),
           ParkingTickets(onNext: (v) {
-            setState(() {
+            if (mounted) setState(() {
               // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }, onPrevious: (v) {
-            setState(() {
-              _currentIndex=v??0;
+            if (mounted) setState(() {
+              // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }), //3
-          AddTolls(onNext: (v) {
-            setState(() {
-              // _currentIndex=v??0;
-              _pageController.animateToPage(v ?? 0,
-                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
-            });
-          }, onPrevious: (v) {
-            setState(() {
-              _currentIndex=v??0;
-              _pageController.animateToPage(v ?? 0,
-                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
-            });
-          }), //4
-          AllTolls(onNext: (v) {
-            setState(() {
-              // _currentIndex=v??0;
-              _pageController.animateToPage(v ?? 0,
-                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
-            });
-          }, onPrevious: (v) {
-            setState(() {
-              _currentIndex=v??0;
-              _pageController.animateToPage(v ?? 0,
-                  duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
-            });
-          }), //5
+          Container(
+            child: AddTolls(onNext: (v) {
+              if (mounted)setState(() {
+                // _currentIndex=v??0;
+                _pageController.animateToPage(v ?? 0,
+                    duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+              });
+            }, onPrevious: (v) {
+              if (mounted) setState(() {
+                print('back from add tolls $v');
+                _currentIndex=v??0;
+                _pageController.animateToPage(v ?? 0,
+                    duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+              });
+            }),
+          ), //4
+          Container(
+            child: AllTolls(onNext: (v) {
+              if (mounted) setState(() {
+                // _currentIndex=v??0;
+                _pageController.animateToPage(v ?? 0,
+                    duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+              });
+            }, onPrevious: (v) {
+              if (mounted)setState(() {
+                print('back from all tolls $v');
+                _currentIndex=v??0;
+                _pageController.animateToPage(v ?? 0,
+                    duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
+              });
+            }),
+          ), //5
           CityCharges(onNext: (v) {
-            setState(() {
+            if (mounted) setState(() {
               // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }, onPrevious: (v) {
-            setState(() {
-              _currentIndex=v??0;
+            if (mounted)setState(() {
+              // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }), //6
           AddCityCharges(onNext: (v) {
-            setState(() {
+            if (mounted) setState(() {
               // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }, onPrevious: (v) {
-            setState(() {
-              _currentIndex=v??0;
+            if (mounted)setState(() {
+              // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }), //7
           ViewAllNotesScreen(onNext: (v) {
-            setState(() {
+            if (mounted)setState(() {
               // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }, onPrevious: (v) {
-            setState(() {
-              _currentIndex=v??0;
+            if (mounted)setState(() {
+              // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }), //8
           TestNoteScreen(onNext: (v) {
-            setState(() {
+            if (mounted) setState(() {
               // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
           }, onPrevious: (v) {
-            setState(() {
-              _currentIndex=v??0;
+            if (mounted)setState(() {
+              // _currentIndex=v??0;
               _pageController.animateToPage(v ?? 0,
                   duration: Duration(milliseconds: 1), curve: Curves.bounceIn);
             });
@@ -191,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: AppColors.primaryColor,
         items: bottomNavigationBarItems,
-        currentIndex: _currentIndex,
+        currentIndex: _currentbottomIndex ,
         onTap: _onItemTapped,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -199,7 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.only(top: 50),
         child: FloatingActionButton(
             onPressed: () {
-              setState(() {
+              if (mounted) setState(() {
                 _currentIndex = 1;
                 _pageController.animateToPage(1,
                     duration: Duration(milliseconds: 1),

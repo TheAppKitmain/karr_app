@@ -33,12 +33,15 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
-    initializeCamera();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+      initializeCamera();
+    });
+
   }
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
       adminid = prefs.getString('adminid');
     });
@@ -50,7 +53,7 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
     if (!mounted) {
       return;
     }
-    setState(() {
+    if (mounted)setState(() {
       isReady = true;
     });
   }
@@ -64,7 +67,7 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
       capturedImage = File(image.path);
 
       textScanning=true;
-      setState(() {
+      if (mounted)setState(() {
 
       });
       // getRecognisedText(XFile(image.path));
@@ -105,13 +108,13 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
       if (response.statusCode == 200) {
         response.stream.transform(utf8.decoder).listen((value) {
           print(value);
-          setState(() {
+          if (mounted)setState(() {
             _isLoading = false;
           });
         });
         CustomDialoboxTicketPictureUpload.show(context, true, "Ticket Submitted", "Great! Your ticket has been submitted successfully.");
       } else {
-        setState(() {
+        if (mounted)setState(() {
           _isLoading = false;
         });
         CustomDialoboxTicketPictureUpload.show(context, false, "Ticket not Submitted", "Your Ticket has not been submitted ");
@@ -164,7 +167,7 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
                         // ...
 
                         // Reset the UI for capturing the next image
-                        setState(() {
+                        if (mounted)setState(() {
                           _isLoading = true;
                         });
                         upload( capturedImage!,context);

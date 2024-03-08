@@ -29,12 +29,14 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted) setState(() {
       userid = prefs.getString('userid');
       fetchallTickets();
     });
@@ -68,18 +70,18 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
           }
 
           isLoading = false; // Set loading to false after data is fetched
-          setState(() {});
+          if (mounted)  setState(() {});
         } else {
           isLoading = false; // Set loading to false even on failure
-          setState(() {});
+          if (mounted) setState(() {});
         }
       } else {
         isLoading = false; // Set loading to false on API request failure
-        setState(() {});
+        if (mounted) setState(() {});
       }
     } catch (e) {
       isLoading = false; // Set loading to false on error
-      setState(() {});
+      if (mounted)  setState(() {});
     }
   }
   Future<void> deleteTickets(int ticket_id) async {
@@ -104,7 +106,7 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
         if (status) {
           allTickets.removeWhere((ticket) => ticket.id == ticket_id);
           isLoading = true;
-          setState(() {
+          if (mounted) setState(() {
             fetchallTickets();
           });
           Navigator.pop(context);

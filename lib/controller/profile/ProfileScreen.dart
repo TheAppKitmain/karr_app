@@ -38,13 +38,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     // Load user details from shared preferences when the screen is initialized
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
   }
 
   // Function to load user details from shared preferences
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userName = prefs.getString('name');
       userEmail = prefs.getString('email');
       phoneNumber = prefs.getString('usernumber');
@@ -91,26 +93,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
           // isLoading = false;
-          setState(() {});
+          if(mounted)setState(() {});
           // Clear the existing list
 
 
         } else {
           // Handle the case where fetching data failed
           // isLoading = false;
-          setState(() {});
+          if (mounted) setState(() {});
           print('tolls screen :Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
         // isLoading = false;
-        setState(() {});
+        if (mounted) setState(() {});
         print('tolls screen :API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
       // isLoading = false;
-      setState(() {});
+      if (mounted)setState(() {});
       print('tolls screen :API request error: $e');
     }
   }
@@ -140,24 +142,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
           }
           print('Data fetched successfully: $message');
           // isLoading = false;
-          setState(() {});
+          if (mounted)setState(() {});
           // Clear the existing list
         } else {
           // Handle the case where fetching data failed
           // isLoading = false;
-          setState(() {});
+          if (mounted)setState(() {});
           print('Data fetch failed: $message');
         }
       } else {
         // Handle error status codes (e.g., show an error message)
         // isLoading = false;
-        setState(() {});
+        if (mounted)setState(() {});
         print('API request failed with status code ${response.statusCode}');
       }
     } catch (e) {
       // Handle network errors or exceptions
       // isLoading = false;
-      setState(() {});
+      if (mounted)setState(() {});
       print('API request error: $e');
     }
   }
@@ -189,18 +191,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           }
 
           // isLoading = false; // Set loading to false after data is fetched
-          setState(() {});
+          if (mounted)setState(() {});
         } else {
           // isLoading = false; // Set loading to false even on failure
-          setState(() {});
+          if (mounted)setState(() {});
         }
       } else {
         // isLoading = false; // Set loading to false on API request failure
-        setState(() {});
+        if (mounted)setState(() {});
       }
     } catch (e) {
       // isLoading = false; // Set loading to false on error
-      setState(() {});
+      if (mounted)setState(() {});
     }
   }
   Future<void> fetchallCount() async {
@@ -232,18 +234,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
           // isLoading = false; // Set loading to false after data is fetched
-          setState(() {});
+          if (mounted)setState(() {});
         } else {
           // isLoading = false; // Set loading to false even on failure
-          setState(() {});
+          if (mounted)setState(() {});
         }
       } else {
         // isLoading = false; // Set loading to false on API request failure
-        setState(() {});
+        if (mounted)setState(() {});
       }
     } catch (e) {
       // isLoading = false; // Set loading to false on error
-      setState(() {});
+      if (mounted)setState(() {});
     }
   }
 
@@ -417,7 +419,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 width: 10,
                                               ),
                                               Text(
-                                                licensePlate??"License plate",
+                                                CapitalWOrd.capitalizeWithNumbers(licensePlate??"")??"License plate",
                                                 style: TextStyle(
                                                     fontSize: fontSize*1.4,
                                                     color: AppColors.black),
@@ -496,7 +498,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           children: [
                                             GestureDetector(
                                               onTap: (){
-                                                setState(() {
+                                                if (mounted)setState(() {
                                                   _isSelectedcity=false;
                                                   _isSelectedtoll=false;
                                                   _isSelectedparking=true;
@@ -529,7 +531,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                             GestureDetector(
                                               onTap: (){
-                                                setState(() {
+                                                if (mounted)setState(() {
                                                   _isSelectedcity=false;
                                                   _isSelectedtoll=true;
                                                   _isSelectedparking=false;
@@ -562,7 +564,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                                             GestureDetector(
                                               onTap: (){
-                                                setState(() {
+                                                if (mounted)setState(() {
                                                   _isSelectedcity=true;
                                                   _isSelectedtoll=false;
                                                   _isSelectedparking=false;
@@ -663,11 +665,77 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     width: 1.0, // Set the border width here
                                   ),
                                 ),
-                                child: CircleAvatar(
-                                  radius: 50.0,
-                                  backgroundImage: NetworkImage("${logo}"),
-                                  backgroundColor: Colors.transparent,
+
+                                child: ClipOval(
+                                  child: Container(
+                                    width: 100,
+                                    height:  100,
+                                    color: Colors.grey,
+
+                                    child:Image.network(
+                                      "${logo}",
+                                      width: 100,
+                                      height: 100,
+
+                                      fit: BoxFit.cover,
+                                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        } else {
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.amber,
+                                              value: loadingProgress.expectedTotalBytes != null
+                                                  ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                                  : null,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      errorBuilder: (context, error, stackTrace) {
+                                        // If there is an error loading the network image, show a placeholder image
+                                        return  Center(
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 50.0,
+                                            color: AppColors.primaryColor, // Color of the person icon
+                                          ),
+                                        );// You can replace this with your custom error widget
+                                      },
+                                    ),
+                                  ),
                                 ),
+
+                                //
+                                // child: CircleAvatar(
+                                //   radius: 50.0,
+                                //   backgroundImage: Image.network("${logo}",
+                                //
+                                //     loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                //       if (loadingProgress == null) {
+                                //         return child;
+                                //       } else {
+                                //         return Center(
+                                //           child: CircularProgressIndicator(
+                                //             value: loadingProgress.expectedTotalBytes != null
+                                //                 ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                //                 : null,
+                                //           ),
+                                //         );
+                                //       }
+                                //     },
+                                //     errorBuilder: (context, error, stackTrace) {
+                                //       // If there is an error loading the network image, show a placeholder image
+                                //       return  Center(
+                                //         child: Icon(
+                                //           Icons.person,
+                                //           size: 50.0,
+                                //           color: AppColors.color_primary, // Color of the person icon
+                                //         ),
+                                //       );// You can replace this with your custom error widget
+                                //     },),
+                                //   backgroundColor: Colors.transparent,
+                                // ),
                               )
 
                           ),

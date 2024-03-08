@@ -23,13 +23,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     // Load user details from shared preferences when the screen is initialized
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
   }
 
   // Function to load user details from shared preferences
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userName = prefs.getString('name');
       userEmail = prefs.getString('email');
       phoneNumber = prefs.getString('usernumber');

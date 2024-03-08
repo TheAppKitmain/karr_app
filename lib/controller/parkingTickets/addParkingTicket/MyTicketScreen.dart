@@ -61,7 +61,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
                     ? CameraScreen( image: (image){
                       captureimage=image;
             },onPrevious: () {
-                        setState(() {
+                        if (mounted)setState(() {
                           currentStep = 0;
                         });
                       },
@@ -71,7 +71,7 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
               // date = prefs.getString('Ticket_date') ?? '';
               // charge = prefs.getString('Ticket_charge') ?? '';
 
-              setState(()  {
+              if (mounted)setState(()  {
                 ticket_number = prefs.getString('Ticket_number') ?? '';
                 date = prefs.getString('Ticket_date') ?? '';
                 charge = prefs.getString('Ticket_charge') ?? '';
@@ -86,17 +86,17 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
               });
                       }):currentStep == 1
                     ? ReviewDetailScreen(capturedImage: captureimage,onPrevious: () {
-                        setState(() {
+                        if (mounted)setState(() {
                           currentStep = 0;
                         });
                       }, onNext: () {
-                        setState(() {
+                        if (mounted)setState(() {
                           currentStep = 2;
                         });
                       }, ticket: t,)
                     : Step3Screen(
                         onPrevious: () {
-                          setState(() {
+                          if (mounted)setState(() {
                             currentStep = 1;
                           });
                         },

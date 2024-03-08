@@ -34,7 +34,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted)setState(() {
       userid = prefs.getString('userid');
     });
   }
@@ -134,7 +134,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   obscureText: _isObscure,
                   onTogglePasswordStatus: () {
                     _isObscure = !_isObscure;
-                    setState(() {});
+                    if (mounted)setState(() {});
                   },
                 ),
               ),
@@ -161,7 +161,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   obscureText: _isObscure,
                   onTogglePasswordStatus: () {
                     _isObscure = !_isObscure;
-                    setState(() {});
+                    if (mounted)setState(() {});
                   },
                 ),
               ),
@@ -188,7 +188,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                   obscureText: _isObscure,
                   onTogglePasswordStatus: () {
                     _isObscure = !_isObscure;
-                    setState(() {});
+                    if (mounted)setState(() {});
                   },
                 ),
               ),
@@ -203,7 +203,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                               if (_formKey.currentState!.validate()) {
                                 if (_newPasswordController.text ==
                                     _confirmPasswordController.text) {
-                                  setState(() {
+                                  if (mounted)setState(() {
                                     _isLoading = true; // Start loading
                                   });
                                   // Validation successful, navigate to the next screen
@@ -231,7 +231,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                                       CustomDialogBox.show(context, true,
                                           "Update Successfuly", message);
 
-                                      setState(() {
+                                      if (mounted)setState(() {
                                         _isLoading = false; // Stop loading
                                       });
                                       // You can also use the 'user' object here if needed
@@ -243,7 +243,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                                           content: Text(' $message'),
                                         ),
                                       );
-                                      setState(() {
+                                      if (mounted)setState(() {
                                         _isLoading = false; // Stop loading
                                       });
                                     }
@@ -254,7 +254,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                                         content: Text('API request failed'),
                                       ),
                                     );
-                                    setState(() {
+                                    if (mounted)setState(() {
                                       _isLoading = false; // Stop loading
                                     });
                                   }

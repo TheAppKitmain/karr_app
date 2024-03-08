@@ -88,7 +88,7 @@ class _AddCityChargeItemViewState extends State<AddItemView> {
                   child: Checkbox(
                     value: _rememberMe,
                     onChanged: (bool? value) {
-                      setState(() {
+                      if (mounted)setState(() {
                         _rememberMe = value ?? false;
                         widget.tolls.ischecked = _rememberMe;
                         widget.onTollChecked(widget.tolls, _rememberMe); // Call the callback

@@ -23,12 +23,14 @@ class _TicketHistoryState extends State<TicketHistory> {
   @override
   void initState() {
     super.initState();
-    loadUserDetails();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadUserDetails();
+    });
   }
 
   void loadUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+    if (mounted) setState(() {
       userid = prefs.getString('userid');
       fetchallTickets();
     });
@@ -62,18 +64,18 @@ class _TicketHistoryState extends State<TicketHistory> {
           }
 
           isLoading = false;
-          setState(() {});
+          if (mounted)  setState(() {});
         } else {
           isLoading = false;
-          setState(() {});
+          if (mounted) setState(() {});
         }
       } else {
         isLoading = false;
-        setState(() {});
+        if (mounted)  setState(() {});
       }
     } catch (e) {
       isLoading = false;
-      setState(() {});
+      if (mounted)  setState(() {});
     }
   }
 
