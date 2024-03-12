@@ -30,7 +30,7 @@ class Toll {
   final String name;
    String? note;
    bool? ischecked;
-  final List<String> days; // Change the type to List<String>
+  final String days; // Change the type to List<String>
   final String price;
 
   final String createdAt;
@@ -54,7 +54,7 @@ class Toll {
     return Toll(
       id: json['id'] as int,
       name: json['name'] as String,
-      days: parsedDays,
+      days: parsedDays.join(', '),
       price: json['price'] as String,
 
       createdAt: json['created_at'] as String,

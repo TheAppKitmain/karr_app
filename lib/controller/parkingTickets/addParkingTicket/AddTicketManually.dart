@@ -103,6 +103,8 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
     if (picked != null && picked != _date) {
       if (mounted)setState(() {
         _date = picked;
+        print("date in format$picked");
+
         // _dateController.text = DateFormat('dd-MM-yyyy')
         _dateController.text =
             formatWithSuffix(picked); // Format the date as needed
@@ -343,74 +345,77 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: DropdownButton2<String>(
+                                isExpanded: true,
 
-                              // hint: Expanded(
-                              //   child: Text(
-                              //     'Select Issuer',
-                              //     style: TextStyle(
-                              //       fontSize: 14,
-                              //       fontFamily: 'Lato-Regular',
-                              //       color: Colors.black38,
-                              //     ),
-                              //     overflow: TextOverflow.ellipsis,
-                              //   ),
-                              // ),
-                              items: _ticketsIssuerList
-                                  .map((String item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontFamily: 'Lato-Regular'
+                                // hint: Expanded(
+                                //   child: Text(
+                                //     'Select Issuer',
+                                //     style: TextStyle(
+                                //       fontSize: 14,
+                                //       fontFamily: 'Lato-Regular',
+                                //       color: Colors.black38,
+                                //     ),
+                                //     overflow: TextOverflow.ellipsis,
+                                //   ),
+                                // ),
+                                items: _ticketsIssuerList
+                                    .map((String item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontFamily: 'Lato-Regular'
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ))
-                                  .toList(),
-                              value: _selectedIssuer,
-                              onChanged: (String? value) {
-                                if (mounted)setState(() {
-                                  _selectedIssuer = value;
+                                ))
+                                    .toList(),
+                                value: _selectedIssuer,
+                                onChanged: (String? value) {
+                                  if (mounted)setState(() {
+                                    _selectedIssuer = value;
 
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                height: 50,
-                                width: width*0.9,
+                                  });
+                                },
+                                buttonStyleData: ButtonStyleData(
+                                  height: 50,
+                                  width: width*0.9,
 
-                                // padding: const EdgeInsets.only(left: 14, right: 14),
+                                  // padding: const EdgeInsets.only(left: 14, right: 14),
 
 
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down_outlined,
                                 ),
-                                iconSize: 18,
-                                // iconEnabledColor: Colors.yellow,
-                                // iconDisabledColor: Colors.grey,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                maxHeight: 200,
-                                width: width*0.9,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
+                                iconStyleData: const IconStyleData(
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                  ),
+                                  iconSize: 18,
+                                  // iconEnabledColor: Colors.yellow,
+                                  // iconDisabledColor: Colors.grey,
                                 ),
-                                offset: const Offset(-20, 0),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(40),
-                                  thickness: MaterialStateProperty.all<double>(6),
-                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                dropdownStyleData: DropdownStyleData(
+                                  maxHeight: 200,
+                                  width: width*0.9,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14),
+                                    color: Colors.white,
+                                  ),
+                                  offset: const Offset(-20, 0),
+                                  scrollbarTheme: ScrollbarThemeData(
+                                    radius: const Radius.circular(40),
+                                    thickness: MaterialStateProperty.all<double>(6),
+                                    thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                  ),
                                 ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
+                                menuItemStyleData: const MenuItemStyleData(
+                                  height: 40,
+                                  padding: EdgeInsets.only(left: 14, right: 14),
+                                ),
                               ),
                             ),
                           ),
@@ -493,7 +498,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                   content: Text(' $message'),
                                                 ),
                                               );*/
-                                              saveRecentActivity('Ticket added pcn: ${_pcnNumberController.text}');
+                                              saveRecentActivity('PCN: ${_pcnNumberController.text}');
                                               CustomDialogBox.show(
                                                   context,
                                                   status,

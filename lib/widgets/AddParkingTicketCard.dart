@@ -32,7 +32,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
     "HAVERING", "HILLINGDON", "HOUNSLOW", "ISLINGTON", "HAMMERRSMITH & FULHAM", "HARINGEY", "HARROWCOUNCIL", "KENSINGTON AND CHELSEA", "KINGSTON UPON THAMES", "LAMBETH",
     "LEWISHAM", "NEWHAM", "REDBRIDGE", "RICHMOND", "SUTTON", "TRANSPORT FOR LONDON", "TOWER HAMLETS", "WALTHAM FOROST", "WANDSWORTH", "WESTMINSTER"
   ];
-  late String? selectedIssuer;
+   String? selectedIssuer;
   bool isDateChanged = false;
   @override
   void initState() {

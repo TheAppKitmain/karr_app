@@ -90,7 +90,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
               status,
               "Ticket Submitted",
               "Great! Your ticket has been submitted successfully.");
-          saveRecentActivity('Ticket added pcn: ${widget.ticket.pcn}');
+          saveRecentActivity('PCN: ${widget.ticket.pcn}');
           if (mounted)setState(() {
             _isLoading =
             false; // Start loading
@@ -189,7 +189,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
             status,
             "Ticket Submitted",
             "Great! Your ticket has been submitted successfully.");
-        saveRecentActivity('Ticket added pcn: ${widget.ticket.pcn}');
+        saveRecentActivity('PCN: ${widget.ticket.pcn}');
 
       } else {
         if (mounted)setState(() {

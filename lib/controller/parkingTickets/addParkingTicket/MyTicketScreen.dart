@@ -29,80 +29,86 @@ class _MyTicketScreenState extends State<MyTicketScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.white,
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: AppColors.white,
-      ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Spacer(),
-              Text(
-                "Step ${currentStep + 1}",
-                style: TextStyle(
-                    color: AppColors.black, fontFamily: "Lato", fontSize: 18),
-              ),
-              SizedBox(
-                width: 20,
-              )
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          CustomStepper(
-            steps: 2,
-            currentStep: currentStep,
-          ),
-          Expanded(
-            child:  currentStep == 0
-                    ? CameraScreen( image: (image){
-                      captureimage=image;
-            },onPrevious: () {
-                        if (mounted)setState(() {
-                          currentStep = 0;
-                        });
-                      },
-                onNext: () async {
-              final prefs = await SharedPreferences.getInstance();
-              // ticket_number = prefs.getString('Ticket_number') ?? '';
-              // date = prefs.getString('Ticket_date') ?? '';
-              // charge = prefs.getString('Ticket_charge') ?? '';
-
-              if (mounted)setState(()  {
-                ticket_number = prefs.getString('Ticket_number') ?? '';
-                date = prefs.getString('Ticket_date') ?? '';
-                charge = prefs.getString('Ticket_charge') ?? '';
-                issuer = prefs.getString('Issuer_name') ?? '';
-
-                t.pcn=ticket_number;
-                t.date=date;
-                t.price=charge;
-                t.ticketIssuer=issuer;
-                print("scanned text is $ticket_number,$date,$charge,$issuer");
-                currentStep = 1;
-              });
-                      }):currentStep == 1
-                    ? ReviewDetailScreen(capturedImage: captureimage,onPrevious: () {
-                        if (mounted)setState(() {
-                          currentStep = 0;
-                        });
-                      }, onNext: () {
-                        if (mounted)setState(() {
-                          currentStep = 2;
-                        });
-                      }, ticket: t,)
-                    : Step3Screen(
-                        onPrevious: () {
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   toolbarHeight: 40,
+      //   iconTheme: const IconThemeData(color: Colors.black),
+      //   backgroundColor: AppColors.white,
+      // ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                IconButton(onPressed: (){
+                  Navigator.pop(context);
+                }, icon: Icon(Platform.isAndroid?Icons.arrow_back:Icons.arrow_back_ios)),
+                Spacer(),
+                Text(
+                  "Step ${currentStep + 1}",
+                  style: TextStyle(
+                      color: AppColors.black, fontFamily: "Lato", fontSize: 14),
+                ),
+                SizedBox(
+                  width: 20,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            CustomStepper(
+              steps: 2,
+              currentStep: currentStep,
+            ),
+            Expanded(
+              child:  currentStep == 0
+                      ? CameraScreen( image: (image){
+                        captureimage=image;
+              },onPrevious: () {
                           if (mounted)setState(() {
-                            currentStep = 1;
+                            currentStep = 0;
                           });
                         },
-                      ),
-          ),
-        ],
+                  onNext: () async {
+                final prefs = await SharedPreferences.getInstance();
+                // ticket_number = prefs.getString('Ticket_number') ?? '';
+                // date = prefs.getString('Ticket_date') ?? '';
+                // charge = prefs.getString('Ticket_charge') ?? '';
+        
+                if (mounted)setState(()  {
+                  ticket_number = prefs.getString('Ticket_number') ?? '';
+                  date = prefs.getString('Ticket_date') ?? '';
+                  charge = prefs.getString('Ticket_charge') ?? '';
+                  issuer = prefs.getString('Issuer_name') ?? '';
+        
+                  t.pcn=ticket_number;
+                  t.date=date;
+                  t.price=charge;
+                  t.ticketIssuer=issuer;
+                  print("scanned text is $ticket_number,$date,$charge,$issuer");
+                  currentStep = 1;
+                });
+                        }):currentStep == 1
+                      ? ReviewDetailScreen(capturedImage: captureimage,onPrevious: () {
+                          if (mounted)setState(() {
+                            currentStep = 0;
+                          });
+                        }, onNext: () {
+                          if (mounted)setState(() {
+                            currentStep = 2;
+                          });
+                        }, ticket: t,)
+                      : Step3Screen(
+                          onPrevious: () {
+                            if (mounted)setState(() {
+                              currentStep = 1;
+                            });
+                          },
+                        ),
+            ),
+          ],
+        ),
       ),
     );
   }

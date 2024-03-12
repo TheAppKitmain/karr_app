@@ -352,7 +352,7 @@ class _EditTicketScreenState extends State<EditTicketScreen> {
                                                   content: Text(' $message'),
                                                 ),
                                               );*/
-                                    saveRecentActivity('Ticket updated pcn: ${widget.ticket.pcn}');
+                                    saveRecentActivity('Updated PCN: ${widget.ticket.pcn}');
                                     CustomDialogBox.show(
                                         context,
                                         status,

@@ -79,9 +79,9 @@ Future<void> saveRecentActivity(String activity) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> activities = prefs.getStringList('recent_activities') ?? [];
-    String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    String currentDate = DateFormat('dd MMM yy').format(DateTime.now());
     String timestamp = DateFormat('hh:mm a').format(DateTime.now()); // Format current time
-    String activityWithTime = '$currentDate:$activity \n $timestamp'; // Combine activity with time
+    String activityWithTime = '$activity / $currentDate: / $timestamp'; // Combine activity with time
     activities.add(activityWithTime); // Insert at the beginning of the list
     // Keep only the latest 10 activities
     // activities = activities.sublist(0, 10);

@@ -113,6 +113,8 @@ class _CameraScreenState extends State<CameraScreen> {
       try {
         DateTime date = DateFormat(format).parse(dateString);
         // Format the parsed date into "YYYY-MM-DD" format
+
+        print("date in ticket format is ${DateFormat('dd-MM-yyyy').format(date)}");
         return DateFormat('dd-MM-yyyy').format(date);
       } catch (e) {
         // If parsing fails, continue to the next format
@@ -225,93 +227,30 @@ class _CameraScreenState extends State<CameraScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
-          if (isReady) CameraPreview(_controller),
-          if (textScanning)
-            Container(
-              color: Colors.black,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "PCN Number: ${pcnNumber}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: width * 0.07,
-                    ),
-                  ),
-                  Text(
-                    "Date: ${date}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: width * 0.07,
-                    ),
-                  ),
-                  Text(
-                    "Vehicle Number: ${issuerName}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: width * 0.07,
-                    ),
-                  ),
-                  Text(
-                    charge,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: width * 0.07,
-                    ),
-                  ),
-                  Image.file(
-                    capturedImage!,
-                    width: 200, // Adjust the width as needed
-                    height: 200, // Adjust the height as needed
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // Handle the "Next" button click
-                      String updatedText = textController.text;
-                      await SharedStorage().saveStringToLocalStorage('Ticket_number', updatedText);
-                      onNext();
-                      // Perform further actions with the updated text
-                      // ...
+          if (isReady) Container(height:height*0.75,child: CameraPreview(_controller)),
 
-                      // Reset the UI for capturing the next image
-                      if (mounted)setState(() {
-                        textScanning = false;
-                        textController.clear();
-                      });
-                    },
-                    child: Text("Next"),
-                  ),
-                ],
-              ),
-            ),
-          if (!textScanning)
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Container(
-                      color: Colors.black,
-                      child: ElevatedButton(
-                        onPressed: captureAndProcess,
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                          foregroundColor: MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: Icon(
-                          Icons.camera,
-                          size: 60,
-                        ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    color: Colors.black,
+                    child: ElevatedButton(
+                      onPressed: captureAndProcess,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                        foregroundColor: MaterialStateProperty.all(Colors.white),
+                      ),
+                      child: Icon(
+                        Icons.camera,
+                        size: 60,
                       ),
                     ),
                   ),
-                  SizedBox(height: height*0.06,),
-                ],
-              ),
+                ),
+                SizedBox(height: height*0.02,),
+              ],
             ),
         ],
       ),

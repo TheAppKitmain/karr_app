@@ -260,6 +260,7 @@ class _loginScreenState extends State<Login> {
                              await SharedStorage().saveStringToLocalStorage('adminid', "${user.userid!}");
                              await SharedStorage().saveBoolToLocalStorage('remember_me', _rememberMe);
                              await SharedStorage().saveStringToLocalStorage('logo', logo);
+                             await SharedStorage().saveStringToLocalStorage('password', password);
 
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage(),), (route) => false);
 

@@ -219,25 +219,23 @@ class _CityChargesState extends State<CityCharges> {
           ):
           cityCharges.isNotEmpty
               ?isdateSelected?
-              Expanded(
-                child: GroupedListView(elements: cityCharges, groupBy:  (element) => element.date!, groupComparator: (value1, value2) => value2.compareTo(value1),
-                  itemComparator: (item1, item2) =>
-                      item1.id.toString().compareTo(item2.id.toString()),
-                  order: GroupedListOrder.DESC,
+              GroupedListView(elements: cityCharges, groupBy:  (element) => element.date!, groupComparator: (value1, value2) => value2.compareTo(value1),
+                itemComparator: (item1, item2) =>
+                    item1.id.toString().compareTo(item2.id.toString()),
+                order: GroupedListOrder.DESC,
 
-                  groupSeparatorBuilder: (String value) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextWithLines(text: formatDate(value)),
-                    // Text(
-                    //
-                    //   textAlign: TextAlign.center,
-                    //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    // ),
-                  ),itemBuilder: (c, element) {
-                  return AllCityChargeItemView(
-                                      cityCharge: element);
-                },),
-              ):Expanded(
+                groupSeparatorBuilder: (String value) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextWithLines(text: formatDate(value)),
+                  // Text(
+                  //
+                  //   textAlign: TextAlign.center,
+                  //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  // ),
+                ),itemBuilder: (c, element) {
+                return AllCityChargeItemView(
+                                    cityCharge: element);
+              },):Expanded(
             child: GroupedListView(elements: cityCharges, groupBy:  (element) => element.name!, groupComparator: (value1, value2) => value2.compareTo(value1),
               itemComparator: (item1, item2) =>
                   item1.id.toString().compareTo(item2.id.toString()),
