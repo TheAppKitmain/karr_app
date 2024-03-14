@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaar/controller/Notes/ActivityDataClass/ActivityDataClass.dart';
 import 'package:kaar/controller/parkingTickets/parkingTicketsOcrScreens/EditTicketDialog.dart';
+import 'package:kaar/utils/Constants.dart';
 import 'package:kaar/widgets/date_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -75,12 +76,13 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                             children: [
                                Text(
                                 'PCN Number',
-                                style:  TextStyle(fontSize: width*0.05, fontWeight: FontWeight.bold),
+                                style:  TextStyle(fontSize: width*0.04, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(width: 8,),
                               GestureDetector(
                                 onTap: () {
-                                  EditTicketDialog.show(context, widget.tickets.pcn ?? "", "PCN Number", (p0) {
+                                  EditTicketDialog.show(context,
+                                      CapitalWOrd.capitalizeWithNumbers(widget.tickets.pcn?? "") , "PCN Number", (p0) {
                                     if (mounted)setState(() {
                                       widget.tickets.pcn = p0;
                                     });
@@ -93,14 +95,14 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                           const SizedBox(height: 8),
                           GestureDetector(
                             onTap: () {
-                              EditTicketDialog.show(context, widget.tickets.pcn ?? "", "PCN Number", (p0) {
+                              EditTicketDialog.show(context, CapitalWOrd.capitalizeWithNumbers(widget.tickets.pcn?? "") , "PCN Number", (p0) {
                                 if (mounted) setState(() {
                                   widget.tickets.pcn = p0;
                                 });
                               });
                             },
                             child: Text(
-                              widget.tickets.pcn ?? "",
+                              CapitalWOrd.capitalizeWithNumbers(widget.tickets.pcn ?? ""),
                               style:  TextStyle(fontSize: width*0.039),
                             ),
                           ),
@@ -147,7 +149,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                 const DottedLine(
                   dashColor: Colors.black,
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[

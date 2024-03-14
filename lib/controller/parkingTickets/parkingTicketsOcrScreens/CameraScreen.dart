@@ -29,6 +29,9 @@ class _CameraScreenState extends State<CameraScreen> {
   _CameraScreenState({required this.onPrevious, required this.onNext});
 
   late CameraController _controller;
+  bool showFocusCircle = false;
+  double x = 0;
+  double y = 0;
   bool isReady = false;
   bool textScanning = false;
   TextEditingController textController = TextEditingController();
@@ -187,7 +190,11 @@ class _CameraScreenState extends State<CameraScreen> {
   Future<void> initializeCamera() async {
     final cameras = await availableCameras();
     _controller = CameraController(cameras[0], ResolutionPreset.medium);
+    imageFormatGroup: ImageFormatGroup.bgra8888;
+    // _controller.setFocusPoint(Offset(x, y) );
     await _controller.initialize();
+    await _controller.setFocusMode(FocusMode.auto);
+
     if (!mounted) {
       return;
     }
@@ -221,38 +228,88 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    Future<void> _onTap(TapUpDetails details) async {
+      if(_controller.value.isInitialized) {
+        showFocusCircle = true;
+        x = details.localPosition.dx;
+        y = details.localPosition.dy;
 
+        double fullWidth = MediaQuery.of(context).size.width;
+        double cameraHeight = fullWidth * _controller.value.aspectRatio;
+
+        double xp = x / fullWidth;
+        double yp = y / cameraHeight;
+
+        Offset point = Offset(xp,yp);
+        print("point : $point");
+
+        // Manually focus
+        await _controller.setFocusPoint(point);
+
+        // Manually set light exposure
+        //controller.setExposurePoint(point);
+
+        setState(() {
+          Future.delayed(const Duration(seconds: 2)).whenComplete(() {
+            setState(() {
+              showFocusCircle = false;
+            });
+          });
+        });
+      }
+    }
     return
       Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: <Widget>[
-          if (isReady) Container(height:height*0.75,child: CameraPreview(_controller)),
+      body: GestureDetector(
+        onTapUp: (details) {
+          _onTap(details);
+        },
+        child: Stack(
+          children: <Widget>[
+            if (isReady) Container(height:height*0.8,child: CameraPreview(_controller)),
+            if(showFocusCircle) Positioned(
+                top: y-20,
+                left: x-20,
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white,width: 1.5)
+                  ),
+                )),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Container(
-                    color: Colors.black,
-                    child: ElevatedButton(
-                      onPressed: captureAndProcess,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                        foregroundColor: MaterialStateProperty.all(Colors.white),
+                        color: Colors.black,
+
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      child: Icon(
-                        Icons.camera,
-                        size: 60,
+                      child: ElevatedButton(
+                        onPressed: captureAndProcess,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                          foregroundColor: MaterialStateProperty.all(Colors.white),
+                        ),
+                        child: Icon(
+                          Icons.camera,
+                          size: 50,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: height*0.02,),
-              ],
-            ),
-        ],
+                  SizedBox(height: height*0.02,),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }

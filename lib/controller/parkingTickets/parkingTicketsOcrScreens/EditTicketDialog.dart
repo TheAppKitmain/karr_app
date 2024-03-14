@@ -35,7 +35,7 @@ class EditTicketDialog {
             child: Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               child: Container(
-                height: height * 0.42,
+                height: height * 0.45,
                 margin: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -99,7 +99,7 @@ class EditTicketDialog {
                         TextButton(
                           onPressed: ()  {
 
-                            onSave!(_noteController.text);
+                            onSave!(CapitalWOrd.capitalizeWithNumbers(_noteController.text));
                             Navigator.pop(context);
 
                           },

@@ -498,7 +498,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                   content: Text(' $message'),
                                                 ),
                                               );*/
-                                              saveRecentActivity('PCN: ${_pcnNumberController.text}');
+                                              saveRecentActivity('PCN: ${CapitalWOrd.capitalizeWithNumbers(_pcnNumberController.text)}');
                                               CustomDialogBox.show(
                                                   context,
                                                   status,
