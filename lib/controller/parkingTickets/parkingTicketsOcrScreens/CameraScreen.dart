@@ -116,8 +116,6 @@ class _CameraScreenState extends State<CameraScreen> {
       try {
         DateTime date = DateFormat(format).parse(dateString);
         // Format the parsed date into "YYYY-MM-DD" format
-
-        print("date in ticket format is ${DateFormat('dd-MM-yyyy').format(date)}");
         return DateFormat('dd-MM-yyyy').format(date);
       } catch (e) {
         // If parsing fails, continue to the next format
