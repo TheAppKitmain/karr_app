@@ -170,7 +170,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                               child: Text(
                                 widget.tickets.date?.isNotEmpty ?? false ? formatWithSuffixString(widget.tickets.date!) : "Date",
                                    style: TextStyle(
-                                fontSize: width * 0.04,
+                                fontSize: width * 0.03,
                                 fontWeight: isDateChanged ? FontWeight.normal : FontWeight.bold,
                               ),
                               ),
@@ -203,7 +203,7 @@ class _AddParkingTicketCardState extends State<AddParkingTicketCard> {
                           },
                           child: Text(
                             'Price: £${widget.tickets.price ?? ""}',
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                           ),
                         ),
                         const SizedBox(width: 8,),

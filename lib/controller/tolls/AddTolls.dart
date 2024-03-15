@@ -129,7 +129,14 @@ class _AddTollsState extends State<AddTolls> {
 
         if (status) {
           return response.data;
-        } else {
+        } else if(message=="The selected driver id is invalid."){
+          if(mounted)
+            setState(() {
+            });
+          logOut(context);
+          return response.data;
+
+        }else {
           print('Toll not Submitted: $message');
           return {
             'status': status,

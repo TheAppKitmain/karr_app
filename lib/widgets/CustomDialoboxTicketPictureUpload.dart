@@ -68,7 +68,7 @@ class CustomDialoboxTicketPictureUpload {
                           MaterialPageRoute(builder: (context) => AddTicketManually()),
                         );
                       },
-                      text: 'Go to Add Detail',
+                      text: 'Enter Manually',
                     ),
                   ],
                 ),
@@ -124,7 +124,7 @@ class CustomDialoboxTicketPictureUpload {
                         MaterialPageRoute(builder: (context) => AddTicketManually()),
                       );
                     },
-                    text: 'Go to Add Detail',
+                    text: 'Enter Manually',
                   ),
                 ],
               ),
