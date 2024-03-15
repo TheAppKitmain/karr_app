@@ -191,7 +191,15 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
             "Great! Your ticket has been submitted successfully.");
         saveRecentActivity('PCN: ${widget.ticket.pcn}');
 
-      } else {
+      } else if(message=="The selected driver id is invalid."){
+        if(mounted)
+          setState(() {
+            // isLoading=false;
+          });
+        logOut(context);
+        // return response.data;
+
+      }else {
         if (mounted)setState(() {
           // _isLoading = false;
         });
@@ -233,6 +241,13 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
         final message = responseData['message'] as String;
 
         if (status) {
+          return response.data;
+
+        } else if(message=="The selected driver id is invalid."){
+          if(mounted)
+            setState(() {
+            });
+          logOut(context);
           return response.data;
 
         } else {
@@ -378,7 +393,7 @@ class _ReviewDetailScreenState extends State<ReviewDetailScreen> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Text(
 
-                      "Ticket not recognised? Submit a picture of the ticket",
+                      "Ticket not recognised? Click to take a clear picture and enter manually",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.primaryColor,

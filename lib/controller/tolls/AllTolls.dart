@@ -87,7 +87,15 @@ class _AllTollsState extends State<AllTolls> {
           // Clear the existing list
 
 
-        } else {
+        } else if(message=="No Driver found for this driver_id"){
+          if(mounted)
+            setState(() {
+              isLoading=false;
+            });
+          logOut(context);
+          return response.data;
+
+        }else {
           // Handle the case where fetching data failed
           isLoading = false;
           if (mounted)setState(() {});

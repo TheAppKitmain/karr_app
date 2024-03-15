@@ -113,7 +113,10 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
           });
         });
         CustomDialoboxTicketPictureUpload.show(context, true, "Ticket Submitted", "Great! Your ticket has been submitted successfully.");
-      } else {
+      }else if(response.statusCode == 401){
+        logOut(context);
+      }
+        else {
         if (mounted)setState(() {
           _isLoading = false;
         });
@@ -139,7 +142,7 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
         body: Stack(
           children: <Widget>[
 
-            if (isReady) CameraPreview(_controller),
+            if (isReady) Container(height:height*0.8,child: CameraPreview(_controller)),
             if (textScanning)
               Container(
                 color: Colors.white,
@@ -192,7 +195,13 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
                     Spacer(),
                     Center(
                       child: Container(
-                        color: Colors.black,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+
+                          color: Colors.black,
+
+                          borderRadius: BorderRadius.circular(50),
+                        ),
                         child: ElevatedButton(
                           onPressed: captureAndProcess,
                           style: ButtonStyle(
@@ -201,12 +210,12 @@ class _TicketCameraScreenState extends State<TicketCameraScreen> {
                           ),
                           child: Icon(
                             Icons.camera,
-                            size: 60,
+                            size: 50,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: height*0.06,),
+                    SizedBox(height: height*0.03,),
                   ],
                 ),
               ),

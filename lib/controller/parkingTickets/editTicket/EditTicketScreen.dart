@@ -93,7 +93,12 @@ class _EditTicketScreenState extends State<EditTicketScreen> {
 
         if (status) {
           return response.data;
-        } else {
+        } else if(message=="The selected driver id is invalid."){
+
+          logOut(context);
+          return response.data;
+
+        }else {
           // Handle the case where login failed
           print('Login failed: $message');
           return {

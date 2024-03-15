@@ -75,6 +75,7 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
 
       if (response.statusCode == 200) {
         final status = responseData['status'] as bool;
+        final message = responseData['message'] as String;
 
         if (status) {
           final notesJson = responseData['notes'];
@@ -102,7 +103,15 @@ class _TestNoteScreenState extends State<TestNoteScreen> {
           isLoading = false;
           if (mounted)
             setState(() {});
-        } else {
+        } else if(message=="The selected driver id is invalid."){
+          if(mounted)
+            setState(() {
+              isLoading=false;
+            });
+          logOut(context);
+          return response.data;
+
+        }else {
           isLoading = false;
           if (mounted)setState(() {});
         }

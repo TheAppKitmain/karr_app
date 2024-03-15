@@ -63,6 +63,10 @@ class _UpdatePasswordState extends State<UpdatePassword> {
             'status': status,
             'message': message,
           };
+        }else if(message=="The selected driver id is invalid."){
+          logOut(context);
+          return response.data;
+
         } else {
           // Handle the case where login failed
           print('Login failed: $message');

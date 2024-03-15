@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
+import '../controller/login/Login.dart';
+
 class AppColors {
   static const Color primaryColor = Color(0xFF8c52ff);
   static const Color blue = Color(0xFF5A9FD6);
@@ -75,13 +77,15 @@ class CapitalWOrd {
 }
 //*********************************************************************************
 
+
 Future<void> saveRecentActivity(String activity) async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> activities = prefs.getStringList('recent_activities') ?? [];
     String currentDate = DateFormat('dd MMM yy').format(DateTime.now());
-    String timestamp = DateFormat('hh:mm a').format(DateTime.now()); // Format current time
-    String activityWithTime = '$activity / $currentDate: / $timestamp'; // Combine activity with time
+    String timestamp = DateFormat('hh:mm a').format(
+        DateTime.now()); // Format current time
+    String activityWithTime = '$activity / $currentDate / $timestamp'; // Combine activity with time
     activities.add(activityWithTime); // Insert at the beginning of the list
     // Keep only the latest 10 activities
     // activities = activities.sublist(0, 10);
@@ -91,9 +95,20 @@ Future<void> saveRecentActivity(String activity) async {
   }
 }
 
+//*********************************************************************************
 
 
-
+void logOut(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.clear();
+  ToastUtils.showToast(context, 'Your id is invalid , Please Login again');
+  Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Login(),
+      ),
+          (route) => false);
+}
 
 class SharedStorage {
   Future<void> saveStringToLocalStorage(String key, String value) async {

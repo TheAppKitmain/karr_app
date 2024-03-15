@@ -57,7 +57,7 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
 
       if (response.statusCode == 200) {
         final status = responseData['status'] as bool;
-
+        final message = responseData['message'] as String;
         if (status) {
           final chargeJson = responseData['tickets'];
           if (chargeJson != null) {
@@ -71,7 +71,15 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
 
           isLoading = false; // Set loading to false after data is fetched
           if (mounted)  setState(() {});
-        } else {
+        } else if(message=="The selected driver id is invalid."){
+          if(mounted)
+            setState(() {
+              isLoading=false;
+            });
+          logOut(context);
+          return response.data;
+
+        }else {
           isLoading = false; // Set loading to false even on failure
           if (mounted) setState(() {});
         }
@@ -114,7 +122,12 @@ class _TicketsPaidDetailsState extends State<TicketsPaidDetails> {
 
            // Set loading to true before fetching tickets
 
-        } else {
+        } else if(message=="The selected driver id is invalid."){
+          Navigator.pop(context);
+          logOut(context);
+          return response.data;
+
+        }else {
           Navigator.pop(context); // Close the dialog
           ToastUtils.showToast(context, message);
         }

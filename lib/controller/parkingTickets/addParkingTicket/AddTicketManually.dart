@@ -78,13 +78,14 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
 
         if (status) {
           return response.data;
-        } else {
+        } else if(message=="The selected driver id is invalid."){
+          logOut(context);
+          return response.data;
+
+        }else {
           // Handle the case where login failed
-          print('Login failed: $message');
-          return {
-            'status': status,
-            'message': message,
-          };
+          print('Ticket failed: $message');
+          return response.data;
         }
       } else {
         // Handle error status codes (e.g., show an error message)
@@ -529,7 +530,7 @@ class _AddTicketManuallyState extends State<AddTicketManually> {
                                                 .showSnackBar(
                                               SnackBar(
                                                 content:
-                                                    Text('API request failed'),
+                                                    Text('Something went wrong '),
                                               ),
                                             );
                                             if (mounted)setState(() {
